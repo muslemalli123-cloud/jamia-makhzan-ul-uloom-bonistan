@@ -538,8 +538,8 @@
       var RESULTS = [
         { roll: "1", name: "چاکر", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 100, hadith: 100, total: 200, result: "کامیاب" }
       ];
-      // ہر درجے کا خفیہ کوڈ یہاں لگے گا، مثلاً CODES["اولیٰ"] = "1234";
-      var CODES = {};
+      // ہر درجے کا خفیہ کوڈ (طیب نے بھیجے: اولیٰ 11037، ثانیہ 11038، ثالثہ 11039)
+      var CODES = { "اولیٰ": "11037", "ثانیہ": "11038", "ثالثہ": "11039" };
       function resultTable(rows, title) {
         var h = '<div class="result-doc"><img class="result-mono" src="assets/monogram.jpg" alt="جامعہ کا مونوگرام" /><div class="result-title">جامعہ مخزن العلوم بونستان پنجگور</div><div class="result-sub">' + title + '</div><table class="result-table"><tr><th>نمبر شمار</th><th>رول نمبر</th><th>نام طالب علم</th><th>درجہ</th><th>امتحان</th><th>سال</th><th>قرآن</th><th>حدیث</th><th>کل نمبر</th><th>نتیجہ</th></tr>';
         rows.forEach(function (r, i) {
