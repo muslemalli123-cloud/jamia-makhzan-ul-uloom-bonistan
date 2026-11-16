@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ur" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="جامعہ مخزن العلوم بونستان پنجگور — ہوم پیج: تعارف، درسِ نظامی، نتائج، داخلہ فارم اور حاضری۔" />
+    <link rel="icon" href="data:," />
+    <link href="https://fonts.cdnfonts.com/css/jameel-noori-nastaleeq" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>جامعہ مخزن العلوم بونستان پنجگور</title>
+    <style>
+      :root{
+        color-scheme: light;
+        --bg:#eef2f9;
+        --surface:#ffffff;
+        --surface-2:#f4f7fc;
+        --ink:#13233f;
+        --muted:#4d5d7a;
+        --blue:#0a2c60;
+        --blue-2:#0f4396;
+        --gold:#bd9416;
+        --gold-2:#d9b64a;
+        --gold-soft:#f7ecc8;
+        --line:rgba(10,44,96,.14);
+        --shadow-lg:0 30px 60px -22px rgba(10,44,96,.35), 0 12px 24px -12px rgba(10,44,96,.22);
+        --shadow-md:0 18px 36px -16px rgba(10,44,96,.30), 0 6px 14px -8px rgba(10,44,96,.18);
+        --shadow-sm:0 10px 22px -12px rgba(10,44,96,.28);
+        --r-lg:26px;
+        --r-md:20px;
+        --r-sm:14px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          color-scheme: dark;
+          --bg:#060f22;
+          --surface:#0d1d3a;
+          --surface-2:#10254a;
+          --ink:#edf2fc;
+          --muted:#a9b8d4;
+          --gold:#d9b64a;
+          --gold-soft:#2a2410;
+          --line:rgba(160,185,230,.18);
+          --shadow-lg:0 30px 60px -22px rgba(0,0,0,.7), 0 12px 24px -12px rgba(0,0,0,.5);
+          --shadow-md:0 18px 36px -16px rgba(0,0,0,.65), 0 6px 14px -8px rgba(0,0,0,.45);
+          --shadow-sm:0 10px 22px -12px rgba(0,0,0,.55);
+        }
+      }
+      *{box-sizing:border-box;}
+      body{
+        margin:0;
+        background:
+          radial-gradient(1100px 500px at 85% -80px, rgba(15,67,150,.14), transparent 60%),
+          radial-gradient(900px 480px at 8% 30%, rgba(189,148,22,.10), transparent 55%),
+          var(--bg);
+        color:var(--ink);
+        font-family:"Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;
+        font-size:19px;
+        line-height:2.15;
+        -webkit-font-smoothing:antialiased;
+      }
+      .wrap{max-width:1180px;margin-inline:auto;padding-inline:20px;}
+
+      /* ---------- Header ---------- */
+      header.site{margin-top:14px;}
+      .bar{
+        display:flex;align-items:center;gap:14px;
+        background:var(--surface);
+        border:1px solid var(--line);
+        border-radius:var(--r-lg);
+        box-shadow:var(--shadow-md);
+        padding:12px 20px;
+      }
+      .brand{display:flex;align-items:center;gap:14px;min-width:0;}
+      .logo-circle{
+        flex:0 0 auto;width:74px;height:74px;border-radius:50%;
+        background:#ffffff;border:2px solid var(--gold-2);
+        box-shadow:0 10px 20px -8px rgba(10,44,96,.4);
+        display:flex;align-items:center;justify-content:center;overflow:hidden;
+      }
+      .logo-circle img{width:100%;height:100%;object-fit:contain;padding:4px;display:block;}
+      .brand b{
+        font-size:clamp(20px,3.4vw,27px);font-weight:700;line-height:1.9;color:var(--blue);
+        white-space:nowrap;
+      }
+      @media (prefers-color-scheme: dark){ .brand b{color:var(--gold-2);} }
+      .brand small{display:block;font-size:14.5px;color:var(--muted);line-height:1.8;margin-top:-6px;}
+      .bar .home-tag{
+        margin-inline-start:auto;flex:0 0 auto;
+        font-size:17px;line-height:2;color:var(--gold);
+        background:var(--gold-soft);border:1px solid rgba(189,148,22,.35);
+        border-radius:999px;padding:0 20px;
+      }
+      @media (max-width:560px){ .bar .home-tag{display:none;} .brand b{white-space:normal;} }
+
+      /* ---------- Title band ---------- */
+      .band{
+        margin-top:22px;
+        border-radius:32px;
+        box-shadow:var(--shadow-lg);
+        overflow:hidden;
+        background:
+          linear-gradient(200deg, rgba(217,182,74,.16), transparent 45%),
+          linear-gradient(150deg,#12509f 0%, #0a2c60 55%, #061c40 100%);
+        color:#f2f6ff;
+        position:relative;
+        text-align:center;
+        padding:clamp(30px,5vw,48px) clamp(20px,5vw,48px) clamp(26px,4vw,40px);
+      }
+      .band::before{
+        content:"";position:absolute;inset:0;opacity:.10;pointer-events:none;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23d9b64a' stroke-width='1.4'%3E%3Cpath d='M36 6 L44 28 L66 36 L44 44 L36 66 L28 44 L6 36 L28 28 Z'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3C/g%3E%3C/svg%3E");
+      }
+      .band .bismillah{position:relative;font-size:clamp(20px,3vw,25px);color:var(--gold-2);line-height:2;margin:0 0 2px;}
+      .band h1{
+        position:relative;
+        font-size:clamp(34px,6vw,54px);line-height:1.85;font-weight:700;margin:0;
+        text-shadow:0 4px 22px rgba(0,0,0,.35);
+      }
+      .band .place{
+        position:relative;display:inline-block;margin-top:8px;
+        font-size:18.5px;color:#dbe7ff;background:rgba(255,255,255,.10);
+        border:1px solid rgba(217,182,74,.5);border-radius:999px;padding:2px 22px;line-height:2.1;
+      }
+
+      /* ---------- Cover photo ---------- */
+      .cover{
+        margin:22px 0 0;border-radius:32px;overflow:hidden;line-height:0;
+        border:1px solid var(--line);box-shadow:var(--shadow-lg);
+      }
+      .cover img{
+        width:100%;height:clamp(230px,42vw,470px);
+        object-fit:cover;object-position:center 62%;display:block;
+      }
+
+      /* ---------- Five boxes ---------- */
+      .boxes{
+        display:grid;grid-template-columns:repeat(6,1fr);gap:18px;
+        margin-top:22px;
+      }
+      .box{
+        grid-column:span 2;
+        background:var(--surface);border:1px solid var(--line);
+        border-radius:var(--r-lg);box-shadow:var(--shadow-md);
+        padding:24px 24px 20px;
+        display:flex;flex-direction:column;
+        min-height:300px;
+      }
+      .box.wide{grid-column:span 3;}
+      @media (max-width:980px){
+        .boxes{grid-template-columns:repeat(2,1fr);}
+        .box,.box.wide{grid-column:span 1;}
+        .box:last-child{grid-column:span 2;}
+      }
+      @media (max-width:600px){
+        .boxes{grid-template-columns:1fr;}
+        .box,.box.wide,.box:last-child{grid-column:span 1;}
+        .box{min-height:250px;}
+      }
+      .box-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+      .box .ic{
+        flex:0 0 auto;width:58px;height:58px;border-radius:18px;
+        background:linear-gradient(160deg,var(--blue-2),var(--blue));
+        border:1px solid rgba(217,182,74,.55);box-shadow:var(--shadow-sm);
+        display:flex;align-items:center;justify-content:center;
+      }
+      .box h2{font-size:25px;line-height:1.85;margin:0;color:var(--blue);}
+      @media (prefers-color-scheme: dark){ .box h2{color:var(--ink);} }
+      .box .num{
+        margin-inline-start:auto;flex:0 0 auto;
+        width:38px;height:38px;border-radius:50%;
+        background:var(--gold-soft);border:1px solid rgba(189,148,22,.4);
+        color:var(--gold);font-size:18px;line-height:38px;text-align:center;
+      }
+      .empty{
+        flex:1;
+        border:2px dashed var(--line);
+        border-radius:var(--r-md);
+        background:var(--surface-2);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+        padding:22px 16px;text-align:center;
+      }
+      .empty svg{opacity:.45;}
+      .empty p{margin:0;color:var(--muted);font-size:18px;line-height:1.95;}
+
+      footer.site{margin:26px 0 26px;}
+      .foot{
+        border-radius:var(--r-lg);box-shadow:var(--shadow-md);color:#e8efff;
+        background:linear-gradient(150deg,#12509f 0%, #0a2c60 55%, #061c40 100%);
+        padding:16px 24px 10px;text-align:center;
+        font-size:18px;line-height:2;
+      }
+      .foot b{color:var(--gold-2);font-weight:700;}
+    </style>
+  </head>
+  <body>
+
+    <div class="wrap">
+      <header class="site">
+        <div class="bar">
+          <div class="brand">
+            <span class="logo-circle"><img src="assets/monogram.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور کا مونوگرام" /></span>
+            <span>
+              <b>جامعہ مخزن العلوم</b>
+              <small>بونستان، پنجگور — بلوچستان</small>
+            </span>
+          </div>
+          <span class="home-tag">ہوم پیج</span>
+        </div>
+      </header>
+
+      <main>
+        <!-- Title band -->
+        <div class="band">
+          <p class="bismillah">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ</p>
+          <h1>جامعہ مخزن العلوم بونستان پنجگور</h1>
+          <span class="place">بونستان، پنجگور — بلوچستان</span>
+        </div>
+
+        <!-- Cover photo: the Jamia's garden and mosque -->
+        <figure class="cover">
+          <img src="assets/jamia-cover.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور کا باغ اور مسجد" />
+        </figure>
+
+        <!-- Five rectangular boxes — all empty, no records -->
+        <div class="boxes">
+          <article class="box">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span>
+              <h2>تعارف</h2>
+              <span class="num">۱</span>
+            </div>
+            <div class="empty">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
+              <p>ابھی خالی ہے</p>
+            </div>
+          </article>
+
+          <article class="box">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9L12 4 2 9l10 5 10-5z"/><path d="M6 11.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5"/><path d="M22 9v5"/></svg></span>
+              <h2>درسِ نظامی</h2>
+              <span class="num">۲</span>
+            </div>
+            <div class="empty">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
+              <p>ابھی خالی ہے</p>
+            </div>
+          </article>
+
+          <article class="box">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="m9.5 13-1.7 8 4.2-2.6L16.2 21 14.5 13"/></svg></span>
+              <h2>نتائج</h2>
+              <span class="num">۳</span>
+            </div>
+            <div class="empty">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
+              <p>ابھی خالی ہے</p>
+            </div>
+          </article>
+
+          <article class="box wide">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+              <h2>داخلہ فارم</h2>
+              <span class="num">۴</span>
+            </div>
+            <div class="empty">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
+              <p>ابھی خالی ہے</p>
+            </div>
+          </article>
+
+          <article class="box wide">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
+              <h2>حاضر</h2>
+              <span class="num">۵</span>
+            </div>
+            <div class="empty">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
+              <p>ابھی خالی ہے</p>
+            </div>
+          </article>
+        </div>
+      </main>
+
+      <footer class="site">
+        <div class="foot"><b>جامعہ مخزن العلوم</b> — بونستان، پنجگور، بلوچستان</div>
+      </footer>
+    </div>
+  </body>
+</html>
