@@ -341,6 +341,9 @@
       </footer>
     </div>
     <script>
+      var RESULTS = {
+        "1|اولیٰ|شش ماہی": { name: "چاکر", quran: 100, hadith: 100, total: 200, result: "کامیاب" }
+      };
       document.getElementById("result-form").addEventListener("submit", function (e) {
         e.preventDefault();
         var roll = document.getElementById("roll").value.trim();
@@ -350,7 +353,12 @@
         if (!roll || !darja || !exam) {
           msg.textContent = "براہ کرم رول نمبر، درجہ اور امتحان کی قسم تینوں بھریں۔";
         } else {
-          msg.textContent = "رول نمبر " + roll + "، درجہ " + darja + "، " + exam + " امتحان کا نتیجہ ابھی ویب سائٹ پر شامل نہیں کیا گیا۔";
+          var r = RESULTS[roll + "|" + darja + "|" + exam];
+          if (r) {
+            msg.innerHTML = "نام: " + r.name + " — رول نمبر " + roll + "، درجہ " + darja + "، " + exam + " امتحان<br>قرآن: " + r.quran + " &nbsp;•&nbsp; حدیث: " + r.hadith + " &nbsp;•&nbsp; کل نمبر: " + r.total + " &nbsp;•&nbsp; نتیجہ: " + r.result;
+          } else {
+            msg.textContent = "رول نمبر " + roll + "، درجہ " + darja + "، " + exam + " امتحان کا نتیجہ ابھی ویب سائٹ پر شامل نہیں کیا گیا۔";
+          }
         }
         msg.classList.add("show");
       });
