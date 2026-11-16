@@ -125,6 +125,27 @@
       .panel-sec{display:none;}
       .panel-sec.active{display:block;}
       .panel .empty{min-height:180px;}
+
+      .subtabs{display:flex;gap:10px;margin-bottom:16px;}
+      .subtab{
+        flex:1;font-family:inherit;cursor:pointer;
+        font-size:16px;font-weight:700;line-height:2;color:var(--blue);
+        background:var(--surface);border:2px solid var(--gold-2);border-radius:12px;
+      }
+      .subtab.active{background:linear-gradient(160deg,#d9b64a,#bd9416);color:#0a2c60;}
+      .result-doc{
+        margin-top:16px;border:2px solid var(--blue);border-radius:16px;
+        padding:18px 14px;text-align:center;background:#fff;overflow-x:auto;
+      }
+      .result-mono{width:64px;height:64px;border-radius:50%;border:3px solid var(--gold-2);object-fit:cover;}
+      .result-title{font-size:19px;font-weight:700;color:var(--blue);line-height:1.9;}
+      .result-sub{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+      .result-table{width:100%;border-collapse:collapse;min-width:640px;margin:0 auto;}
+      .result-table th,.result-table td{
+        border:1px solid #0a2c60;padding:7px 8px;text-align:center;
+        font-size:15px;line-height:1.8;white-space:nowrap;
+      }
+      .result-table th{background:var(--blue);color:#fff;}
       .panel .video{margin-bottom:16px;}
       .panel .video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:16px;display:block;}
 
@@ -335,12 +356,16 @@
             </div>
           </section>
 
-          <section class="panel-sec" id="sec-natayij">
+                    <section class="panel-sec" id="sec-natayij">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="m9.5 13-1.7 8 4.2-2.6L16.2 21 14.5 13"/></svg></span>
               <h2>نتائج</h2><span class="num">۳</span>
             </div>
-            <form class="form" id="result-form">
+            <div class="subtabs">
+              <button type="button" class="subtab active" data-form="form-individual">انفرادی نتیجہ</button>
+              <button type="button" class="subtab" data-form="form-collective">مجموعی نتائج</button>
+            </div>
+            <form class="form" id="form-individual">
               <div>
                 <label for="roll">رول نمبر</label>
                 <input id="roll" name="roll" type="text" inputmode="numeric" placeholder="مثلاً ۱۲۳" />
@@ -369,8 +394,56 @@
                   <option>سالانہ</option>
                 </select>
               </div>
+              <div>
+                <label for="year">سال</label>
+                <select id="year" name="year">
+                  <option value="">سال چنیں</option>
+                  <option>1448ھ</option>
+                  <option>1449ھ</option>
+                </select>
+              </div>
               <button type="submit">نتیجہ دیکھیں</button>
-              <div class="result" id="result-msg"></div>
+              <div class="result" id="result-individual"></div>
+            </form>
+            <form class="form" id="form-collective" style="display:none">
+              <div>
+                <label for="darja2">درجہ</label>
+                <select id="darja2" name="darja2">
+                  <option value="">درجہ چنیں</option>
+                  <option>اولیٰ</option>
+                  <option>ثانیہ</option>
+                  <option>ثالثہ</option>
+                  <option>رابعہ</option>
+                  <option>خامسہ</option>
+                  <option>سادسہ</option>
+                  <option>سابعہ</option>
+                  <option>دورۂ حدیث</option>
+                  <option>شعبۂ تجوید اول</option>
+                  <option>شعبۂ تجوید دوئم</option>
+                </select>
+              </div>
+              <div>
+                <label for="exam2">امتحان کی قسم</label>
+                <select id="exam2" name="exam2">
+                  <option value="">قسم چنیں</option>
+                  <option>شش ماہی</option>
+                  <option>سالانہ</option>
+                </select>
+              </div>
+              <div>
+                <label for="year2">سال</label>
+                <select id="year2" name="year2">
+                  <option value="">سال چنیں</option>
+                  <option>1448ھ</option>
+                  <option>1449ھ</option>
+                </select>
+              </div>
+              <div>
+                <label for="code">خفیہ کوڈ</label>
+                <input id="code" name="code" type="password" placeholder="درجے کا خفیہ کوڈ لکھیں" />
+              </div>
+              <button type="submit">نتیجہ دیکھیں</button>
+              <div class="result" id="result-collective"></div>
             </form>
           </section>
 
@@ -462,23 +535,68 @@
         });
       });
 
-      var RESULTS = {
-        "1|اولیٰ|شش ماہی": { name: "چاکر", quran: 100, hadith: 100, total: 200, result: "کامیاب" }
-      };
-      document.getElementById("result-form").addEventListener("submit", function (e) {
+      var RESULTS = [
+        { roll: "1", name: "چاکر", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 100, hadith: 100, total: 200, result: "کامیاب" }
+      ];
+      // ہر درجے کا خفیہ کوڈ یہاں لگے گا، مثلاً CODES["اولیٰ"] = "1234";
+      var CODES = {};
+      function resultTable(rows, title) {
+        var h = '<div class="result-doc"><img class="result-mono" src="assets/monogram.jpg" alt="جامعہ کا مونوگرام" /><div class="result-title">جامعہ مخزن العلوم بونستان پنجگور</div><div class="result-sub">' + title + '</div><table class="result-table"><tr><th>نمبر شمار</th><th>رول نمبر</th><th>نام طالب علم</th><th>درجہ</th><th>امتحان</th><th>سال</th><th>قرآن</th><th>حدیث</th><th>کل نمبر</th><th>نتیجہ</th></tr>';
+        rows.forEach(function (r, i) {
+          h += '<tr><td>' + (i + 1) + '</td><td>' + r.roll + '</td><td>' + r.name + '</td><td>' + r.darja + '</td><td>' + r.exam + '</td><td>' + r.year + '</td><td>' + r.quran + '</td><td>' + r.hadith + '</td><td>' + r.total + '</td><td>' + r.result + '</td></tr>';
+        });
+        return h + '</table></div>';
+      }
+      document.querySelectorAll(".subtab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          document.querySelectorAll(".subtab").forEach(function (t) { t.classList.remove("active"); });
+          tab.classList.add("active");
+          document.getElementById("form-individual").style.display = tab.getAttribute("data-form") === "form-individual" ? "" : "none";
+          document.getElementById("form-collective").style.display = tab.getAttribute("data-form") === "form-collective" ? "" : "none";
+        });
+      });
+      document.getElementById("form-individual").addEventListener("submit", function (e) {
         e.preventDefault();
         var roll = document.getElementById("roll").value.trim();
         var darja = document.getElementById("darja").value;
         var exam = document.getElementById("exam").value;
-        var msg = document.getElementById("result-msg");
-        if (!roll || !darja || !exam) {
-          msg.textContent = "براہ کرم رول نمبر، درجہ اور امتحان کی قسم تینوں بھریں۔";
+        var year = document.getElementById("year").value;
+        var msg = document.getElementById("result-individual");
+        if (!roll || !darja || !exam || !year) {
+          msg.textContent = "براہ کرم رول نمبر، درجہ، امتحان کی قسم اور سال چاروں بھریں۔";
         } else {
-          var r = RESULTS[roll + "|" + darja + "|" + exam];
-          if (r) {
-            msg.innerHTML = "نام: " + r.name + " — رول نمبر " + roll + "، درجہ " + darja + "، " + exam + " امتحان<br>قرآن: " + r.quran + " &nbsp;•&nbsp; حدیث: " + r.hadith + " &nbsp;•&nbsp; کل نمبر: " + r.total + " &nbsp;•&nbsp; نتیجہ: " + r.result;
+          var found = null;
+          RESULTS.forEach(function (r) {
+            if (r.roll === roll && r.darja === darja && r.exam === exam && r.year === year) found = r;
+          });
+          if (found) {
+            msg.innerHTML = resultTable([found], "انفرادی نتیجہ — " + year);
           } else {
-            msg.textContent = "رول نمبر " + roll + "، درجہ " + darja + "، " + exam + " امتحان کا نتیجہ ابھی ویب سائٹ پر شامل نہیں کیا گیا۔";
+            msg.textContent = "رول نمبر " + roll + "، درجہ " + darja + "، " + exam + " امتحان، سال " + year + " کا نتیجہ ابھی ویب سائٹ پر شامل نہیں کیا گیا۔";
+          }
+        }
+        msg.classList.add("show");
+      });
+      document.getElementById("form-collective").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var darja = document.getElementById("darja2").value;
+        var exam = document.getElementById("exam2").value;
+        var year = document.getElementById("year2").value;
+        var code = document.getElementById("code").value.trim();
+        var msg = document.getElementById("result-collective");
+        if (!darja || !exam || !year || !code) {
+          msg.textContent = "براہ کرم درجہ، امتحان کی قسم، سال اور خفیہ کوڈ چاروں بھریں۔";
+        } else if (!CODES[darja] || CODES[darja] !== code) {
+          msg.textContent = "خفیہ کوڈ درست نہیں ہے۔";
+        } else {
+          var rows = [];
+          RESULTS.forEach(function (r) {
+            if (r.darja === darja && r.exam === exam && r.year === year) rows.push(r);
+          });
+          if (rows.length) {
+            msg.innerHTML = resultTable(rows, "مجموعی نتائج — درجہ " + darja + "، " + exam + "، " + year);
+          } else {
+            msg.textContent = "درجہ " + darja + "، " + exam + " امتحان، سال " + year + " کا کوئی نتیجہ ابھی ویب سائٹ پر شامل نہیں کیا گیا۔";
           }
         }
         msg.classList.add("show");
