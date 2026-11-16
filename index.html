@@ -160,13 +160,26 @@
 
       /* ---------- Cover photo ---------- */
       .cover{
-        margin:22px 0 0;border-radius:32px;overflow:hidden;line-height:0;
-        border:1px solid var(--line);box-shadow:var(--shadow-lg);
+        margin:26px auto 0;width:min(520px,86vw);aspect-ratio:1/1;
+        border-radius:50%;overflow:hidden;line-height:0;position:relative;
+        border:5px solid var(--gold-2);
+        box-shadow:0 0 0 4px rgba(189,148,22,.35), var(--shadow-lg);
       }
-      .cover img{
-        width:100%;height:clamp(230px,42vw,470px);
-        object-fit:cover;object-position:center 62%;display:block;
+      .cover-track{
+        display:flex;direction:ltr;width:800%;height:100%;
+        transition:transform .9s ease;
       }
+      .cover-track img{
+        width:12.5%;height:100%;object-fit:cover;display:block;flex:0 0 auto;
+      }
+      .cover-dots{
+        display:flex;justify-content:center;gap:8px;margin-top:14px;
+      }
+      .cover-dots span{
+        width:10px;height:10px;border-radius:50%;
+        background:rgba(189,148,22,.35);transition:background .3s ease;
+      }
+      .cover-dots span.on{background:var(--gold-2);}
 
       /* ---------- Five boxes ---------- */
       .boxes{
@@ -268,10 +281,22 @@
           <span class="place">بونستان، پنجگور — بلوچستان</span>
         </div>
 
-        <!-- Cover photo: the Jamia's garden and mosque -->
-        <figure class="cover">
-          <img src="assets/jamia-cover.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور کا باغ اور مسجد" />
+        <!-- Madrasa photos: circular slideshow, changes every 4 seconds, right to left -->
+        <figure class="cover" id="cover">
+          <div class="cover-track" id="cover-track">
+            <img src="assets/gallery-1.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — مسجد اور باغ" />
+            <img src="assets/gallery-2.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — باغ" />
+            <img src="assets/gallery-3.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — طلبہ کا اجتماع" />
+            <img src="assets/gallery-4.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — مسجد" />
+            <img src="assets/gallery-5.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — باغ اور مسجد" />
+            <img src="assets/gallery-6.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — رات" />
+            <img src="assets/gallery-7.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — مسجد" />
+            <img src="assets/gallery-8.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — رات" />
+          </div>
         </figure>
+        <div class="cover-dots" id="cover-dots">
+          <span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
 
         <!-- Five circles in one line -->
         <div class="circles">
@@ -384,6 +409,15 @@
       </footer>
     </div>
     <script>
+      var coverTrack = document.getElementById("cover-track");
+      var coverDots = document.getElementById("cover-dots").querySelectorAll("span");
+      var coverIdx = 0;
+      setInterval(function () {
+        coverIdx = (coverIdx + 1) % 8;
+        coverTrack.style.transform = "translateX(-" + (coverIdx * 12.5) + "%)";
+        coverDots.forEach(function (d, k) { d.classList.toggle("on", k === coverIdx); });
+      }, 4000);
+
       var GLOWS = [
         { c: "#d9b64a", g: "0 0 12px #d9b64a, 0 0 30px #d9b64a" },
         { c: "#7dd3fc", g: "0 0 12px #7dd3fc, 0 0 30px #38bdf8" },
