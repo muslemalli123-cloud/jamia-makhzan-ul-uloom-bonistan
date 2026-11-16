@@ -125,6 +125,8 @@
       .panel-sec{display:none;}
       .panel-sec.active{display:block;}
       .panel .empty{min-height:180px;}
+      .panel .video{margin-bottom:16px;}
+      .panel .video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:16px;display:block;}
 
       /* ---------- Title band ---------- */
       .band{
@@ -278,6 +280,7 @@
           <button class="circle-btn" data-target="sec-natayij"><span class="ci">🏅</span><span class="cn">نتائج</span></button>
           <button class="circle-btn" data-target="sec-dakhla"><span class="ci">📝</span><span class="cn">داخلہ فارم</span></button>
           <button class="circle-btn" data-target="sec-hazir"><span class="ci">✅</span><span class="cn">حاضر</span></button>
+          <button class="circle-btn" data-target="sec-video"><span class="ci">🎬</span><span class="cn">ویڈیو</span></button>
         </div>
 
         <div class="panel">
@@ -358,6 +361,19 @@
             <div class="empty">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
               <p>ابھی خالی ہے</p>
+            </div>
+          </section>
+
+          <section class="panel-sec" id="sec-video">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span>
+              <h2>ویڈیو</h2><span class="num">۶</span>
+            </div>
+            <div class="video">
+              <iframe src="https://www.youtube-nocookie.com/embed/CUK6odlrDmM" title="جامعہ مخزن العلوم بونستان پنجگور — ویڈیو ۱" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="video">
+              <iframe src="https://www.youtube-nocookie.com/embed/iHBWjCIE07Y" title="جامعہ مخزن العلوم بونستان پنجگور — ویڈیو ۲" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </section>
 
