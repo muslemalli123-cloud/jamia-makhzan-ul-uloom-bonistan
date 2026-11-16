@@ -536,7 +536,8 @@
       });
 
       var RESULTS = [
-        { roll: "1", name: "چاکر", father: "", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 100, hadith: 100, total: 200, result: "کامیاب", subjects: [{ n: "قرآن", m: 100 }, { n: "حدیث", m: 100 }] }
+        { roll: "1", name: "چاکر", father: "", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 100, hadith: 100, total: 200, result: "کامیاب", subjects: [{ n: "قرآن مجید", m: 100 }, { n: "حدیث", m: 100 }] },
+        { roll: "2", name: "صدیق", father: "", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 92, hadith: "---", total: 484, result: "کامیاب", subjects: [{ n: "قرآن مجید", m: 92 }, { n: "نحو", m: 39 }, { n: "صرف", m: 100 }, { n: "الطریقہ العصریہ", m: 88 }, { n: "معلم الانشاء", m: 99 }, { n: "جمال القرآن", m: 66 }] }
       ];
       // ہر درجے کا خفیہ کوڈ (طیب نے بھیجے: اولیٰ 11037، ثانیہ 11038، ثالثہ 11039)
       var CODES = { "اولیٰ": "11037", "ثانیہ": "11038", "ثالثہ": "11039" };
@@ -587,14 +588,18 @@
         "@media print{ .toolbar{display:none !important;} body{background:#fff;} .sheet{width:100%;padding:0;} @page{size:A4;margin:10mm;} }"
       ].join("\n");
       function buildSheetHTML(rows, meta) {
-        var sorted = rows.slice().sort(function (a, b) { return b.total - a.total; });
+        var sorted = rows.slice().map(function (r) {
+          var mx = (r.subjects || []).length * 100;
+          var c = Object.assign({}, r);
+          c._pct = mx ? (r.total / mx * 100) : 0;
+          return c;
+        }).sort(function (a, b) { return b._pct - a._pct; });
         var subjects = sheetSubjects(sorted);
-        var maxTotal = subjects.length * 100;
-        var pos = 0, prevTotal = null, passCount = 0, pctSum = 0, bookFailCount = 0;
+        var pos = 0, prevPct = null, passCount = 0, pctSum = 0, bookFailCount = 0;
         var body = "";
         sorted.forEach(function (r) {
-          if (r.total !== prevTotal) { pos++; prevTotal = r.total; }
-          var pct = maxTotal ? (r.total / maxTotal * 100) : 0;
+          if (r._pct !== prevPct) { pos++; prevPct = r._pct; }
+          var pct = r._pct;
           var failed = pct < PASS_MARK;
           if (!failed) passCount++;
           pctSum += pct;
