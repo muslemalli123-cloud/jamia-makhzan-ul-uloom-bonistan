@@ -184,6 +184,10 @@
       }
       .empty svg{opacity:.45;}
       .empty p{margin:0;color:var(--muted);font-size:18px;line-height:1.95;}
+      .list{flex:1;display:flex;flex-direction:column;gap:8px;padding:6px 2px;}
+      .list .row{display:flex;align-items:center;gap:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 14px;font-size:19px;line-height:1.9;}
+      .list .row::before{content:"◆";color:var(--gold);font-size:13px;}
+      .list .sub{margin-top:6px;padding-top:10px;border-top:2px dashed var(--line);font-size:18px;color:var(--muted);text-align:center;}
 
       footer.site{margin:26px 0 26px;}
       .foot{
@@ -244,9 +248,16 @@
               <h2>درسِ نظامی</h2>
               <span class="num">۲</span>
             </div>
-            <div class="empty">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
-              <p>ابھی خالی ہے</p>
+            <div class="list">
+              <div class="row">اولیٰ</div>
+              <div class="row">ثانیہ</div>
+              <div class="row">ثالثہ</div>
+              <div class="row">رابعہ</div>
+              <div class="row">خامسہ</div>
+              <div class="row">سادسہ</div>
+              <div class="row">سابعہ</div>
+              <div class="row">دورۂ حدیث</div>
+              <div class="sub">شعبۂ تجوید اول &nbsp;•&nbsp; شعبۂ تجوید دوئم</div>
             </div>
           </article>
 
