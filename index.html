@@ -9,7 +9,7 @@
     <link href="https://fonts.cdnfonts.com/css/jameel-noori-nastaleeq" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>جامعہ مخزن العلوم بونستان پنجگور</title>
     <style>
       :root{
@@ -136,6 +136,7 @@
       .result-doc{
         margin-top:16px;border:2px solid var(--blue);border-radius:16px;
         padding:18px 14px;text-align:center;background:#fff;overflow-x:auto;
+        font-family:"Amiri",serif;
       }
       .result-mono{width:64px;height:64px;border-radius:50%;border:3px solid var(--gold-2);object-fit:cover;}
       .result-title{font-size:19px;font-weight:700;color:var(--blue);line-height:1.9;}
@@ -564,13 +565,13 @@
         return names;
       }
       var SHEET_CSS = [
-        "body{margin:0;background:#fff;color:#000;font-family:'Noto Nastaliq Urdu',serif;direction:rtl;}",
+        "@font-face{font-family:'UL Sajid Heading';src:url('https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/fonts/UL-Sajid-Heading-400.ttf') format('truetype');font-weight:400;}",
         ".toolbar{position:sticky;top:0;z-index:10;background:#0a2c60;padding:10px;display:flex;gap:12px;justify-content:center;}",
         ".toolbar button{font-family:inherit;font-size:18px;font-weight:700;line-height:2;color:#0a2c60;background:linear-gradient(160deg,#d9b64a,#bd9416);border:1px solid #d9b64a;border-radius:12px;padding:4px 28px;cursor:pointer;}",
         ".sheet{width:210mm;max-width:100%;margin:0 auto;padding:10mm 12mm 12mm;box-sizing:border-box;}",
         ".sheet-head{position:relative;text-align:center;min-height:96px;}",
         ".sheet-logo{position:absolute;top:0;right:0;width:88px;height:88px;border-radius:50%;border:2px solid #B8943E;object-fit:cover;}",
-        ".sheet-title{font-size:30px;font-weight:700;line-height:2;}",
+        ".sheet-title{font-family:'UL Sajid Heading','Amiri',serif;font-size:34px;font-weight:400;line-height:2;}",
         ".sheet-sub{font-size:20px;font-weight:700;line-height:2;}",
         ".sheet-rule{border-top:2px solid #000;border-bottom:2px solid #000;height:4px;margin:10px 0 8px;}",
         ".sheet-meta{display:flex;justify-content:space-between;flex-wrap:wrap;font-size:15px;font-weight:700;line-height:2.1;margin-bottom:10px;}",
@@ -638,7 +639,7 @@
       function openResultSheet(rows, meta) {
         var title = "مجموعی نتائج — درجہ " + meta.darja + "، " + meta.exam + "، " + meta.year;
         var doc = "<!DOCTYPE html><html lang=\"ur\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>" + escHtml(title) + "</title>"
-          + '<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">'
+          + '<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">'
           + "<style>" + SHEET_CSS + "</style></head><body>"
           + '<div class="toolbar"><button type="button" onclick="window.print()">🖨️ پرنٹ</button><button type="button" id="dl-btn" onclick="downloadPDF()">⬇️ ڈاؤن لوڈ</button></div>'
           + buildSheetHTML(rows, meta)
