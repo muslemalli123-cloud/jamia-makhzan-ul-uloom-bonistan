@@ -101,22 +101,22 @@
         margin-top:22px;flex-wrap:nowrap;overflow-x:auto;padding:6px 2px 10px;
       }
       .circle-btn{
-        flex:0 0 auto;width:104px;height:104px;border-radius:50%;
+        flex:0 0 auto;width:96px;height:62px;border-radius:14px;
         font-family:inherit;cursor:pointer;
         background:linear-gradient(160deg,var(--blue-2),var(--blue));
         border:3px solid var(--gold-2);box-shadow:var(--shadow-md);
         color:#f2f6ff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
         transition:transform .25s ease, box-shadow .25s ease;
       }
-      .circle-btn .cn{font-size:15px;font-weight:700;line-height:1.6;}
-      .circle-btn .ci{font-size:24px;line-height:1;}
+      .circle-btn .cn{font-size:14px;font-weight:700;line-height:1.6;}
+      .circle-btn .ci{font-size:20px;line-height:1;}
       .circle-btn:hover{transform:scale(1.06);}
       .circle-btn.active{
         background:linear-gradient(160deg,#d9b64a,#bd9416);
         color:#0a2c60;box-shadow:0 0 0 4px rgba(217,182,74,.35), var(--shadow-lg);
         transform:scale(1.06);
       }
-      @media (max-width:600px){ .circle-btn{width:88px;height:88px;} .circle-btn .cn{font-size:13.5px;} }
+      @media (max-width:600px){ .circle-btn{width:80px;height:56px;} .circle-btn .cn{font-size:12.5px;} .circle-btn .ci{font-size:18px;} }
       .panel{
         background:var(--surface);border:1px solid var(--line);
         border-radius:var(--r-lg);box-shadow:var(--shadow-md);
