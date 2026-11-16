@@ -87,13 +87,44 @@
       }
       @media (prefers-color-scheme: dark){ .brand b{color:var(--gold-2);} }
       .brand small{display:block;font-size:14.5px;color:var(--muted);line-height:1.8;margin-top:-6px;}
-      .bar .home-tag{
+      .bar .founder-name{
         margin-inline-start:auto;flex:0 0 auto;
-        font-size:17px;line-height:2;color:var(--gold);
-        background:var(--gold-soft);border:1px solid rgba(189,148,22,.35);
-        border-radius:999px;padding:0 20px;
+        font-size:clamp(19px,3vw,26px);font-weight:700;line-height:1.9;
+        padding:2px 18px;white-space:nowrap;
+        transition:color 1s ease, text-shadow 1s ease;
       }
-      @media (max-width:560px){ .bar .home-tag{display:none;} .brand b{white-space:normal;} }
+      @media (max-width:560px){ .brand b{white-space:normal;} .bar .founder-name{font-size:18px;padding:2px 10px;} }
+
+      /* ---------- Circles row + panel ---------- */
+      .circles{
+        display:flex;flex-direction:row;gap:14px;justify-content:center;
+        margin-top:22px;flex-wrap:nowrap;overflow-x:auto;padding:6px 2px 10px;
+      }
+      .circle-btn{
+        flex:0 0 auto;width:104px;height:104px;border-radius:50%;
+        font-family:inherit;cursor:pointer;
+        background:linear-gradient(160deg,var(--blue-2),var(--blue));
+        border:3px solid var(--gold-2);box-shadow:var(--shadow-md);
+        color:#f2f6ff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+        transition:transform .25s ease, box-shadow .25s ease;
+      }
+      .circle-btn .cn{font-size:15px;font-weight:700;line-height:1.6;}
+      .circle-btn .ci{font-size:24px;line-height:1;}
+      .circle-btn:hover{transform:scale(1.06);}
+      .circle-btn.active{
+        background:linear-gradient(160deg,#d9b64a,#bd9416);
+        color:#0a2c60;box-shadow:0 0 0 4px rgba(217,182,74,.35), var(--shadow-lg);
+        transform:scale(1.06);
+      }
+      @media (max-width:600px){ .circle-btn{width:88px;height:88px;} .circle-btn .cn{font-size:13.5px;} }
+      .panel{
+        background:var(--surface);border:1px solid var(--line);
+        border-radius:var(--r-lg);box-shadow:var(--shadow-md);
+        padding:24px;margin-top:8px;min-height:260px;
+      }
+      .panel-sec{display:none;}
+      .panel-sec.active{display:block;}
+      .panel .empty{min-height:180px;}
 
       /* ---------- Title band ---------- */
       .band{
@@ -218,7 +249,7 @@
               <small>بونستان، پنجگور — بلوچستان</small>
             </span>
           </div>
-          <span class="home-tag">ہوم پیج</span>
+          <span class="founder-name" id="founder-name">محمد طیب بلوچ</span>
         </div>
       </header>
 
@@ -235,25 +266,31 @@
           <img src="assets/jamia-cover.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور کا باغ اور مسجد" />
         </figure>
 
-        <!-- Five rectangular boxes — all empty, no records -->
-        <div class="boxes">
-          <article class="box">
+        <!-- Five circles in one line -->
+        <div class="circles">
+          <button class="circle-btn active" data-target="sec-taaruf"><span class="ci">📖</span><span class="cn">تعارف</span></button>
+          <button class="circle-btn" data-target="sec-dars"><span class="ci">🎓</span><span class="cn">درسِ نظامی</span></button>
+          <button class="circle-btn" data-target="sec-natayij"><span class="ci">🏅</span><span class="cn">نتائج</span></button>
+          <button class="circle-btn" data-target="sec-dakhla"><span class="ci">📝</span><span class="cn">داخلہ فارم</span></button>
+          <button class="circle-btn" data-target="sec-hazir"><span class="ci">✅</span><span class="cn">حاضر</span></button>
+        </div>
+
+        <div class="panel">
+          <section class="panel-sec active" id="sec-taaruf">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span>
-              <h2>تعارف</h2>
-              <span class="num">۱</span>
+              <h2>تعارف</h2><span class="num">۱</span>
             </div>
             <div class="empty">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
               <p>ابھی خالی ہے</p>
             </div>
-          </article>
+          </section>
 
-          <article class="box">
+          <section class="panel-sec" id="sec-dars">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9L12 4 2 9l10 5 10-5z"/><path d="M6 11.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5"/><path d="M22 9v5"/></svg></span>
-              <h2>درسِ نظامی</h2>
-              <span class="num">۲</span>
+              <h2>درسِ نظامی</h2><span class="num">۲</span>
             </div>
             <div class="list">
               <div class="row">اولیٰ</div>
@@ -267,13 +304,12 @@
               <div class="row">شعبۂ تجوید اول</div>
               <div class="row">شعبۂ تجوید دوئم</div>
             </div>
-          </article>
+          </section>
 
-          <article class="box">
+          <section class="panel-sec" id="sec-natayij">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="m9.5 13-1.7 8 4.2-2.6L16.2 21 14.5 13"/></svg></span>
-              <h2>نتائج</h2>
-              <span class="num">۳</span>
+              <h2>نتائج</h2><span class="num">۳</span>
             </div>
             <form class="form" id="result-form">
               <div>
@@ -307,31 +343,29 @@
               <button type="submit">نتیجہ دیکھیں</button>
               <div class="result" id="result-msg"></div>
             </form>
-          </article>
+          </section>
 
-          <article class="box wide">
+          <section class="panel-sec" id="sec-dakhla">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
-              <h2>داخلہ فارم</h2>
-              <span class="num">۴</span>
+              <h2>داخلہ فارم</h2><span class="num">۴</span>
             </div>
             <div class="empty">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
               <p>ابھی خالی ہے</p>
             </div>
-          </article>
+          </section>
 
-          <article class="box wide">
+          <section class="panel-sec" id="sec-hazir">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span>
-              <h2>حاضر</h2>
-              <span class="num">۵</span>
+              <h2>حاضر</h2><span class="num">۵</span>
             </div>
             <div class="empty">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
               <p>ابھی خالی ہے</p>
             </div>
-          </article>
+          </section>
         </div>
       </main>
 
@@ -340,6 +374,48 @@
       </footer>
     </div>
     <script>
+      var GLOWS = [
+        { c: "#d9b64a", g: "0 0 12px #d9b64a, 0 0 30px #d9b64a" },
+        { c: "#7dd3fc", g: "0 0 12px #7dd3fc, 0 0 30px #38bdf8" },
+        { c: "#f9a8d4", g: "0 0 12px #f9a8d4, 0 0 30px #ec4899" },
+        { c: "#86efac", g: "0 0 12px #86efac, 0 0 30px #22c55e" },
+        { c: "#fca5a5", g: "0 0 12px #fca5a5, 0 0 30px #ef4444" },
+        { c: "#c4b5fd", g: "0 0 12px #c4b5fd, 0 0 30px #8b5cf6" },
+        { c: "#fdba74", g: "0 0 12px #fdba74, 0 0 30px #f97316" },
+        { c: "#5eead4", g: "0 0 12px #5eead4, 0 0 30px #14b8a6" },
+        { c: "#fde047", g: "0 0 14px #fde047, 0 0 34px #eab308" },
+        { c: "#93c5fd", g: "0 0 12px #93c5fd, 0 0 30px #3b82f6" },
+        { c: "#fda4af", g: "0 0 12px #fda4af, 0 0 30px #f43f5e" },
+        { c: "#a5b4fc", g: "0 0 12px #a5b4fc, 0 0 30px #6366f1" },
+        { c: "#bef264", g: "0 0 12px #bef264, 0 0 30px #84cc16" },
+        { c: "#f0abfc", g: "0 0 12px #f0abfc, 0 0 30px #d946ef" },
+        { c: "#67e8f9", g: "0 0 12px #67e8f9, 0 0 30px #06b6d4" },
+        { c: "#fecaca", g: "0 0 12px #fecaca, 0 0 30px #dc2626" },
+        { c: "#bbf7d0", g: "0 0 12px #bbf7d0, 0 0 30px #16a34a" },
+        { c: "#e0e7ff", g: "0 0 12px #e0e7ff, 0 0 30px #4f46e5" },
+        { c: "#ffedd5", g: "0 0 12px #ffedd5, 0 0 30px #ea580c" },
+        { c: "#ffffff", g: "0 0 14px #ffffff, 0 0 34px #d9b64a" }
+      ];
+      var founder = document.getElementById("founder-name");
+      var gi = 0;
+      function applyGlow() {
+        var st = GLOWS[gi % GLOWS.length];
+        founder.style.color = st.c;
+        founder.style.textShadow = st.g;
+        gi++;
+      }
+      applyGlow();
+      setInterval(applyGlow, 3000);
+
+      document.querySelectorAll(".circle-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll(".circle-btn").forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          document.querySelectorAll(".panel-sec").forEach(function (sec) { sec.classList.remove("active"); });
+          document.getElementById(btn.getAttribute("data-target")).classList.add("active");
+        });
+      });
+
       var RESULTS = {
         "1|اولیٰ|شش ماہی": { name: "چاکر", quran: 100, hadith: 100, total: 200, result: "کامیاب" }
       };
