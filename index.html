@@ -124,6 +124,7 @@
       }
       .panel-sec{display:none;}
       .panel-sec.active{display:block;}
+      .panel-hint{text-align:center;color:var(--muted);font-size:18px;line-height:2;padding:70px 10px;}
       .panel .empty{min-height:180px;}
       .panel .video{margin-bottom:16px;}
       .panel .video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:16px;display:block;}
@@ -275,14 +276,15 @@
 
         <!-- Five circles in one line -->
         <div class="circles">
-          <button class="circle-btn active" data-target="sec-taaruf"><span class="ci">📖</span><span class="cn">تعارف</span></button>
+          <button class="circle-btn" data-target="sec-taaruf"><span class="ci">📖</span><span class="cn">تعارف</span></button>
           <button class="circle-btn" data-target="sec-dars"><span class="ci">🎓</span><span class="cn">درسِ نظامی</span></button>
           <button class="circle-btn" data-target="sec-natayij"><span class="ci">🏅</span><span class="cn">نتائج</span></button>
           <button class="circle-btn" data-target="sec-video"><span class="ci">🎬</span><span class="cn">ویڈیو</span></button>
         </div>
 
         <div class="panel">
-          <section class="panel-sec active" id="sec-taaruf">
+          <div class="panel-hint" id="panel-hint">اوپر والے بٹنوں میں سے کوئی ایک چنیں</div>
+          <section class="panel-sec" id="sec-taaruf">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span>
               <h2>تعارف</h2><span class="num">۱</span>
@@ -422,6 +424,8 @@
           document.querySelectorAll(".circle-btn").forEach(function (b) { b.classList.remove("active"); });
           btn.classList.add("active");
           document.querySelectorAll(".panel-sec").forEach(function (sec) { sec.classList.remove("active"); });
+          var hint = document.getElementById("panel-hint");
+          if(hint) hint.style.display = "none";
           document.getElementById(btn.getAttribute("data-target")).classList.add("active");
         });
       });
