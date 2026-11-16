@@ -143,6 +143,7 @@
       .result-mono{width:84px;height:84px;border-radius:50%;object-fit:cover;}
       .result-title{font-size:19px;font-weight:700;color:var(--blue);line-height:1.9;}
       .result-sub{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+      .result-note{margin-top:10px;font-size:17px;font-weight:700;color:#8a1f1f;line-height:1.9;text-align:center;}
       .result-table{width:100%;border-collapse:collapse;min-width:640px;margin:0 auto;}
       .result-table th,.result-table td{
         border:1px solid #0a2c60;padding:7px 8px;text-align:center;
@@ -571,7 +572,8 @@
 
       var RESULTS = [
         { roll: "1", name: "چاکر", father: "", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 100, hadith: "---", total: 100, result: "راسب", subjects: [{ n: "قرآن مجید", m: 100 }, { n: "نحو", m: "غیر حاضر" }, { n: "صرف", m: "غیر حاضر" }, { n: "الطریقہ العصریہ", m: "غیر حاضر" }, { n: "معلم الانشاء", m: "غیر حاضر" }, { n: "جمال القرآن", m: "غیر حاضر" }] },
-        { roll: "2", name: "صدیق", father: "", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 92, hadith: "---", total: 484, result: "کامیاب", subjects: [{ n: "قرآن مجید", m: 92 }, { n: "نحو", m: 39 }, { n: "صرف", m: 100 }, { n: "الطریقہ العصریہ", m: 88 }, { n: "معلم الانشاء", m: 99 }, { n: "جمال القرآن", m: 66 }] }
+        { roll: "2", name: "صدیق", father: "", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: 92, hadith: "---", total: 484, result: "کامیاب", subjects: [{ n: "قرآن مجید", m: 92 }, { n: "نحو", m: 39 }, { n: "صرف", m: 100 }, { n: "الطریقہ العصریہ", m: 88 }, { n: "معلم الانشاء", m: 99 }, { n: "جمال القرآن", m: 66 }] },
+        { roll: "3", name: "نظام الدین", father: "", darja: "اولیٰ", exam: "شش ماہی", year: "1448ھ", quran: "---", hadith: "---", total: "موقوف", result: "موقوف", note: "بوجہ جامعہ کے قواعد و ضوابط پر پورا نہ اترتے ہوئے", subjects: [{ n: "قرآن مجید", m: "---" }, { n: "نحو", m: "---" }, { n: "صرف", m: "---" }, { n: "الطریقہ العصریہ", m: "---" }, { n: "معلم الانشاء", m: "---" }, { n: "جمال القرآن", m: "---" }] }
       ];
       // ہر درجے کا خفیہ کوڈ (طیب نے بھیجے: اولیٰ 11037، ثانیہ 11038، ثالثہ 11039)
       var CODES = { "اولیٰ": "11037", "ثانیہ": "11038", "ثالثہ": "11039" };
@@ -580,7 +582,8 @@
         rows.forEach(function (r, i) {
           h += '<tr><td>' + (i + 1) + '</td><td>' + r.roll + '</td><td>' + r.name + '</td><td>' + r.darja + '</td><td>' + r.exam + '</td><td>' + r.year + '</td><td>' + r.quran + '</td><td>' + r.hadith + '</td><td>' + r.total + '</td><td>' + r.result + '</td></tr>';
         });
-        return h + '</table></div>';
+        var note = (rows[0] && rows[0].note) ? '<div class="result-note">نوٹ: نتیجہ موقوف — ' + escHtml(rows[0].note) + '</div>' : "";
+        return h + '</table>' + note + '</div>';
       }
 
       // ---- مجموعی نتائج: پی ڈی ایف شیٹ (طیب کی بھیجی Result Sheet کے ڈیزائن کے مطابق) ----
@@ -588,6 +591,7 @@
       // ==== جامعہ کا گریڈ سسٹم (محفوظ اصول — نتائج بناتے وقت یہی رولز لگیں گے) ====
       // تقدیر مجموعہ نمبرات کے فیصد پر: 100–90 ممتاز، 89–80 جید جدا، 79–60 جید، 59–40 مقبول، 39–0 راسب
       // ہر کتاب ٹوٹل 100 نمبر، پاس 40 نمبر؛ ایک کتاب میں 39 ہو تو صرف اس کتاب میں فیل، مجموعہ راسب شمار نہیں ہوگا۔
+      // نتیجہ موقوف: نمبر نہیں ہوتے — نہ کامیاب نہ ناکام، پوزیشن نہیں، مجموعی فیصد کے اوسط میں شامل نہیں، وجہ note میں لکھی جاتی ہے۔
       var PASS_MARK = 40;
       function gradeOf(pct) { if (pct >= 90) return "ممتاز"; if (pct >= 80) return "جید جدا"; if (pct >= 60) return "جید"; if (pct >= 40) return "مقبول"; return "راسب"; }
       function sheetSubjects(rows) {
@@ -622,26 +626,31 @@
         ".sheet-summary td{border:2.5px solid #000;padding:5px 8px;text-align:center;font-weight:700;font-size:16px;line-height:2;}",
         ".sheet-sign{display:flex;justify-content:space-between;margin-top:48px;padding:0 44px;}",
         ".sheet-sign div{font-family:'Amiri',serif;border-top:1.5px solid #000;padding-top:4px;font-weight:700;font-size:17px;line-height:2;min-width:150px;text-align:center;}",
+        ".sheet-note{margin-top:12px;font-size:15px;font-weight:700;text-align:center;}",
         "@media print{ .toolbar{display:none !important;} body{background:#fff;} .sheet{width:100%;padding:0;} @page{size:A4;margin:10mm;} }"
       ].join("\n");
       function buildSheetHTML(rows, meta) {
         var sorted = rows.slice().map(function (r) {
           var mx = (r.subjects || []).length * 100;
           var c = Object.assign({}, r);
-          c._pct = mx ? (r.total / mx * 100) : 0;
+          c._held = (r.result === "موقوف");
+          c._pct = (!c._held && typeof r.total === "number" && mx) ? (r.total / mx * 100) : null;
           return c;
-        }).sort(function (a, b) { return b._pct - a._pct; });
+        }).sort(function (a, b) { if (a._held !== b._held) return a._held ? 1 : -1; return (b._pct || 0) - (a._pct || 0); });
         var subjects = sheetSubjects(sorted);
-        var pos = 0, prevPct = null, passCount = 0, pctSum = 0, bookFailCount = 0;
+        var pos = 0, prevPct = null, passCount = 0, pctSum = 0, bookFailCount = 0, heldCount = 0;
         var body = "";
         sorted.forEach(function (r) {
-          if (r._pct !== prevPct) { pos++; prevPct = r._pct; }
+          var posCell = "---";
+          if (r._held) { heldCount++; } else {
+            if (r._pct !== prevPct) { pos++; prevPct = r._pct; }
+            posCell = pos;
+          }
           var pct = r._pct;
-          var failed = pct < PASS_MARK;
-          if (!failed) passCount++;
-          pctSum += pct;
+          var failed = !r._held && pct < PASS_MARK;
+          if (!r._held) { if (!failed) passCount++; pctSum += pct; }
           var hasBookFail = false;
-          var cells = "<td>" + pos + "</td><td>" + escHtml(r.name) + "</td><td>" + escHtml(r.father || "---") + "</td>";
+          var cells = "<td>" + posCell + "</td><td>" + escHtml(r.name) + "</td><td>" + escHtml(r.father || "---") + "</td>";
           subjects.forEach(function (sn) {
             var m = "---";
             (r.subjects || []).forEach(function (sb) { if (sb.n === sn) m = sb.m; });
@@ -651,11 +660,11 @@
             cells += "<td" + under + ">" + m + "</td>";
           });
           if (hasBookFail) bookFailCount++;
-          cells += "<td>" + r.total + "</td><td>" + pct.toFixed(1) + "%</td><td>" + gradeOf(pct) + "</td>";
+          cells += "<td>" + r.total + "</td><td>" + (r._held ? "---" : pct.toFixed(1) + "%") + "</td><td>" + (r._held ? "موقوف" : gradeOf(pct)) + "</td>";
           body += "<tr" + (failed ? ' class="fail"' : "") + ">" + cells + "</tr>";
         });
-        var failCount = sorted.length - passCount;
-        var avg = sorted.length ? (pctSum / sorted.length) : 0;
+        var failCount = sorted.length - passCount - heldCount;
+        var avg = (sorted.length - heldCount) ? (pctSum / (sorted.length - heldCount)) : 0;
         var failRow = '<tr class="failrow"><td colspan="' + (3 + subjects.length) + '">کتاب میں فیل:</td><td>' + bookFailCount + '</td><td colspan="2" class="failblue">---</td></tr>';
         var headCells = "<th>پوزیشن</th><th>نام</th><th>ولدیت</th>";
         subjects.forEach(function (sn) { headCells += "<th>" + escHtml(sn) + "</th>"; });
@@ -669,7 +678,8 @@
           + '<div class="sheet-rule"></div>'
           + '<div class="sheet-meta"><span>درجہ: ' + escHtml(meta.darja) + '</span><span>امتحان: ' + escHtml(meta.exam) + '</span><span>تعلیمی سال: ' + schoolYear + '</span><span>تاریخ: ' + dateStr + '</span></div>'
           + '<table class="sheet-table"><tr>' + headCells + "</tr>" + body + failRow + "</table>"
-          + '<table class="sheet-summary"><tr><td>کل طلباء: ' + sorted.length + '</td><td>کامیاب: ' + passCount + '</td><td>ناکام: ' + failCount + '</td><td>مجموعی فیصد: ' + avg.toFixed(1) + '%</td></tr></table>'
+          + '<table class="sheet-summary"><tr><td>کل طلباء: ' + sorted.length + '</td><td>کامیاب: ' + passCount + '</td><td>ناکام: ' + failCount + '</td>' + (heldCount ? '<td>موقوف: ' + heldCount + '</td>' : '') + '<td>مجموعی فیصد: ' + avg.toFixed(1) + '%</td></tr></table>'
+          + (function () { var n = ""; sorted.forEach(function (r) { if (r._held && r.note) n += '<div class="sheet-note">' + escHtml(r.name) + ' کا نتیجہ موقوف ہے — ' + escHtml(r.note) + '</div>'; }); return n; })()
           + '<div class="sheet-sign"><div>ناظم امتحانات</div><div>مہتمم صاحب</div></div></div>';
       }
       function openResultSheet(rows, meta) {
