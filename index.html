@@ -176,6 +176,15 @@
         content:"";position:absolute;inset:0;opacity:.10;pointer-events:none;
         background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23d9b64a' stroke-width='1.4'%3E%3Cpath d='M36 6 L44 28 L66 36 L44 44 L36 66 L28 44 L6 36 L28 28 Z'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3C/g%3E%3C/svg%3E");
       }
+      .band-dates{position:relative;display:flex;justify-content:space-between;gap:10px;margin-bottom:10px;}
+      .band-date{
+        font-size:15.5px;line-height:1.9;text-align:center;color:#dbe7ff;
+        background:rgba(255,255,255,.08);border:1px solid rgba(217,182,74,.45);
+        border-radius:999px;padding:2px 16px;
+      }
+      @media (max-width:640px){
+        .band-date{font-size:13.5px;padding:2px 11px;}
+      }
       .band .bismillah{position:relative;font-size:clamp(20px,3vw,25px);color:var(--gold-2);line-height:2;margin:0 0 2px;}
       .band h1{
         position:relative;
@@ -370,6 +379,10 @@
       <main>
         <!-- Title band -->
         <div class="band">
+          <div class="band-dates">
+            <span class="band-date" id="date-hijri"></span>
+            <span class="band-date" id="date-greg"></span>
+          </div>
           <p class="bismillah">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ</p>
           <h1>جامعہ مخزن العلوم بونستان پنجگور</h1>
           <span class="place">بونستان، پنجگور — بلوچستان</span>
@@ -605,7 +618,20 @@
         setTimeout(function () { coverSlides[prev].classList.remove("off-left"); }, 950);
       }, 4000);
 
-      /* ---------- News ticker: items scroll right to left ---------- */
+      /* ---------- Dates in the title band: Hijri right, Gregorian left ---------- */
+      (function () {
+        var now = new Date();
+        var g = document.getElementById("date-greg");
+        var h = document.getElementById("date-hijri");
+        try {
+          if (g) g.textContent = new Intl.DateTimeFormat("ur-PK", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).format(now);
+        } catch (e) { if (g) g.style.display = "none"; }
+        try {
+          if (h) h.textContent = new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).format(now);
+        } catch (e) { if (h) h.style.display = "none"; }
+      })();
+
+      /* ---------- News ticker: items scroll left to right ---------- */
       var NEWS = [
         { ar: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", ref: "صحیح بخاری", tr: "تم میں سے بہتر وہ ہے جو قرآن سیکھے اور سکھائے۔" }
       ];
