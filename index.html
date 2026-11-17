@@ -148,7 +148,7 @@
       #qr-wrap{margin-top:22px;}
       .qr-toolbar{position:sticky;top:0;z-index:10;background:#0a2c60;padding:10px;display:flex;gap:12px;justify-content:center;border-radius:12px;margin-bottom:12px;}
       .qr-toolbar button{font-family:inherit;font-size:18px;font-weight:700;line-height:2;color:#0a2c60;background:linear-gradient(160deg,#d9b64a,#bd9416);border:1px solid #d9b64a;border-radius:12px;padding:4px 28px;cursor:pointer;}
-      @media print{ body.qr-mode header.site, body.qr-mode .band, body.qr-mode .cover, body.qr-mode .cover-dots, body.qr-mode .circles, body.qr-mode .panel, body.qr-mode footer.site, body.qr-mode .qr-toolbar{display:none !important;} }
+      @media print{ body.qr-mode header.site, body.qr-mode .ticker, body.qr-mode .band, body.qr-mode .cover, body.qr-mode .cover-dots, body.qr-mode .circles, body.qr-mode .panel, body.qr-mode footer.site, body.qr-mode .qr-toolbar{display:none !important;} }
       .result-table{width:100%;border-collapse:collapse;min-width:640px;margin:0 auto;}
       .result-table th,.result-table td{
         border:1px solid #0a2c60;padding:7px 8px;text-align:center;
@@ -186,6 +186,36 @@
         position:relative;display:inline-block;margin-top:8px;
         font-size:18.5px;color:#dbe7ff;background:rgba(255,255,255,.10);
         border:1px solid rgba(217,182,74,.5);border-radius:999px;padding:2px 22px;line-height:2.1;
+      }
+
+      /* ---------- News ticker ---------- */
+      .ticker{
+        margin-top:14px;
+        display:flex;align-items:stretch;
+        border:2px solid var(--gold-2);border-radius:14px;overflow:hidden;
+        background:linear-gradient(150deg,#12509f 0%, #0a2c60 60%, #061c40 100%);
+        box-shadow:var(--shadow-md);
+      }
+      .ticker-label{
+        flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+        background:var(--gold-2);color:#0a2c60;
+        font-size:17px;font-weight:700;line-height:1.6;padding:6px 16px;
+      }
+      .ticker-view{flex:1;overflow:hidden;display:flex;align-items:center;}
+      .ticker-track{
+        display:inline-flex;align-items:center;white-space:nowrap;
+        animation:ticker-scroll 40s linear infinite;will-change:transform;
+      }
+      .ticker:hover .ticker-track{animation-play-state:paused;}
+      @keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+      .t-item{flex:0 0 auto;white-space:nowrap;color:#f2f6ff;font-size:17px;line-height:2;padding:6px 0;}
+      .t-item .t-ar{font-family:'Amiri',serif;color:var(--gold-2);font-weight:700;}
+      .t-item .t-ref{color:#dbe7ff;font-size:15px;}
+      .t-sep{flex:0 0 auto;color:var(--gold-2);padding:0 18px;font-size:13px;}
+      @media (max-width:640px){
+        .t-item{font-size:15px;}
+        .ticker-label{font-size:15px;padding:6px 12px;}
+        .t-sep{padding:0 12px;}
       }
 
       /* ---------- Cover photo ---------- */
@@ -330,6 +360,12 @@
           <span class="founder-name" id="founder-name">محمد طیب بلوچ</span>
         </div>
       </header>
+
+      <!-- News ticker: madrasa announcements scroll right to left -->
+      <div class="ticker" id="ticker">
+        <span class="ticker-label">خبر</span>
+        <div class="ticker-view"><div class="ticker-track" id="tickerTrack"></div></div>
+      </div>
 
       <main>
         <!-- Title band -->
@@ -568,6 +604,23 @@
         coverDots.forEach(function (d, k) { d.classList.toggle("on", k === coverIdx); });
         setTimeout(function () { coverSlides[prev].classList.remove("off-left"); }, 950);
       }, 4000);
+
+      /* ---------- News ticker: items scroll right to left ---------- */
+      var NEWS = [
+        { ar: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", ref: "صحیح بخاری", tr: "تم میں سے بہتر وہ ہے جو قرآن سیکھے اور سکھائے۔" }
+      ];
+      (function () {
+        var track = document.getElementById("tickerTrack");
+        if (!track || !NEWS.length) return;
+        var one = NEWS.map(function (n) {
+          return '<span class="t-item">حدیثِ مبارکہ: <span class="t-ar">«' + n.ar + '»</span> <span class="t-ref">(' + n.ref + ')</span> — ترجمہ: ' + n.tr + '</span>';
+        }).join('<span class="t-sep">◆</span>');
+        track.innerHTML = one + '<span class="t-sep">◆</span>' + one + '<span class="t-sep">◆</span>';
+        requestAnimationFrame(function () {
+          var w = track.scrollWidth / 2;
+          track.style.animationDuration = Math.max(22, w / 45) + "s";
+        });
+      })();
 
       var GLOWS = [
         { c: "#d9b64a", g: "0 0 12px #d9b64a, 0 0 30px #d9b64a" },
