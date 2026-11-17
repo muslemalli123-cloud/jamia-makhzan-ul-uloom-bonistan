@@ -627,7 +627,12 @@
           if (g) g.textContent = new Intl.DateTimeFormat("ur-PK", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).format(now);
         } catch (e) { if (g) g.style.display = "none"; }
         try {
-          if (h) h.textContent = new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).format(now);
+          if (h) {
+            var hp = new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).formatToParts(now);
+            var hm = {};
+            hp.forEach(function (p) { hm[p.type] = (hm[p.type] || "") + p.value; });
+            h.textContent = hm.weekday + "، " + hm.day + " " + hm.month + "، " + hm.year + " ہجری";
+          }
         } catch (e) { if (h) h.style.display = "none"; }
       })();
 
