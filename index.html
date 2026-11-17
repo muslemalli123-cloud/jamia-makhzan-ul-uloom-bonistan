@@ -201,14 +201,14 @@
         background:var(--gold-2);color:#0a2c60;
         font-size:17px;font-weight:700;line-height:1.6;padding:6px 16px;
       }
-      .ticker-view{flex:1;overflow:hidden;display:flex;align-items:center;}
+      .ticker-view{flex:1;overflow:hidden;display:flex;align-items:center;direction:ltr;}
       .ticker-track{
-        display:inline-flex;align-items:center;white-space:nowrap;
+        display:inline-flex;align-items:center;white-space:nowrap;direction:ltr;
         animation:ticker-scroll 40s linear infinite;will-change:transform;
       }
       .ticker:hover .ticker-track{animation-play-state:paused;}
-      @keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-      .t-item{flex:0 0 auto;white-space:nowrap;color:#f2f6ff;font-size:17px;line-height:2;padding:6px 0;}
+      @keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-33.3333%);}}
+      .t-item{flex:0 0 auto;white-space:nowrap;direction:rtl;color:#f2f6ff;font-size:17px;line-height:2;padding:6px 0;}
       .t-item .t-ar{font-family:'Amiri',serif;color:var(--gold-2);font-weight:700;}
       .t-item .t-ref{color:#dbe7ff;font-size:15px;}
       .t-sep{flex:0 0 auto;color:var(--gold-2);padding:0 18px;font-size:13px;}
@@ -615,9 +615,9 @@
         var one = NEWS.map(function (n) {
           return '<span class="t-item">حدیثِ مبارکہ: <span class="t-ar">«' + n.ar + '»</span> <span class="t-ref">(' + n.ref + ')</span> — ترجمہ: ' + n.tr + '</span>';
         }).join('<span class="t-sep">◆</span>');
-        track.innerHTML = one + '<span class="t-sep">◆</span>' + one + '<span class="t-sep">◆</span>';
+        track.innerHTML = one + '<span class="t-sep">◆</span>' + one + '<span class="t-sep">◆</span>' + one + '<span class="t-sep">◆</span>';
         requestAnimationFrame(function () {
-          var w = track.scrollWidth / 2;
+          var w = track.scrollWidth / 3;
           track.style.animationDuration = Math.max(22, w / 45) + "s";
         });
       })();
