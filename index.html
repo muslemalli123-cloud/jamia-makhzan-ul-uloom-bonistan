@@ -207,7 +207,7 @@
         animation:ticker-scroll 40s linear infinite;will-change:transform;
       }
       .ticker:hover .ticker-track{animation-play-state:paused;}
-      @keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-33.3333%);}}
+      @keyframes ticker-scroll{from{transform:translateX(-33.3333%);}to{transform:translateX(0);}}
       .t-item{flex:0 0 auto;white-space:nowrap;direction:rtl;color:#f2f6ff;font-size:17px;line-height:2;padding:6px 0;}
       .t-item .t-ar{font-family:'Amiri',serif;color:var(--gold-2);font-weight:700;}
       .t-item .t-ref{color:#dbe7ff;font-size:15px;}
@@ -618,7 +618,7 @@
         track.innerHTML = one + '<span class="t-sep">◆</span>' + one + '<span class="t-sep">◆</span>' + one + '<span class="t-sep">◆</span>';
         requestAnimationFrame(function () {
           var w = track.scrollWidth / 3;
-          track.style.animationDuration = Math.max(22, w / 45) + "s";
+          track.style.animationDuration = Math.max(28, w / 35) + "s";
         });
       })();
 
