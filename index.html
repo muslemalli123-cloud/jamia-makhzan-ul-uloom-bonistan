@@ -819,11 +819,11 @@
         if (btn) btn.classList.add("active");
         document.querySelectorAll(".panel-sec").forEach(function (sec) { sec.classList.remove("active"); });
         document.getElementById("sec-natayij").classList.add("active");
+        document.getElementById("roll").value = roll;
+        document.getElementById("darja").value = darja;
+        document.getElementById("exam").value = exam;
+        document.getElementById("year").value = year;
         if (found) {
-          document.getElementById("roll").value = found.roll;
-          document.getElementById("darja").value = found.darja;
-          document.getElementById("exam").value = found.exam;
-          document.getElementById("year").value = found.year;
           openIndividualSheet(found);
         } else {
           var msg = document.getElementById("result-individual");
