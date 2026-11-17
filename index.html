@@ -144,6 +144,11 @@
       .result-title{font-size:19px;font-weight:700;color:var(--blue);line-height:1.9;}
       .result-sub{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
       .result-note{margin-top:10px;font-size:17px;font-weight:700;color:#8a1f1f;line-height:1.9;text-align:center;}
+      .pdf-btn{font-family:inherit;font-size:17px;font-weight:700;line-height:2;color:#0a2c60;background:linear-gradient(160deg,#d9b64a,#bd9416);border:1px solid #d9b64a;border-radius:12px;padding:4px 28px;cursor:pointer;}
+      #qr-wrap{margin-top:22px;}
+      .qr-toolbar{position:sticky;top:0;z-index:10;background:#0a2c60;padding:10px;display:flex;gap:12px;justify-content:center;border-radius:12px;margin-bottom:12px;}
+      .qr-toolbar button{font-family:inherit;font-size:18px;font-weight:700;line-height:2;color:#0a2c60;background:linear-gradient(160deg,#d9b64a,#bd9416);border:1px solid #d9b64a;border-radius:12px;padding:4px 28px;cursor:pointer;}
+      @media print{ body.qr-mode header.site, body.qr-mode .band, body.qr-mode .cover, body.qr-mode .cover-dots, body.qr-mode .circles, body.qr-mode .panel, body.qr-mode footer.site, body.qr-mode .qr-toolbar{display:none !important;} }
       .result-table{width:100%;border-collapse:collapse;min-width:640px;margin:0 auto;}
       .result-table th,.result-table td{
         border:1px solid #0a2c60;padding:7px 8px;text-align:center;
@@ -499,6 +504,9 @@
 
           
         </div>
+
+        <!-- QR لنک سے کھلنے والی انفرادی نتیجہ شیٹ یہاں دکھائی جاتی ہے -->
+        <div id="qr-wrap" style="display:none"></div>
       </main>
 
       <footer class="site">
@@ -582,8 +590,12 @@
           h += '<tr><td>' + (i + 1) + '</td><td>' + r.roll + '</td><td>' + r.name + '</td><td>' + r.darja + '</td><td>' + r.exam + '</td><td>' + r.year + '</td><td>' + r.quran + '</td><td>' + r.hadith + '</td><td>' + r.total + '</td><td>' + r.result + '</td></tr>';
         });
         var note = (rows[0] && rows[0].note) ? '<div class="result-note">نوٹ: نتیجہ موقوف — ' + escHtml(rows[0].note) + '</div>' : "";
-        return h + '</table>' + note + '</div>';
+        var pdfBtn = rows.length ? '<div style="text-align:center;margin-top:14px"><button type="button" class="pdf-btn" onclick="openLastIndividual()">پی ڈی ایف کھولیں — پرنٹ / ڈاؤن لوڈ</button></div>' : "";
+        lastIndividual = rows[0] || null;
+        return h + '</table>' + note + pdfBtn + '</div>';
       }
+      var lastIndividual = null;
+      function openLastIndividual() { if (lastIndividual) openIndividualSheet(lastIndividual); }
 
       // ---- مجموعی نتائج: پی ڈی ایف شیٹ (طیب کی بھیجی Result Sheet کے ڈیزائن کے مطابق) ----
       function escHtml(x) { return String(x).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
@@ -607,7 +619,7 @@
         "body{margin:0;background:#fff;color:#000;font-family:'Amiri',serif;direction:rtl;}",
         ".toolbar{position:sticky;top:0;z-index:10;background:#0a2c60;padding:10px;display:flex;gap:12px;justify-content:center;}",
         ".toolbar button{font-family:inherit;font-size:18px;font-weight:700;line-height:2;color:#0a2c60;background:linear-gradient(160deg,#d9b64a,#bd9416);border:1px solid #d9b64a;border-radius:12px;padding:4px 28px;cursor:pointer;}",
-        ".sheet{width:210mm;max-width:100%;margin:0 auto;padding:10mm 12mm 12mm;box-sizing:border-box;}",
+        ".sheet{width:210mm;max-width:100%;margin:0 auto;padding:10mm 12mm 12mm;box-sizing:border-box;background:#fff;}",
         ".sheet-head{position:relative;text-align:center;min-height:116px;}",
         ".sheet-logo{position:absolute;top:0;right:0;width:110px;height:110px;border-radius:50%;object-fit:cover;}",
         ".sheet-title{font-family:'UL Sajid Heading','Amiri',serif;font-size:34px;font-weight:400;line-height:2;}",
@@ -680,6 +692,144 @@
           + '<table class="sheet-summary"><tr><td>کل طلباء: ' + sorted.length + '</td><td>کامیاب: ' + passCount + '</td><td>ناکام: ' + failCount + '</td>' + (heldCount ? '<td>موقوف: ' + heldCount + '</td>' : '') + '<td>مجموعی فیصد: ' + avg.toFixed(1) + '%</td></tr></table>'
           + (function () { var n = ""; sorted.forEach(function (r) { if (r._held && r.note) n += '<div class="sheet-note">' + escHtml(r.name) + ' کا نتیجہ موقوف ہے — ' + escHtml(r.note) + '</div>'; }); return n; })()
           + '<div class="sheet-sign"><div>ناظم امتحانات</div><div>مہتمم صاحب</div></div></div>';
+      }
+      // ==== QR کوڈ سے انفرادی نتیجہ (طیب کا حکم 2026-11-17) ====
+      // QR لنک کی شکل: ?r=رول نمبر&d=درجہ نمبر&e=1/2&y=1448/1449
+      // درجہ نمبر: 1 اولیٰ، 2 ثانیہ، 3 ثالثہ، 4 رابعہ، 5 خامسہ، 6 سادسہ، 7 سابعہ، 8 دورۂ حدیث،
+      // 9 شعبۂ تجوید اول، 10 شعبۂ تجوید دوئم، 11 تمہیدیہ، 12 خاصہ سال، 13 خاصہ سال دوئم،
+      // 14 عالیہ سال اول، 15 عالیہ سال دوئم، 16 عالمیہ سال اول، 17 عالمیہ سال دوئم؛
+      // e=1 شش ماہی، e=2 سالانہ۔ نام بھی چلتے ہیں: ?roll=1&darja=اولیٰ&exam=شش ماہی&year=1448ھ
+      // انفرادی شیٹ کا ڈیزائن ابھی مجموعی شیٹ جیسا ہے — طیب کی بھیجی ڈیزائن پی ڈی ایف آنے پر ویسا بنایا جائے گا۔
+      var DARAJAT_ALL = ["اولیٰ", "ثانیہ", "ثالثہ", "رابعہ", "خامسہ", "سادسہ", "سابعہ", "دورۂ حدیث", "شعبۂ تجوید اول", "شعبۂ تجوید دوئم", "تمہیدیہ", "خاصہ سال", "خاصہ سال دوئم", "عالیہ سال اول", "عالیہ سال دوئم", "عالمیہ سال اول", "عالمیہ سال دوئم"];
+      function paramDarja(v) {
+        if (!v) return "";
+        if (/^\d+$/.test(v)) { var i = parseInt(v, 10); return DARAJAT_ALL[i - 1] || ""; }
+        return v;
+      }
+      function paramExam(v) { if (!v) return ""; if (v === "1") return "شش ماہی"; if (v === "2") return "سالانہ"; return v; }
+      function paramYear(v) { if (!v) return ""; if (v === "1448" || v === "1448ھ") return "1448ھ"; if (v === "1449" || v === "1449ھ") return "1449ھ"; return v; }
+      function buildIndividualSheetHTML(r) {
+        var held = (r.result === "موقوف");
+        var subjects = r.subjects || [];
+        var mx = subjects.length * 100;
+        var pct = (!held && typeof r.total === "number" && mx) ? (r.total / mx * 100) : null;
+        var rows = "";
+        subjects.forEach(function (sb) {
+          var m = sb.m;
+          var bookFailed = (typeof m === "number" && m < PASS_MARK);
+          rows += "<tr><td>" + escHtml(sb.n) + "</td><td>100</td><td" + (bookFailed ? ' class="u"' : "") + ">" + m + "</td></tr>";
+        });
+        var now = new Date();
+        var dateStr = now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
+        var schoolYear = r.year === "1449ھ" ? "2027-2028" : "2026-2027";
+        return '<div class="sheet">'
+          + '<div class="sheet-head"><img class="sheet-logo" src="https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/monogram.jpg" alt="جامعہ کا مونوگرام" />'
+          + '<div class="sheet-title">جامعہ مخزن العلوم</div><div class="sheet-sub">انفرادی نتیجہ</div></div>'
+          + '<div class="sheet-rule"></div>'
+          + '<div class="sheet-meta"><span>نام: ' + escHtml(r.name) + '</span><span>ولدیت: ' + escHtml(r.father || "---") + '</span><span>رول نمبر: ' + escHtml(r.roll) + '</span></div>'
+          + '<div class="sheet-meta"><span>درجہ: ' + escHtml(r.darja) + '</span><span>امتحان: ' + escHtml(r.exam) + '</span><span>تعلیمی سال: ' + schoolYear + '</span><span>تاریخ: ' + dateStr + '</span></div>'
+          + '<table class="sheet-table"><tr><th>کتاب</th><th>کل نمبر</th><th>حاصل کردہ نمبر</th></tr>' + rows
+          + '<tr><td>مجموعہ</td><td>' + mx + '</td><td>' + (held ? "موقوف" : r.total) + '</td></tr></table>'
+          + '<table class="sheet-summary"><tr><td>فیصد: ' + (held ? "---" : pct.toFixed(1) + "%") + '</td><td>تقدیر: ' + (held ? "موقوف" : gradeOf(pct)) + '</td></tr></table>'
+          + (held && r.note ? '<div class="sheet-note">' + escHtml(r.name) + ' کا نتیجہ موقوف ہے — ' + escHtml(r.note) + '</div>' : "")
+          + '<div class="sheet-sign"><div>ناظم امتحانات</div><div>مہتمم صاحب</div></div></div>';
+      }
+      function individualSheetDoc(r) {
+        var title = "انفرادی نتیجہ — " + r.name + "، رول نمبر " + r.roll;
+        var doc = "<!DOCTYPE html><html lang=\"ur\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>" + escHtml(title) + "</title>"
+          + '<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">'
+          + "<style>" + SHEET_CSS + "</style></head><body>"
+          + '<div class="toolbar"><button type="button" onclick="window.print()">🖨️ پرنٹ</button><button type="button" id="dl-btn" onclick="downloadPDF()">⬇️ ڈاؤن لوڈ</button></div>'
+          + buildIndividualSheetHTML(r)
+          + '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>'
+          + '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>'
+          + "<script>function downloadPDF(){var b=document.getElementById('dl-btn');if(b)b.textContent='تیار ہو رہا ہے…';if(typeof html2canvas==='undefined'||typeof jspdf==='undefined'){window.print();return;}html2canvas(document.querySelector('.sheet'),{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(function(cv){var pdf=new jspdf.jsPDF('p','mm','a4');var w=210,h=cv.height*210/cv.width;if(h>297)h=297;pdf.addImage(cv.toDataURL('image/png'),'PNG',0,0,w,h);pdf.save(document.title+'.pdf');if(b)b.textContent='⬇️ ڈاؤن لوڈ';}).catch(function(){window.print();});}<\/script>"
+          + "</body></html>";
+        return doc;
+      }
+      var sheetCssInjected = false;
+      function injectSheetCssInline() {
+        if (sheetCssInjected) return;
+        var css = SHEET_CSS.split("\n").filter(function (line) {
+          var t = line.trim();
+          return t && t.indexOf("body{") !== 0 && t.indexOf(".toolbar") !== 0 && t.indexOf("@media print") !== 0;
+        }).join("\n");
+        var st = document.createElement("style");
+        st.textContent = css;
+        document.head.appendChild(st);
+        sheetCssInjected = true;
+      }
+      function ensurePdfLibs(cb) {
+        if (typeof html2canvas !== "undefined" && typeof jspdf !== "undefined") { cb(); return; }
+        var loaded = 0;
+        function done() { loaded++; if (loaded === 2) cb(); }
+        var s1 = document.createElement("script");
+        s1.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+        s1.onload = done; s1.onerror = done;
+        var s2 = document.createElement("script");
+        s2.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+        s2.onload = done; s2.onerror = done;
+        document.head.appendChild(s1);
+        document.head.appendChild(s2);
+      }
+      function downloadInlineSheet() {
+        var b = document.getElementById("dl-btn-inline");
+        if (b) b.textContent = "تیار ہو رہا ہے…";
+        ensurePdfLibs(function () {
+          if (typeof html2canvas === "undefined" || typeof jspdf === "undefined") { window.print(); return; }
+          html2canvas(document.querySelector("#qr-wrap .sheet"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function (cv) {
+            var pdf = new jspdf.jsPDF("p", "mm", "a4");
+            var w = 210, h = cv.height * 210 / cv.width;
+            if (h > 297) h = 297;
+            pdf.addImage(cv.toDataURL("image/png"), "PNG", 0, 0, w, h);
+            pdf.save(document.title + ".pdf");
+            if (b) b.textContent = "⬇️ ڈاؤن لوڈ";
+          }).catch(function () { window.print(); });
+        });
+      }
+      function showInlineSheet(r) {
+        injectSheetCssInline();
+        var wrap = document.getElementById("qr-wrap");
+        wrap.innerHTML = '<div class="qr-toolbar"><button type="button" onclick="window.print()">🖨️ پرنٹ</button><button type="button" id="dl-btn-inline" onclick="downloadInlineSheet()">⬇️ ڈاؤن لوڈ</button></div>' + buildIndividualSheetHTML(r);
+        wrap.style.display = "";
+        document.body.classList.add("qr-mode");
+        document.querySelectorAll(".circle-btn").forEach(function (b) { b.classList.remove("active"); });
+        document.querySelectorAll(".panel-sec").forEach(function (sec) { sec.classList.remove("active"); });
+        wrap.scrollIntoView();
+      }
+      function openIndividualSheet(r) {
+        var win = window.open("", "_blank");
+        if (win) { win.document.write(individualSheetDoc(r)); win.document.close(); return true; }
+        showInlineSheet(r);
+        return false;
+      }
+      function handleQrParams() {
+        var q = new URLSearchParams(window.location.search);
+        var roll = q.get("r") || q.get("roll") || "";
+        if (!roll) return;
+        var darja = paramDarja(q.get("d") || q.get("darja") || "");
+        var exam = paramExam(q.get("e") || q.get("exam") || "");
+        var year = paramYear(q.get("y") || q.get("year") || "");
+        var found = null;
+        RESULTS.forEach(function (r) {
+          if (r.roll === roll && (!darja || r.darja === darja) && (!exam || r.exam === exam) && (!year || r.year === year)) found = r;
+        });
+        document.querySelectorAll(".circle-btn").forEach(function (b) { b.classList.remove("active"); });
+        var btn = document.querySelector('.circle-btn[data-target="sec-natayij"]');
+        if (btn) btn.classList.add("active");
+        document.querySelectorAll(".panel-sec").forEach(function (sec) { sec.classList.remove("active"); });
+        document.getElementById("sec-natayij").classList.add("active");
+        if (found) {
+          document.getElementById("roll").value = found.roll;
+          document.getElementById("darja").value = found.darja;
+          document.getElementById("exam").value = found.exam;
+          document.getElementById("year").value = found.year;
+          openIndividualSheet(found);
+        } else {
+          var msg = document.getElementById("result-individual");
+          msg.textContent = "رول نمبر " + roll + " کا نتیجہ ابھی ویب سائٹ پر شامل نہیں کیا گیا۔";
+          msg.classList.add("show");
+        }
       }
       function openResultSheet(rows, meta) {
         var title = "مجموعی نتائج — درجہ " + meta.darja + "، " + meta.exam + "، " + meta.year;
@@ -759,6 +909,7 @@
         }
         msg.classList.add("show");
       });
+      handleQrParams();
     </script>
   </body>
 </html>
