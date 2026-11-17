@@ -285,6 +285,34 @@
       .foot-links .sep{color:#dbe7ff;}
       .foot-rights{margin-top:6px;color:#dbe7ff;font-size:16px;}
       .foot b{color:var(--gold-2);font-weight:700;}
+      .rcard{position:relative;max-width:760px;margin:0 auto;background:#fff;color:#000;font-family:'Amiri',serif;direction:rtl;text-align:center;border:3px solid #7f1d1d;outline:1px solid #7f1d1d;outline-offset:5px;padding:26px 34px 22px;box-sizing:border-box;overflow:hidden;}
+      .rcard .wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.07;pointer-events:none;}
+      .rcard .wm img{width:430px;height:430px;object-fit:contain;}
+      .rcard .rbody{position:relative;z-index:1;}
+      .rcard .rhead{position:relative;min-height:112px;text-align:center;}
+      .rcard .rlogo{position:absolute;top:0;right:0;width:104px;height:104px;border-radius:50%;object-fit:cover;border:2px solid #7f1d1d;background:#fff;}
+      .rcard .rtitle{font-family:'UL Sajid Heading','Amiri',serif;font-size:30px;font-weight:400;line-height:2;color:#7f1d1d;}
+      .rcard .rsub{font-size:20px;font-weight:700;line-height:2;color:#000;}
+      .rcard .rstatus{font-size:17px;line-height:1.8;color:#666;font-weight:700;}
+      .rcard .rstatus.bad{color:#8a1f1f;}
+      .rcard .rrule{border-top:2px solid #7f1d1d;margin:12px 0 6px;}
+      .rcard .rinfo{text-align:right;margin-bottom:6px;}
+      .rcard .rinfo .row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px dotted #999;padding:3px 2px;line-height:2;font-size:17px;}
+      .rcard .rinfo .lab{color:#7f1d1d;font-weight:700;white-space:nowrap;}
+      .rcard .rinfo .val{font-weight:700;}
+      .rcard .rmarks{width:68%;min-width:340px;margin:12px auto 0;border-collapse:collapse;}
+      .rcard .rmarks th,.rcard .rmarks td{border:2px solid #7f1d1d;padding:4px 10px;text-align:center;font-weight:700;font-size:16px;line-height:1.9;}
+      .rcard .rmarks td.u{text-decoration:underline;}
+      .rcard .rsum{width:100%;border-collapse:collapse;margin-top:14px;}
+      .rcard .rsum th,.rcard .rsum td{border:2px solid #7f1d1d;padding:6px 8px;text-align:center;font-weight:700;font-size:16px;line-height:1.9;}
+      .rcard .rnote{margin-top:10px;font-size:15px;font-weight:700;color:#8a1f1f;line-height:1.9;text-align:center;}
+      .rcard .rfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:20px;direction:ltr;}
+      .rcard .rvcode{font-size:13px;color:#666;text-align:left;direction:ltr;line-height:1.6;}
+      .rcard .rqr{width:96px;height:96px;overflow:hidden;flex:0 0 auto;}
+      .rcard .rqr img,.rcard .rqr canvas{width:96px;height:96px;display:block;}
+      .rcard .rsign{display:flex;justify-content:space-between;margin-top:30px;padding:0 30px;}
+      .rcard .rsign div{border-top:1.5px solid #000;padding-top:4px;font-weight:700;font-size:17px;line-height:2;min-width:140px;text-align:center;}
+      @media print{ .rcard{border-width:2px;} }
     </style>
   </head>
   <body>
@@ -353,6 +381,7 @@
             </div>
             <div class="list">
               <div class="sub">بنین</div>
+              <div class="row">اعدادیہ اول</div>
               <div class="row">اولیٰ</div>
               <div class="row">ثانیہ</div>
               <div class="row">ثالثہ</div>
@@ -393,6 +422,7 @@
                 <select id="darja" name="darja">
                   <option value="">درجہ چنیں</option>
                   <optgroup label="بنین">
+                    <option>اعدادیہ اول</option>
                     <option>اولیٰ</option>
                     <option>ثانیہ</option>
                     <option>ثالثہ</option>
@@ -419,6 +449,7 @@
                 <label for="exam">امتحان کی قسم</label>
                 <select id="exam" name="exam">
                   <option value="">قسم چنیں</option>
+                  <option>چار ماہی</option>
                   <option>شش ماہی</option>
                   <option>سالانہ</option>
                 </select>
@@ -440,6 +471,7 @@
                 <select id="darja2" name="darja2">
                   <option value="">درجہ چنیں</option>
                   <optgroup label="بنین">
+                    <option>اعدادیہ اول</option>
                     <option>اولیٰ</option>
                     <option>ثانیہ</option>
                     <option>ثالثہ</option>
@@ -466,6 +498,7 @@
                 <label for="exam2">امتحان کی قسم</label>
                 <select id="exam2" name="exam2">
                   <option value="">قسم چنیں</option>
+                  <option>چار ماہی</option>
                   <option>شش ماہی</option>
                   <option>سالانہ</option>
                 </select>
@@ -578,22 +611,108 @@
         });
       });
 
-      // نتائج کا ڈیٹا — فرضی اولیٰ کے 3 ریکارڈ 2026-11-17 کو طیب کے حکم پر ڈیلیٹ کیے گئے؛
-      // اصل نتائج (شش ماہی 1448ھ، تمام کلاسیں) ان کی بھیجی پی ڈی ایف سے یہاں لکھے جائیں گے۔
+      // اصل نتائج — چار ماہی امتحان 1448ھ، طیب کی بھیجی 11 رزلٹ شیٹوں سے (94 طلبہ)۔
+      // اولیٰ کی شیٹ خراب فائل تھی اس لیے اس کے طلبہ ابھی شامل نہیں — طیب دوبارہ بھیجیں گے۔
+      // فیصد کا اصول (اصل شیٹوں کے مطابق): فیصد صرف دیے گئے مضامین پر — غیر حاضر کتاب کل میں شامل نہیں۔
+      // مکمل غیر حاضر طالب علم کا نتیجہ "غیر حاضر" ہے (مجموعہ/فیصد نہیں)؛ موقوف کا نتیجہ "موقوف"۔
       var RESULTS = [
+  {roll:"971",name:"اویس",father:"حنیف",darja:"شعبۂ تجوید اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:100},{n:"سیرت الرسول",m:100},{n:"جمال القرآن",m:95},{n:"ریاضی",m:100},{n:"انگلش",m:96},{n:"تعلیم الاسلام",m:100},{n:"علم الصرف",m:98}],total:689,result:"ممتاز",note:"",vcode:"JMU-JNDQ5-9NAHD1B",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=971&d=10&e=3&y=1448"},
+  {roll:"969",name:"شامز",father:"عارف",darja:"شعبۂ تجوید اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:89},{n:"سیرت الرسول",m:98},{n:"جمال القرآن",m:85},{n:"ریاضی",m:100},{n:"انگلش",m:91},{n:"تعلیم الاسلام",m:67},{n:"علم الصرف",m:63}],total:593,result:"جید جدا",note:"",vcode:"JMU-KZ3XT-ZQDGYTT",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=969&d=10&e=3&y=1448"},
+  {roll:"968",name:"نعمان",father:"ظہیر",darja:"شعبۂ تجوید اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:40},{n:"سیرت الرسول",m:100},{n:"جمال القرآن",m:95},{n:"ریاضی",m:100},{n:"انگلش",m:96},{n:"تعلیم الاسلام",m:58},{n:"علم الصرف",m:84}],total:573,result:"جید جدا",note:"قرآن مجید 40 نمبر رعایتی",vcode:"JMU-YA81R-4AVKQTC",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=968&d=10&e=3&y=1448"},
+  {roll:"972",name:"فہد",father:"",darja:"شعبۂ تجوید اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:88},{n:"سیرت الرسول",m:90},{n:"جمال القرآن",m:80},{n:"ریاضی",m:100},{n:"انگلش",m:81},{n:"تعلیم الاسلام",m:53},{n:"علم الصرف",m:78}],total:570,result:"جید جدا",note:"",vcode:"JMU-JQC38-7F8Q8ES",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=972&d=10&e=3&y=1448"},
+  {roll:"970",name:"حکمت اللہ",father:"عبدالعزیز",darja:"شعبۂ تجوید اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:89},{n:"سیرت الرسول",m:70},{n:"جمال القرآن",m:75},{n:"ریاضی",m:65},{n:"انگلش",m:43},{n:"تعلیم الاسلام",m:68},{n:"علم الصرف",m:53}],total:463,result:"جید",note:"",vcode:"JMU-WQDMG-S1K3E5Q",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=970&d=10&e=3&y=1448"},
+  {roll:"962",name:"انس",father:"عبد القدوس",darja:"ثانیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:100},{n:"قدوری",m:100},{n:"زاد الطالبین",m:100},{n:"ہدایت النحو",m:100},{n:"علم الصیغہ",m:93}],total:493,result:"ممتاز",note:"ماشاء اللہ بہترین",vcode:"JMU-ANWZS-J1173PM",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=962&d=3&e=3&y=1448"},
+  {roll:"888",name:"آمنہ",father:"",darja:"عالمیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"صحیح بخاری اول",m:100},{n:"صحیح بخاری ثانی",m:50},{n:"صحیح مسلم اول",m:70},{n:"صحیح مسلم ثانی",m:73},{n:"ابوداؤد",m:100},{n:"جامع ترمذی",m:100}],total:493,result:"جید جدا",note:"",vcode:"JMU-6TJD5-J1XTCQJ",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=888&d=18&e=3&y=1448"},
+  {roll:"893",name:"رقیہ",father:"",darja:"عالمیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"صحیح بخاری اول",m:100},{n:"صحیح بخاری ثانی",m:50},{n:"صحیح مسلم اول",m:75},{n:"صحیح مسلم ثانی",m:67},{n:"ابوداؤد",m:100},{n:"جامع ترمذی",m:100}],total:492,result:"جید جدا",note:"",vcode:"JMU-569XY-7EBCTVE",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=893&d=18&e=3&y=1448"},
+  {roll:"889",name:"شیماء",father:"",darja:"عالمیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"صحیح بخاری اول",m:100},{n:"صحیح بخاری ثانی",m:50},{n:"صحیح مسلم اول",m:70},{n:"صحیح مسلم ثانی",m:71},{n:"ابوداؤد",m:100},{n:"جامع ترمذی",m:100}],total:491,result:"جید جدا",note:"",vcode:"JMU-YSMR9-H13722Z",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=889&d=18&e=3&y=1448"},
+  {roll:"892",name:"فاطمہ",father:"",darja:"عالمیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"صحیح بخاری اول",m:100},{n:"صحیح بخاری ثانی",m:50},{n:"صحیح مسلم اول",m:70},{n:"صحیح مسلم ثانی",m:62},{n:"ابوداؤد",m:100},{n:"جامع ترمذی",m:100}],total:482,result:"جید جدا",note:"",vcode:"JMU-7YFG9-G4MCDY1",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=892&d=18&e=3&y=1448"},
+  {roll:"894",name:"حلیمہ",father:"",darja:"عالمیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"صحیح بخاری اول",m:100},{n:"صحیح بخاری ثانی",m:50},{n:"صحیح مسلم اول",m:70},{n:"صحیح مسلم ثانی",m:62},{n:"ابوداؤد",m:100},{n:"جامع ترمذی",m:100}],total:482,result:"جید جدا",note:"",vcode:"JMU-68HCR-WHSYQKX",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=894&d=18&e=3&y=1448"},
+  {roll:"891",name:"نعیمہ",father:"",darja:"عالمیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"صحیح بخاری اول",m:100},{n:"صحیح بخاری ثانی",m:45},{n:"صحیح مسلم اول",m:70},{n:"صحیح مسلم ثانی",m:62},{n:"ابوداؤد",m:100},{n:"جامع ترمذی",m:100}],total:477,result:"جید",note:"",vcode:"JMU-WDWR6-K6Q4GK3",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=891&d=18&e=3&y=1448"},
+  {roll:"890",name:"زمرہ",father:"",darja:"عالمیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"صحیح بخاری اول",m:100},{n:"صحیح بخاری ثانی",m:45},{n:"صحیح مسلم اول",m:70},{n:"صحیح مسلم ثانی",m:60},{n:"ابوداؤد",m:100},{n:"جامع ترمذی",m:100}],total:475,result:"جید",note:"",vcode:"JMU-JX86X-YA9WYSC",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=890&d=18&e=3&y=1448"},
+  {roll:"895",name:"فائزہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:100},{n:"تفسیر مصطلح الحدیث",m:100},{n:"ہدایہ",m:100},{n:"شرح المعانی الآثار",m:100},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:100}],total:600,result:"ممتاز",note:"ماشاء اللہ بہترین رزلٹ",vcode:"JMU-620E6-H89FP36",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=895&d=17&e=3&y=1448"},
+  {roll:"899",name:"مہناز",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:100},{n:"تفسیر مصطلح الحدیث",m:100},{n:"ہدایہ",m:100},{n:"شرح المعانی الآثار",m:100},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:90}],total:590,result:"ممتاز",note:"",vcode:"JMU-6ZHX7-0VCTFAW",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=899&d=17&e=3&y=1448"},
+  {roll:"896",name:"فاطمہ",father:"محمد حسین",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:100},{n:"تفسیر مصطلح الحدیث",m:100},{n:"ہدایہ",m:100},{n:"شرح المعانی الآثار",m:100},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:75}],total:575,result:"ممتاز",note:"",vcode:"JMU-2405P-B9MMVHT",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=896&d=17&e=3&y=1448"},
+  {roll:"897",name:"طیبہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:100},{n:"تفسیر مصطلح الحدیث",m:100},{n:"ہدایہ",m:100},{n:"شرح المعانی الآثار",m:100},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:73}],total:573,result:"ممتاز",note:"",vcode:"JMU-K7G60-AY7F392",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=897&d=17&e=3&y=1448"},
+  {roll:"898",name:"سارہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:97},{n:"تفسیر مصطلح الحدیث",m:100},{n:"ہدایہ",m:100},{n:"شرح المعانی الآثار",m:100},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:64}],total:561,result:"ممتاز",note:"",vcode:"JMU-JZ68C-AMG2TVG",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=898&d=17&e=3&y=1448"},
+  {roll:"900",name:"حسنہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:96},{n:"تفسیر مصطلح الحدیث",m:100},{n:"ہدایہ",m:100},{n:"شرح المعانی الآثار",m:95},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:69}],total:560,result:"ممتاز",note:"",vcode:"JMU-SKQN6-G4QTSE5",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=900&d=17&e=3&y=1448"},
+  {roll:"908",name:"نگاہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:97},{n:"تفسیر مصطلح الحدیث",m:93},{n:"ہدایہ",m:100},{n:"شرح المعانی الآثار",m:95},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:68}],total:553,result:"ممتاز",note:"",vcode:"JMU-B21N4-AB5NHSW",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=908&d=17&e=3&y=1448"},
+  {roll:"901",name:"فاطمہ",father:"رسول جان",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:96},{n:"تفسیر مصطلح الحدیث",m:97},{n:"ہدایہ",m:95},{n:"شرح المعانی الآثار",m:100},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:64}],total:552,result:"ممتاز",note:"",vcode:"JMU-AG2YT-9WZMDR9",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=901&d=17&e=3&y=1448"},
+  {roll:"902",name:"زلیخا",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:95},{n:"تفسیر مصطلح الحدیث",m:96},{n:"ہدایہ",m:90},{n:"شرح المعانی الآثار",m:90},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:68}],total:539,result:"جید جدا",note:"",vcode:"JMU-30P3K-C4AGWVK",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=902&d=17&e=3&y=1448"},
+  {roll:"905",name:"گل ناز",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:89},{n:"تفسیر مصطلح الحدیث",m:90},{n:"ہدایہ",m:90},{n:"شرح المعانی الآثار",m:95},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:69}],total:533,result:"جید جدا",note:"",vcode:"JMU-Y8CK4-9J1SMDX",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=905&d=17&e=3&y=1448"},
+  {roll:"910",name:"شازیہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:86},{n:"تفسیر مصطلح الحدیث",m:89},{n:"ہدایہ",m:85},{n:"شرح المعانی الآثار",m:85},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:70}],total:515,result:"جید جدا",note:"",vcode:"JMU-YWDZV-QGG9T0Z",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=910&d=17&e=3&y=1448"},
+  {roll:"909",name:"ذاکرہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:71},{n:"تفسیر مصطلح الحدیث",m:85},{n:"ہدایہ",m:98},{n:"شرح المعانی الآثار",m:85},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:70}],total:509,result:"جید جدا",note:"",vcode:"JMU-EY8YX-YENVGJ6",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=909&d=17&e=3&y=1448"},
+  {roll:"906",name:"خدیجہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:80},{n:"تفسیر مصطلح الحدیث",m:72},{n:"ہدایہ",m:97},{n:"شرح المعانی الآثار",m:100},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:58}],total:507,result:"جید جدا",note:"",vcode:"JMU-6W8SS-2MB8Q9B",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=906&d=17&e=3&y=1448"},
+  {roll:"904",name:"صفیہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:91},{n:"تفسیر مصطلح الحدیث",m:88},{n:"ہدایہ",m:90},{n:"شرح المعانی الآثار",m:85},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:49}],total:503,result:"جید جدا",note:"",vcode:"JMU-J06NE-7A5RZHB",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=904&d=17&e=3&y=1448"},
+  {roll:"911",name:"آمنہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:83},{n:"تفسیر مصطلح الحدیث",m:75},{n:"ہدایہ",m:90},{n:"شرح المعانی الآثار",m:70},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:67}],total:485,result:"جید جدا",note:"",vcode:"JMU-R82JH-P4D4GJ8",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=911&d=17&e=3&y=1448"},
+  {roll:"903",name:"صائمہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:89},{n:"تفسیر مصطلح الحدیث",m:73},{n:"ہدایہ",m:90},{n:"شرح المعانی الآثار",m:85},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:40}],total:477,result:"جید",note:"سنن ابی داؤد 40 رعایتی",vcode:"JMU-2QMXM-52T6AQC",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=903&d=17&e=3&y=1448"},
+  {roll:"907",name:"در گل",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:70},{n:"تفسیر مصطلح الحدیث",m:55},{n:"ہدایہ",m:90},{n:"شرح المعانی الآثار",m:97},{n:"جامع ترمذی",m:100},{n:"سنن ابی داؤد",m:50}],total:462,result:"جید",note:"",vcode:"JMU-TPAX3-26MG5D5",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=907&d=17&e=3&y=1448"},
+  {roll:"912",name:"عائشہ",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:null},{n:"تفسیر مصطلح الحدیث",m:null},{n:"ہدایہ",m:null},{n:"شرح المعانی الآثار",m:null},{n:"جامع ترمذی",m:null},{n:"سنن ابی داؤد",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-MDKC4-V232B3G",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=912&d=17&e=3&y=1448"},
+  {roll:"913",name:"نصرت",father:"",darja:"عالمیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر جلالین",m:null},{n:"تفسیر مصطلح الحدیث",m:null},{n:"ہدایہ",m:null},{n:"شرح المعانی الآثار",m:null},{n:"جامع ترمذی",m:null},{n:"سنن ابی داؤد",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-SZCW2-F5CN599",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=913&d=17&e=3&y=1448"},
+  {roll:"934",name:"ماہین",father:"محمد اشرف",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:100},{n:"آداب المعاشرت",m:100}],total:200,result:"ممتاز",note:"",vcode:"JMU-FBY7S-19HA2EN",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=934&d=12&e=3&y=1448"},
+  {roll:"948",name:"آفرنگ",father:"عبدالماجد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:100},{n:"آداب المعاشرت",m:100}],total:200,result:"ممتاز",note:"",vcode:"JMU-32N8H-0D2DZ8E",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=948&d=12&e=3&y=1448"},
+  {roll:"928",name:"جمیلہ",father:"ظہیر احمد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:100},{n:"آداب المعاشرت",m:98}],total:198,result:"ممتاز",note:"",vcode:"JMU-B554G-BZD3C2E",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=928&d=12&e=3&y=1448"},
+  {roll:"947",name:"ملالہ",father:"رحمۃ اللہ",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:100},{n:"آداب المعاشرت",m:97}],total:197,result:"ممتاز",note:"",vcode:"JMU-P9JS5-JDJZCDK",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=947&d=12&e=3&y=1448"},
+  {roll:"924",name:"ہاجرہ",father:"عبدالعزیز",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:93},{n:"آداب المعاشرت",m:100}],total:193,result:"ممتاز",note:"",vcode:"JMU-GTQ04-BNS96V4",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=924&d=12&e=3&y=1448"},
+  {roll:"943",name:"تمیمہ",father:"خیر اللہ",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:97},{n:"آداب المعاشرت",m:95}],total:192,result:"ممتاز",note:"",vcode:"JMU-9AESV-6J04TDF",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=943&d=12&e=3&y=1448"},
+  {roll:"951",name:"زمرہ",father:"رحیم بخش",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:89},{n:"آداب المعاشرت",m:100}],total:189,result:"ممتاز",note:"",vcode:"JMU-DQEJ1-C8FTAT6",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=951&d=12&e=3&y=1448"},
+  {roll:"940",name:"ماہیکان",father:"ظہیر احمد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:89},{n:"آداب المعاشرت",m:98}],total:187,result:"ممتاز",note:"",vcode:"JMU-2GTWX-882DED6",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=940&d=12&e=3&y=1448"},
+  {roll:"926",name:"مریم",father:"ظہیر احمد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:95},{n:"آداب المعاشرت",m:87}],total:182,result:"ممتاز",note:"",vcode:"JMU-5SMBR-P0XB4JJ",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=926&d=12&e=3&y=1448"},
+  {roll:"941",name:"عافیہ",father:"عزیز اللہ",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:90},{n:"آداب المعاشرت",m:89}],total:179,result:"جید جدا",note:"",vcode:"JMU-4BSB4-3RZ33KS",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=941&d=12&e=3&y=1448"},
+  {roll:"944",name:"عافیہ",father:"انیس الرحمن",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:86},{n:"آداب المعاشرت",m:90}],total:176,result:"جید جدا",note:"",vcode:"JMU-C3DMP-AZJPNKN",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=944&d=12&e=3&y=1448"},
+  {roll:"925",name:"تائبہ",father:"رسول جان",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:85},{n:"آداب المعاشرت",m:89}],total:174,result:"جید جدا",note:"",vcode:"JMU-9JRS2-5R96PNB",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=925&d=12&e=3&y=1448"},
+  {roll:"939",name:"عمیرا",father:"شوکت علی",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:79},{n:"آداب المعاشرت",m:89}],total:168,result:"جید جدا",note:"",vcode:"JMU-ZNDVR-MX9C46R",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=939&d=12&e=3&y=1448"},
+  {roll:"950",name:"سمیرا",father:"اللہ بخش",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:78},{n:"آداب المعاشرت",m:88}],total:166,result:"جید جدا",note:"",vcode:"JMU-8KFQ7-BTQJXSR",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=950&d=12&e=3&y=1448"},
+  {roll:"933",name:"ماہ گنج",father:"صلاح الدین",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:77},{n:"آداب المعاشرت",m:88}],total:165,result:"جید جدا",note:"",vcode:"JMU-QJZF5-8B7WQ31",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=933&d=12&e=3&y=1448"},
+  {roll:"938",name:"مائلہ",father:"محمد ناصر",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:86},{n:"آداب المعاشرت",m:78}],total:164,result:"جید جدا",note:"",vcode:"JMU-7PT4J-J3JK9AC",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=938&d=12&e=3&y=1448"},
+  {roll:"931",name:"مروہ",father:"غلام جان",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:90},{n:"آداب المعاشرت",m:70}],total:160,result:"جید جدا",note:"",vcode:"JMU-RWQHN-281F5EY",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=931&d=12&e=3&y=1448"},
+  {roll:"945",name:"عائشہ",father:"محمد اکبر",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:70},{n:"آداب المعاشرت",m:90}],total:160,result:"جید جدا",note:"",vcode:"JMU-9TAD1-G8Q54XT",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=945&d=12&e=3&y=1448"},
+  {roll:"949",name:"آسی",father:"محمد فاروق",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:70},{n:"آداب المعاشرت",m:89}],total:159,result:"جید",note:"",vcode:"JMU-45P2H-N6T52GV",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=949&d=12&e=3&y=1448"},
+  {roll:"927",name:"انیزہ",father:"نیاز احمد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:78},{n:"آداب المعاشرت",m:79}],total:157,result:"جید",note:"",vcode:"JMU-NAR11-MJX2FS6",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=927&d=12&e=3&y=1448"},
+  {roll:"936",name:"صفاء",father:"غلام جان",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:78},{n:"آداب المعاشرت",m:78}],total:156,result:"جید",note:"",vcode:"JMU-YZGFY-KNB6XK8",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=936&d=12&e=3&y=1448"},
+  {roll:"932",name:"سدرہ",father:"دل مراد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:77},{n:"آداب المعاشرت",m:69}],total:146,result:"جید",note:"",vcode:"JMU-T4NQ7-VPPE6CS",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=932&d=12&e=3&y=1448"},
+  {roll:"946",name:"آسی",father:"شکیل احمد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:69},{n:"آداب المعاشرت",m:70}],total:139,result:"جید",note:"",vcode:"JMU-F866X-HHH3VSG",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=946&d=12&e=3&y=1448"},
+  {roll:"930",name:"سنینہ",father:"سرور",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:88},{n:"آداب المعاشرت",m:40}],total:128,result:"جید",note:"",vcode:"JMU-TSJM9-SRKMQFK",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=930&d=12&e=3&y=1448"},
+  {roll:"929",name:"حلیمہ",father:"",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:null},{n:"آداب المعاشرت",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-6J0AC-N9797D4",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=929&d=12&e=3&y=1448"},
+  {roll:"935",name:"",father:"مول جان",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:null},{n:"آداب المعاشرت",m:null}],total:null,result:"غیر حاضر",note:"نام شیٹ میں درج نہیں",vcode:"JMU-FCDPF-TE84JZX",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=935&d=12&e=3&y=1448"},
+  {roll:"937",name:"فاخرہ",father:"سمیع احمد",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:null},{n:"آداب المعاشرت",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-39K39-7051XD9",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=937&d=12&e=3&y=1448"},
+  {roll:"942",name:"انیسہ",father:"عزیر اللہ",darja:"تمہیدیہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:null},{n:"آداب المعاشرت",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-8H6DW-B3HE3Z6",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=942&d=12&e=3&y=1448"},
+  {roll:"880",name:"نجمہ",father:"محمد ظاہر",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:45},{n:"زاد الطالبین",m:84},{n:"علم النحو",m:70},{n:"علم الصرف",m:97},{n:"تعلیم الاسلام",m:95},{n:"الطریقۃ العصریہ",m:92}],total:483,result:"جید جدا",note:"",vcode:"JMU-4MWV3-R24CNZ3",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=880&d=13&e=3&y=1448"},
+  {roll:"882",name:"سمیہ",father:"ظاہر حسین",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:40},{n:"زاد الطالبین",m:92},{n:"علم النحو",m:60},{n:"علم الصرف",m:90},{n:"تعلیم الاسلام",m:100},{n:"الطریقۃ العصریہ",m:91}],total:473,result:"جید",note:"",vcode:"JMU-60P6P-ZFXXVTQ",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=882&d=13&e=3&y=1448"},
+  {roll:"883",name:"رقیہ",father:"ظاہر حسین",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:45},{n:"زاد الطالبین",m:93},{n:"علم النحو",m:60},{n:"علم الصرف",m:88},{n:"تعلیم الاسلام",m:97},{n:"الطریقۃ العصریہ",m:89}],total:472,result:"جید",note:"",vcode:"JMU-DJH66-GD7V04R",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=883&d=13&e=3&y=1448"},
+  {roll:"881",name:"سمیہ",father:"شاکر علی",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:40},{n:"زاد الطالبین",m:82},{n:"علم النحو",m:62},{n:"علم الصرف",m:100},{n:"تعلیم الاسلام",m:92},{n:"الطریقۃ العصریہ",m:85}],total:461,result:"جید",note:"",vcode:"JMU-734WR-Z91TR7B",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=881&d=13&e=3&y=1448"},
+  {roll:"885",name:"سارہ",father:"عبدالواحد",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:55},{n:"زاد الطالبین",m:89},{n:"علم النحو",m:50},{n:"علم الصرف",m:60},{n:"تعلیم الاسلام",m:75},{n:"الطریقۃ العصریہ",m:94}],total:423,result:"جید",note:"",vcode:"JMU-H7F3Q-WPXRD2D",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=885&d=13&e=3&y=1448"},
+  {roll:"886",name:"ساجدہ",father:"عبدالصمد",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:40},{n:"زاد الطالبین",m:50},{n:"علم النحو",m:40},{n:"علم الصرف",m:55},{n:"تعلیم الاسلام",m:50},{n:"الطریقۃ العصریہ",m:80}],total:315,result:"مقبول",note:"",vcode:"JMU-YF9P6-15S9NB0",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=886&d=13&e=3&y=1448"},
+  {roll:"884",name:"عائشہ",father:"قاری علی",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:null},{n:"زاد الطالبین",m:null},{n:"علم النحو",m:null},{n:"علم الصرف",m:null},{n:"تعلیم الاسلام",m:null},{n:"الطریقۃ العصریہ",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-7VK84-7QG75RX",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=884&d=13&e=3&y=1448"},
+  {roll:"887",name:"فاطمہ",father:"شوکت علی",darja:"خاصہ سال",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:null},{n:"زاد الطالبین",m:null},{n:"علم النحو",m:null},{n:"علم الصرف",m:null},{n:"تعلیم الاسلام",m:null},{n:"الطریقۃ العصریہ",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-0YM6H-HZK8ATW",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=887&d=13&e=3&y=1448"},
+  {roll:"966",name:"عبداللہ",father:"شعیب",darja:"اعدادیہ اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:40},{n:"ریاضی",m:100},{n:"اردو",m:40},{n:"درسی سیرت الرسول",m:95},{n:"انگلش",m:93},{n:"کریما",m:49}],total:417,result:"جید",note:"",vcode:"JMU-EE2VA-B083K6M",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=966&d=1&e=3&y=1448"},
+  {roll:"964",name:"امیرجان",father:"",darja:"اعدادیہ اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:42},{n:"ریاضی",m:100},{n:"اردو",m:40},{n:"درسی سیرت الرسول",m:59},{n:"انگلش",m:74},{n:"کریما",m:60}],total:375,result:"جید",note:"",vcode:"JMU-07FZ0-DTJE3GW",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=964&d=1&e=3&y=1448"},
+  {roll:"967",name:"نذیر",father:"یحییٰ",darja:"اعدادیہ اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:40},{n:"ریاضی",m:100},{n:"اردو",m:40},{n:"درسی سیرت الرسول",m:40},{n:"انگلش",m:62},{n:"کریما",m:40}],total:322,result:"مقبول",note:"کریما 40 نمبر رعایتی",vcode:"JMU-E17CE-T5677H7",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=967&d=1&e=3&y=1448"},
+  {roll:"965",name:"وسیم",father:"",darja:"اعدادیہ اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:41},{n:"ریاضی",m:100},{n:"اردو",m:40},{n:"درسی سیرت الرسول",m:42},{n:"انگلش",m:58},{n:"کریما",m:40}],total:321,result:"مقبول",note:"کریما 40 نمبر رعایتی",vcode:"JMU-24PQ9-D18ABSR",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=965&d=1&e=3&y=1448"},
+  {roll:"",name:"سلمان",father:"",darja:"اعدادیہ اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تعلیم الاسلام",m:null},{n:"ریاضی",m:null},{n:"اردو",m:40},{n:"درسی سیرت الرسول",m:null},{n:"انگلش",m:null},{n:"کریما",m:45}],total:85,result:"مقبول",note:"رول نمبر شیٹ میں درج نہیں",vcode:"JMU-Z8Q5S-AX2273R",qr:""},
+  {roll:"952",name:"مریم",father:"برکت علی",darja:"عالیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:96},{n:"مختارات",m:80},{n:"نورالانوار",m:83},{n:"قدوری",m:90},{n:"دروس البلاغہ",m:90},{n:"ریاض الصالحین",m:91}],total:530,result:"جید جدا",note:"",vcode:"JMU-RH4MB-G5TN16S",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=952&d=15&e=3&y=1448"},
+  {roll:"953",name:"بسمہ",father:"شاکر علی",darja:"عالیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:95},{n:"مختارات",m:83},{n:"نورالانوار",m:73},{n:"قدوری",m:70},{n:"دروس البلاغہ",m:66},{n:"ریاض الصالحین",m:83}],total:470,result:"جید",note:"",vcode:"JMU-VV3PA-P21PQNB",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=953&d=15&e=3&y=1448"},
+  {roll:"954",name:"صغریٰ",father:"سوراب",darja:"عالیہ سال اول",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:null},{n:"مختارات",m:null},{n:"نورالانوار",m:null},{n:"قدوری",m:null},{n:"دروس البلاغہ",m:null},{n:"ریاض الصالحین",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-6AVFP-D5T5ZRX",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=954&d=15&e=3&y=1448"},
+  {roll:"917",name:"اقراء",father:"سہیل احمد",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:95},{n:"مشکاۃ اول",m:90},{n:"مشکاۃ ثانی",m:90},{n:"ہدایہ",m:100},{n:"شرح العقائد",m:95},{n:"تربیت اولاد",m:100}],total:570,result:"ممتاز",note:"",vcode:"JMU-EEZ2B-1AN74M6",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=917&d=16&e=3&y=1448"},
+  {roll:"916",name:"فرح ناز",father:"مرادجان",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:91},{n:"مشکاۃ اول",m:85},{n:"مشکاۃ ثانی",m:76},{n:"ہدایہ",m:100},{n:"شرح العقائد",m:95},{n:"تربیت اولاد",m:100}],total:547,result:"ممتاز",note:"",vcode:"JMU-Y7Y5V-0TNNN54",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=916&d=16&e=3&y=1448"},
+  {roll:"915",name:"عاطفہ",father:"نظر علی",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:94},{n:"مشکاۃ اول",m:83},{n:"مشکاۃ ثانی",m:69},{n:"ہدایہ",m:95},{n:"شرح العقائد",m:60},{n:"تربیت اولاد",m:93}],total:494,result:"جید جدا",note:"",vcode:"JMU-YWHCR-GFKFQ4N",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=915&d=16&e=3&y=1448"},
+  {roll:"918",name:"زینب",father:"محمد اکبر",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:91},{n:"مشکاۃ اول",m:79},{n:"مشکاۃ ثانی",m:65},{n:"ہدایہ",m:90},{n:"شرح العقائد",m:60},{n:"تربیت اولاد",m:92}],total:477,result:"جید",note:"",vcode:"JMU-Y4WMW-QMSA4J0",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=918&d=16&e=3&y=1448"},
+  {roll:"920",name:"حزراء",father:"مقبول احمد",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:65},{n:"مشکاۃ اول",m:59},{n:"مشکاۃ ثانی",m:60},{n:"ہدایہ",m:90},{n:"شرح العقائد",m:75},{n:"تربیت اولاد",m:100}],total:449,result:"جید",note:"",vcode:"JMU-5HEPE-KNG4SKF",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=920&d=16&e=3&y=1448"},
+  {roll:"922",name:"زورگل",father:"محمد یعقوب",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:53},{n:"مشکاۃ اول",m:51},{n:"مشکاۃ ثانی",m:57},{n:"ہدایہ",m:90},{n:"شرح العقائد",m:75},{n:"تربیت اولاد",m:90}],total:416,result:"جید",note:"",vcode:"JMU-GYWKA-YG0EK7M",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=922&d=16&e=3&y=1448"},
+  {roll:"919",name:"انیسہ",father:"یونس",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:60},{n:"مشکاۃ اول",m:52},{n:"مشکاۃ ثانی",m:50},{n:"ہدایہ",m:90},{n:"شرح العقائد",m:60},{n:"تربیت اولاد",m:91}],total:403,result:"جید",note:"",vcode:"JMU-GMA7Z-R0TG2W8",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=919&d=16&e=3&y=1448"},
+  {roll:"914",name:"خدیجہ",father:"مولانا عبدالحلیم",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:null},{n:"مشکاۃ اول",m:null},{n:"مشکاۃ ثانی",m:null},{n:"ہدایہ",m:null},{n:"شرح العقائد",m:null},{n:"تربیت اولاد",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-AJNSY-JXZKWVB",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=914&d=16&e=3&y=1448"},
+  {roll:"921",name:"خالدہ",father:"عبدالحلیم",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:null},{n:"مشکاۃ اول",m:null},{n:"مشکاۃ ثانی",m:null},{n:"ہدایہ",m:null},{n:"شرح العقائد",m:null},{n:"تربیت اولاد",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-1ZB9G-AXF7VDV",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=921&d=16&e=3&y=1448"},
+  {roll:"923",name:"عفرانا",father:"محمد جان",darja:"عالیہ سال دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:null},{n:"مشکاۃ اول",m:null},{n:"مشکاۃ ثانی",m:null},{n:"ہدایہ",m:null},{n:"شرح العقائد",m:null},{n:"تربیت اولاد",m:null}],total:null,result:"غیر حاضر",note:"",vcode:"JMU-H9MFW-QKBBH3K",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=923&d=16&e=3&y=1448"},
+  {roll:"963",name:"شہزادہ احمد",father:"امیر محمد",darja:"رابعہ",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"تفسیر",m:91},{n:"نورالانوار",m:47},{n:"کنز الدقائق",m:70},{n:"شرح ملا جامی",m:87},{n:"مقامات الحریری",m:83},{n:"قطبی / دروس البلاغہ",m:100}],total:478,result:"جید",note:"",vcode:"JMU-RNAV3-YCAF4W3",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=963&d=5&e=3&y=1448"},
+  {roll:"978",name:"محمد یوسف",father:"حافظ یونس",darja:"شعبۂ تجوید دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:90},{n:"المقدمۃ الجزریہ",m:99},{n:"سیرت الرسول",m:100},{n:"علم الصرف",m:95},{n:"ریاضی",m:100},{n:"انگلش",m:94},{n:"تعلیم الاسلام",m:95},{n:"جمال القرآن",m:100}],total:773,result:"ممتاز",note:"",vcode:"JMU-9RJ2V-PJ81X5S",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=978&d=11&e=3&y=1448"},
+  {roll:"973",name:"محمد جان",father:"عبدالقدوس",darja:"شعبۂ تجوید دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:100},{n:"المقدمۃ الجزریہ",m:99},{n:"سیرت الرسول",m:100},{n:"علم الصرف",m:85},{n:"ریاضی",m:70},{n:"انگلش",m:96},{n:"تعلیم الاسلام",m:94},{n:"جمال القرآن",m:100}],total:744,result:"ممتاز",note:"",vcode:"JMU-8XDEP-KGC0GAK",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=973&d=11&e=3&y=1448"},
+  {roll:"975",name:"عدیل",father:"ندیم اختر",darja:"شعبۂ تجوید دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:90},{n:"المقدمۃ الجزریہ",m:60},{n:"سیرت الرسول",m:100},{n:"علم الصرف",m:85},{n:"ریاضی",m:100},{n:"انگلش",m:96},{n:"تعلیم الاسلام",m:79},{n:"جمال القرآن",m:90}],total:700,result:"جید جدا",note:"",vcode:"JMU-F0PT4-94MBFZ6",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=975&d=11&e=3&y=1448"},
+  {roll:"974",name:"عدنان",father:"محمد اکرام",darja:"شعبۂ تجوید دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:90},{n:"المقدمۃ الجزریہ",m:55},{n:"سیرت الرسول",m:100},{n:"علم الصرف",m:55},{n:"ریاضی",m:59},{n:"انگلش",m:40},{n:"تعلیم الاسلام",m:83},{n:"جمال القرآن",m:90}],total:572,result:"جید",note:"انگلش 40 نمبر رعایتی",vcode:"JMU-TNSQN-VQNMF69",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=974&d=11&e=3&y=1448"},
+  {roll:"977",name:"سلیم اللہ",father:"عبدالباقی",darja:"شعبۂ تجوید دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:40},{n:"المقدمۃ الجزریہ",m:60},{n:"سیرت الرسول",m:100},{n:"علم الصرف",m:55},{n:"ریاضی",m:40},{n:"انگلش",m:47},{n:"تعلیم الاسلام",m:84},{n:"جمال القرآن",m:90}],total:516,result:"جید",note:"قرآن مجید اور ریاضی دونوں میں 40 نمبر رعایتی ہیں",vcode:"JMU-7AX04-JA1TTJA",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=977&d=11&e=3&y=1448"},
+  {roll:"976",name:"محمد عادل",father:"رحم دل",darja:"شعبۂ تجوید دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:96},{n:"المقدمۃ الجزریہ",m:40},{n:"سیرت الرسول",m:82},{n:"علم الصرف",m:50},{n:"ریاضی",m:40},{n:"انگلش",m:54},{n:"تعلیم الاسلام",m:47},{n:"جمال القرآن",m:80}],total:489,result:"جید",note:"ریاضی 40 نمبر رعایتی",vcode:"JMU-QVKBH-C7DP8ZQ",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=976&d=11&e=3&y=1448"},
+  {roll:"979",name:"عبدالکریم",father:"انور",darja:"شعبۂ تجوید دوئم",exam:"چار ماہی",year:"1448ھ",subjects:[{n:"قرآن مجید",m:89},{n:"المقدمۃ الجزریہ",m:40},{n:"سیرت الرسول",m:48},{n:"علم الصرف",m:55},{n:"ریاضی",m:46},{n:"انگلش",m:40},{n:"تعلیم الاسلام",m:40},{n:"جمال القرآن",m:60}],total:418,result:"مقبول",note:"انگلش 40 نمبر رعایتی",vcode:"JMU-3TN8F-9VVSHFM",qr:"https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/?r=979&d=11&e=3&y=1448"},
       ];
       // ہر درجے کا خفیہ کوڈ (طیب نے بھیجے: اولیٰ 11037، ثانیہ 11038، ثالثہ 11039)
       var CODES = { "اولیٰ": "11037", "ثانیہ": "11038", "ثالثہ": "11039" };
-      function resultTable(rows, title) {
-        var h = '<div class="result-doc"><img class="result-mono" src="assets/monogram.jpg" alt="جامعہ کا مونوگرام" /><div class="result-title">جامعہ مخزن العلوم بونستان پنجگور</div><div class="result-sub">' + title + '</div><table class="result-table"><tr><th>نمبر شمار</th><th>رول نمبر</th><th>نام طالب علم</th><th>درجہ</th><th>امتحان</th><th>سال</th><th>قرآن</th><th>حدیث</th><th>کل نمبر</th><th>نتیجہ</th></tr>';
-        rows.forEach(function (r, i) {
-          h += '<tr><td>' + (i + 1) + '</td><td>' + r.roll + '</td><td>' + r.name + '</td><td>' + r.darja + '</td><td>' + r.exam + '</td><td>' + r.year + '</td><td>' + r.quran + '</td><td>' + r.hadith + '</td><td>' + r.total + '</td><td>' + r.result + '</td></tr>';
-        });
-        var note = (rows[0] && rows[0].note) ? '<div class="result-note">نوٹ: نتیجہ موقوف — ' + escHtml(rows[0].note) + '</div>' : "";
-        var pdfBtn = rows.length ? '<div style="text-align:center;margin-top:14px"><button type="button" class="pdf-btn" onclick="openLastIndividual()">پی ڈی ایف کھولیں — پرنٹ / ڈاؤن لوڈ</button></div>' : "";
-        lastIndividual = rows[0] || null;
-        return h + '</table>' + note + pdfBtn + '</div>';
-      }
       var lastIndividual = null;
       function openLastIndividual() { if (lastIndividual) openIndividualSheet(lastIndividual); }
 
@@ -602,6 +721,7 @@
       // ==== جامعہ کا گریڈ سسٹم (محفوظ اصول — نتائج بناتے وقت یہی رولز لگیں گے) ====
       // تقدیر مجموعہ نمبرات کے فیصد پر: 100–90 ممتاز، 89–80 جید جدا، 79–60 جید، 59–40 مقبول، 39–0 راسب
       // ہر کتاب ٹوٹل 100 نمبر، پاس 40 نمبر؛ ایک کتاب میں 39 ہو تو صرف اس کتاب میں فیل، مجموعہ راسب شمار نہیں ہوگا۔
+      // فیصد صرف دیے گئے مضامین پر (اصل شیٹوں کے مطابق)؛ غیر حاضر کتاب "غیر حاضر" لکھی جاتی ہے اور کل میں شامل نہیں۔ مکمل غیر حاضر کا نتیجہ "غیر حاضر" (مجموعہ/فیصد نہیں)۔
       // نتیجہ موقوف: نمبر نہیں ہوتے — نہ کامیاب نہ ناکام، پوزیشن نہیں، مجموعی فیصد کے اوسط میں شامل نہیں، وجہ note میں لکھی جاتی ہے۔
       var PASS_MARK = 40;
       function gradeOf(pct) { if (pct >= 90) return "ممتاز"; if (pct >= 80) return "جید جدا"; if (pct >= 60) return "جید"; if (pct >= 40) return "مقبول"; return "راسب"; }
@@ -642,40 +762,47 @@
       ].join("\n");
       function buildSheetHTML(rows, meta) {
         var sorted = rows.slice().map(function (r) {
-          var mx = (r.subjects || []).length * 100;
+          var att = (r.subjects || []).filter(function (sb) { return typeof sb.m === "number"; }).length;
+          var mx = att * 100;
           var c = Object.assign({}, r);
           c._held = (r.result === "موقوف");
-          c._pct = (!c._held && typeof r.total === "number" && mx) ? (r.total / mx * 100) : null;
+          c._absent = (r.result === "غیر حاضر");
+          c._pct = (!c._held && !c._absent && typeof r.total === "number" && mx) ? (r.total / mx * 100) : null;
           return c;
-        }).sort(function (a, b) { if (a._held !== b._held) return a._held ? 1 : -1; return (b._pct || 0) - (a._pct || 0); });
+        }).sort(function (a, b) { var ah = a._held || a._absent, bh = b._held || b._absent; if (ah !== bh) return ah ? 1 : -1; return (b._pct || 0) - (a._pct || 0); });
         var subjects = sheetSubjects(sorted);
-        var pos = 0, prevPct = null, passCount = 0, pctSum = 0, bookFailCount = 0, heldCount = 0;
+        var pos = 0, prevPct = null, passCount = 0, pctSum = 0, bookFailCount = 0, heldCount = 0, absentCount = 0, attemptedCount = 0;
         var body = "";
         sorted.forEach(function (r) {
           var posCell = "---";
-          if (r._held) { heldCount++; } else {
+          if (r._held) { heldCount++; } else if (r._absent) { absentCount++; } else {
+            attemptedCount++;
             if (r._pct !== prevPct) { pos++; prevPct = r._pct; }
             posCell = pos;
           }
           var pct = r._pct;
-          var failed = !r._held && pct < PASS_MARK;
-          if (!r._held) { if (!failed) passCount++; pctSum += pct; }
+          var failed = !r._held && !r._absent && pct < PASS_MARK;
+          if (!r._held && !r._absent) { if (!failed) passCount++; pctSum += pct; }
           var hasBookFail = false;
           var cells = "<td>" + posCell + "</td><td>" + escHtml(r.name) + "</td><td>" + escHtml(r.father || "---") + "</td>";
           subjects.forEach(function (sn) {
             var m = "---";
             (r.subjects || []).forEach(function (sb) { if (sb.n === sn) m = sb.m; });
+            var cellTxt = (m === null) ? "غیر حاضر" : m;
             var bookFailed = (typeof m === "number" && m < PASS_MARK);
             if (bookFailed) hasBookFail = true;
             var under = bookFailed ? ' class="u"' : "";
-            cells += "<td" + under + ">" + m + "</td>";
+            cells += "<td" + under + ">" + cellTxt + "</td>";
           });
           if (hasBookFail) bookFailCount++;
-          cells += "<td>" + r.total + "</td><td>" + (r._held ? "---" : pct.toFixed(1) + "%") + "</td><td>" + (r._held ? "موقوف" : gradeOf(pct)) + "</td>";
+          var totalCell = r._held ? "موقوف" : (r._absent ? "—" : r.total);
+          var pctCell = (r._held || r._absent) ? "---" : pct.toFixed(1) + "%";
+          var gradeCell = r._held ? "موقوف" : (r._absent ? "غیر حاضر" : gradeOf(pct));
+          cells += "<td>" + totalCell + "</td><td>" + pctCell + "</td><td>" + gradeCell + "</td>";
           body += "<tr" + (failed ? ' class="fail"' : "") + ">" + cells + "</tr>";
         });
-        var failCount = sorted.length - passCount - heldCount;
-        var avg = (sorted.length - heldCount) ? (pctSum / (sorted.length - heldCount)) : 0;
+        var failCount = attemptedCount - passCount;
+        var avg = attemptedCount ? (pctSum / attemptedCount) : 0;
         var failRow = '<tr class="failrow"><td colspan="' + (3 + subjects.length) + '">کتاب میں فیل:</td><td>' + bookFailCount + '</td><td colspan="2" class="failblue">---</td></tr>';
         var headCells = "<th>پوزیشن</th><th>نام</th><th>ولدیت</th>";
         subjects.forEach(function (sn) { headCells += "<th>" + escHtml(sn) + "</th>"; });
@@ -689,61 +816,123 @@
           + '<div class="sheet-rule"></div>'
           + '<div class="sheet-meta"><span>درجہ: ' + escHtml(meta.darja) + '</span><span>امتحان: ' + escHtml(meta.exam) + '</span><span>تعلیمی سال: ' + schoolYear + '</span><span>تاریخ: ' + dateStr + '</span></div>'
           + '<table class="sheet-table"><tr>' + headCells + "</tr>" + body + failRow + "</table>"
-          + '<table class="sheet-summary"><tr><td>کل طلباء: ' + sorted.length + '</td><td>کامیاب: ' + passCount + '</td><td>ناکام: ' + failCount + '</td>' + (heldCount ? '<td>موقوف: ' + heldCount + '</td>' : '') + '<td>مجموعی فیصد: ' + avg.toFixed(1) + '%</td></tr></table>'
+          + '<table class="sheet-summary"><tr><td>کل طلباء: ' + sorted.length + '</td><td>کامیاب: ' + passCount + '</td><td>ناکام: ' + failCount + '</td>' + (heldCount ? '<td>موقوف: ' + heldCount + '</td>' : '') + (absentCount ? '<td>غیر حاضر: ' + absentCount + '</td>' : '') + '<td>مجموعی فیصد: ' + avg.toFixed(1) + '%</td></tr></table>'
           + (function () { var n = ""; sorted.forEach(function (r) { if (r._held && r.note) n += '<div class="sheet-note">' + escHtml(r.name) + ' کا نتیجہ موقوف ہے — ' + escHtml(r.note) + '</div>'; }); return n; })()
           + '<div class="sheet-sign"><div>ناظم امتحانات</div><div>مہتمم صاحب</div></div></div>';
       }
+      var CARD_CSS = ".rcard{position:relative;max-width:760px;margin:0 auto;background:#fff;color:#000;font-family:'Amiri',serif;direction:rtl;text-align:center;border:3px solid #7f1d1d;outline:1px solid #7f1d1d;outline-offset:5px;padding:26px 34px 22px;box-sizing:border-box;overflow:hidden;}\n.rcard .wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.07;pointer-events:none;}\n.rcard .wm img{width:430px;height:430px;object-fit:contain;}\n.rcard .rbody{position:relative;z-index:1;}\n.rcard .rhead{position:relative;min-height:112px;text-align:center;}\n.rcard .rlogo{position:absolute;top:0;right:0;width:104px;height:104px;border-radius:50%;object-fit:cover;border:2px solid #7f1d1d;background:#fff;}\n.rcard .rtitle{font-family:'UL Sajid Heading','Amiri',serif;font-size:30px;font-weight:400;line-height:2;color:#7f1d1d;}\n.rcard .rsub{font-size:20px;font-weight:700;line-height:2;color:#000;}\n.rcard .rstatus{font-size:17px;line-height:1.8;color:#666;font-weight:700;}\n.rcard .rstatus.bad{color:#8a1f1f;}\n.rcard .rrule{border-top:2px solid #7f1d1d;margin:12px 0 6px;}\n.rcard .rinfo{text-align:right;margin-bottom:6px;}\n.rcard .rinfo .row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px dotted #999;padding:3px 2px;line-height:2;font-size:17px;}\n.rcard .rinfo .lab{color:#7f1d1d;font-weight:700;white-space:nowrap;}\n.rcard .rinfo .val{font-weight:700;}\n.rcard .rmarks{width:68%;min-width:340px;margin:12px auto 0;border-collapse:collapse;}\n.rcard .rmarks th,.rcard .rmarks td{border:2px solid #7f1d1d;padding:4px 10px;text-align:center;font-weight:700;font-size:16px;line-height:1.9;}\n.rcard .rmarks td.u{text-decoration:underline;}\n.rcard .rsum{width:100%;border-collapse:collapse;margin-top:14px;}\n.rcard .rsum th,.rcard .rsum td{border:2px solid #7f1d1d;padding:6px 8px;text-align:center;font-weight:700;font-size:16px;line-height:1.9;}\n.rcard .rnote{margin-top:10px;font-size:15px;font-weight:700;color:#8a1f1f;line-height:1.9;text-align:center;}\n.rcard .rfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:20px;direction:ltr;}\n.rcard .rvcode{font-size:13px;color:#666;text-align:left;direction:ltr;line-height:1.6;}\n.rcard .rqr{width:96px;height:96px;overflow:hidden;flex:0 0 auto;}\n.rcard .rqr img,.rcard .rqr canvas{width:96px;height:96px;display:block;}\n.rcard .rsign{display:flex;justify-content:space-between;margin-top:30px;padding:0 30px;}\n.rcard .rsign div{border-top:1.5px solid #000;padding-top:4px;font-weight:700;font-size:17px;line-height:2;min-width:140px;text-align:center;}\n@media print{ .rcard{border-width:2px;} }";
+      // ---- انفرادی نتیجہ کارڈ (طیب کی بھیجی ڈیزائن پی ڈی ایف کے مطابق) ----
+      // اردو/عربی ہندسے (۹۱۷) کو انگریزی ہندسوں (917) میں بدلتا ہے تاکہ رول نمبر تلاش ہو سکے۔
+      function normDigits(s) {
+        return String(s).replace(/[۰-۹]/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(d); })
+                        .replace(/[٠-٩]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩".indexOf(d); });
+      }
+      var qrLibLoading = false;
+      function ensureQrLib(cb) {
+        if (typeof QRCode !== "undefined") { cb(); return; }
+        if (qrLibLoading) {
+          var t = setInterval(function () { if (typeof QRCode !== "undefined") { clearInterval(t); cb(); } }, 200);
+          return;
+        }
+        qrLibLoading = true;
+        var s = document.createElement("script");
+        s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+        s.onload = function () { cb(); };
+        s.onerror = function () { cb(); };
+        document.head.appendChild(s);
+      }
+      function renderQRCodes(root) {
+        if (!root) root = document;
+        var els = root.querySelectorAll("[data-qr]");
+        if (!els.length) return;
+        ensureQrLib(function () {
+          if (typeof QRCode === "undefined") return;
+          els.forEach(function (el) {
+            if (el.getAttribute("data-qr-done")) return;
+            el.setAttribute("data-qr-done", "1");
+            try {
+              new QRCode(el, { text: el.getAttribute("data-qr"), width: 96, height: 96, colorDark: "#14532d", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+            } catch (e) { /* QR نہ بنا تو کارڈ ویسے ہی دکھائی دے گا */ }
+          });
+        });
+      }
+      function individualCardHTML(r) {
+        var held = (r.result === "موقوف");
+        var absent = (r.result === "غیر حاضر");
+        var subjects = r.subjects || [];
+        var att = subjects.filter(function (sb) { return typeof sb.m === "number"; });
+        var mx = att.length * 100;
+        var pct = (!held && !absent && typeof r.total === "number" && mx) ? (r.total / mx * 100) : null;
+        var status = held ? "موقوف" : (absent ? "غیر حاضر" : (pct >= PASS_MARK ? "کامیاب" : "ناکام"));
+        var statusCls = (status === "کامیاب") ? "rstatus" : "rstatus bad";
+        var rows = "";
+        subjects.forEach(function (sb, i) {
+          var m = sb.m;
+          var bookFailed = (typeof m === "number" && m < PASS_MARK);
+          var cell = (m === null || typeof m === "undefined") ? "غیر حاضر" : m;
+          rows += "<tr><td>" + (i + 1) + "</td><td>" + escHtml(sb.n) + "</td><td>100</td><td" + (bookFailed ? ' class="u"' : "") + ">" + cell + "</td></tr>";
+        });
+        var schoolYear = r.year === "1449ھ" ? "2027-2028" : "2026-2027";
+        var examLabel = r.exam + " امتحان";
+        var note = (r.note && !held && !absent) ? '<div class="rnote">نوٹ: ' + escHtml(r.note) + '</div>' : "";
+        var heldNote = (held && r.note) ? '<div class="rnote">نوٹ: نتیجہ موقوف — ' + escHtml(r.note) + '</div>' : "";
+        var qrImg = r.qr ? '<div class="rqr" data-qr="' + escHtml(r.qr) + '"></div>' : "";
+        return '<div class="rcard">'
+          + '<div class="wm"><img src="https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/monogram.jpg" alt="" /></div>'
+          + '<div class="rbody">'
+          + '<div class="rhead"><img class="rlogo" src="https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/monogram.jpg" alt="جامعہ کا مونوگرام" />'
+          + '<div class="rtitle">جامعہ مخزن العلوم بونستان پنجگور</div><div class="rsub">نتیجہ کارڈ — ' + escHtml(examLabel) + '</div><div class="' + statusCls + '">' + status + '</div></div>'
+          + '<div class="rrule"></div>'
+          + '<div class="rinfo">'
+          + '<div class="row"><span><span class="lab">طالب علم کا نام: </span><span class="val">' + escHtml(r.name || "---") + '</span></span><span><span class="lab">والد کا نام: </span><span class="val">' + escHtml(r.father || "---") + '</span></span></div>'
+          + '<div class="row"><span><span class="lab">رول نمبر: </span><span class="val">' + escHtml(r.roll || "---") + '</span></span><span><span class="lab">کلاس: </span><span class="val">' + escHtml(r.darja) + '</span></span></div>'
+          + '<div class="row"><span><span class="lab">امتحان: </span><span class="val">' + escHtml(examLabel) + '</span></span><span><span class="lab">تعلیمی سال: </span><span class="val">' + schoolYear + '</span></span></div>'
+          + '</div>'
+          + '<table class="rmarks"><tr><th>نمبر شمار</th><th>مضمون</th><th>کل نمبر</th><th>حاصل کردہ</th></tr>' + rows + '</table>'
+          + '<table class="rsum"><tr><th>کل نمبر</th><th>حاصل کردہ</th><th>فیصد</th><th>گریڈ</th></tr>'
+          + '<tr><td>' + (absent || held ? "—" : mx) + '</td><td>' + (absent || held ? "—" : r.total) + '</td><td>' + (pct === null ? "—" : pct.toFixed(1) + "%") + '</td><td>' + (held ? "موقوف" : (absent ? "غیر حاضر" : gradeOf(pct))) + '</td></tr></table>'
+          + note + heldNote
+          + '<div class="rfoot"><div class="rvcode">تصدیقی نمبر: ' + escHtml(r.vcode || "") + '</div>' + qrImg + '</div>'
+          + '<div class="rsign"><div>ناظم امتحانات</div><div>مہتمم صاحب</div></div>'
+          + '</div></div>';
+      }
+      function showIndividualResult(r) {
+        lastIndividual = r;
+        var msg = document.getElementById("result-individual");
+        msg.innerHTML = individualCardHTML(r)
+          + '<div style="text-align:center;margin-top:14px"><button type="button" class="pdf-btn" onclick="openLastIndividual()">پی ڈی ایف کھولیں — پرنٹ / ڈاؤن لوڈ</button></div>';
+        renderQRCodes(msg);
+      }
       // ==== QR کوڈ سے انفرادی نتیجہ (طیب کا حکم 2026-11-17) ====
-      // QR لنک کی شکل: ?r=رول نمبر&d=درجہ نمبر&e=1/2&y=1448/1449
-      // درجہ نمبر: 1 اولیٰ، 2 ثانیہ، 3 ثالثہ، 4 رابعہ، 5 خامسہ، 6 سادسہ، 7 سابعہ، 8 دورۂ حدیث،
-      // 9 شعبۂ تجوید اول، 10 شعبۂ تجوید دوئم، 11 تمہیدیہ، 12 خاصہ سال، 13 خاصہ سال دوئم،
-      // 14 عالیہ سال اول، 15 عالیہ سال دوئم، 16 عالمیہ سال اول، 17 عالمیہ سال دوئم؛
-      // e=1 شش ماہی، e=2 سالانہ۔ نام بھی چلتے ہیں: ?roll=1&darja=اولیٰ&exam=شش ماہی&year=1448ھ
-      // انفرادی شیٹ کا ڈیزائن ابھی مجموعی شیٹ جیسا ہے — طیب کی بھیجی ڈیزائن پی ڈی ایف آنے پر ویسا بنایا جائے گا۔
-      var DARAJAT_ALL = ["اولیٰ", "ثانیہ", "ثالثہ", "رابعہ", "خامسہ", "سادسہ", "سابعہ", "دورۂ حدیث", "شعبۂ تجوید اول", "شعبۂ تجوید دوئم", "تمہیدیہ", "خاصہ سال", "خاصہ سال دوئم", "عالیہ سال اول", "عالیہ سال دوئم", "عالمیہ سال اول", "عالمیہ سال دوئم"];
+      // QR لنک کی شکل: ?r=رول نمبر&d=درجہ نمبر&e=1/2/3&y=1448/1449
+      // درجہ نمبر: 1 اعدادیہ اول، 2 اولیٰ، 3 ثانیہ، 4 ثالثہ، 5 رابعہ، 6 خامسہ، 7 سادسہ، 8 سابعہ، 9 دورۂ حدیث،
+      // 10 شعبۂ تجوید اول، 11 شعبۂ تجوید دوئم، 12 تمہیدیہ، 13 خاصہ سال، 14 خاصہ سال دوئم،
+      // 15 عالیہ سال اول، 16 عالیہ سال دوئم، 17 عالمیہ سال اول، 18 عالمیہ سال دوئم؛
+      // e=1 شش ماہی، e=2 سالانہ، e=3 چار ماہی۔ نام بھی چلتے ہیں: ?roll=917&darja=عالیہ سال دوئم&exam=چار ماہی&year=1448ھ
+      // انفرادی نتیجہ کارڈ طیب کی بھیجی ڈیزائن پی ڈی ایف (upload.pdf) کے مطابق بنایا گیا ہے — مرون فریم، تصدیقی نمبر، QR کوڈ۔
+      var DARAJAT_ALL = ["اعدادیہ اول", "اولیٰ", "ثانیہ", "ثالثہ", "رابعہ", "خامسہ", "سادسہ", "سابعہ", "دورۂ حدیث", "شعبۂ تجوید اول", "شعبۂ تجوید دوئم", "تمہیدیہ", "خاصہ سال", "خاصہ سال دوئم", "عالیہ سال اول", "عالیہ سال دوئم", "عالمیہ سال اول", "عالمیہ سال دوئم"];
       function paramDarja(v) {
         if (!v) return "";
         if (/^\d+$/.test(v)) { var i = parseInt(v, 10); return DARAJAT_ALL[i - 1] || ""; }
         return v;
       }
-      function paramExam(v) { if (!v) return ""; if (v === "1") return "شش ماہی"; if (v === "2") return "سالانہ"; return v; }
+      function paramExam(v) { if (!v) return ""; if (v === "1") return "شش ماہی"; if (v === "2") return "سالانہ"; if (v === "3") return "چار ماہی"; return v; }
       function paramYear(v) { if (!v) return ""; if (v === "1448" || v === "1448ھ") return "1448ھ"; if (v === "1449" || v === "1449ھ") return "1449ھ"; return v; }
       function buildIndividualSheetHTML(r) {
-        var held = (r.result === "موقوف");
-        var subjects = r.subjects || [];
-        var mx = subjects.length * 100;
-        var pct = (!held && typeof r.total === "number" && mx) ? (r.total / mx * 100) : null;
-        var rows = "";
-        subjects.forEach(function (sb) {
-          var m = sb.m;
-          var bookFailed = (typeof m === "number" && m < PASS_MARK);
-          rows += "<tr><td>" + escHtml(sb.n) + "</td><td>100</td><td" + (bookFailed ? ' class="u"' : "") + ">" + m + "</td></tr>";
-        });
-        var now = new Date();
-        var dateStr = now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
-        var schoolYear = r.year === "1449ھ" ? "2027-2028" : "2026-2027";
-        return '<div class="sheet">'
-          + '<div class="sheet-head"><img class="sheet-logo" src="https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/monogram.jpg" alt="جامعہ کا مونوگرام" />'
-          + '<div class="sheet-title">جامعہ مخزن العلوم</div><div class="sheet-sub">انفرادی نتیجہ</div></div>'
-          + '<div class="sheet-rule"></div>'
-          + '<div class="sheet-meta"><span>نام: ' + escHtml(r.name) + '</span><span>ولدیت: ' + escHtml(r.father || "---") + '</span><span>رول نمبر: ' + escHtml(r.roll) + '</span></div>'
-          + '<div class="sheet-meta"><span>درجہ: ' + escHtml(r.darja) + '</span><span>امتحان: ' + escHtml(r.exam) + '</span><span>تعلیمی سال: ' + schoolYear + '</span><span>تاریخ: ' + dateStr + '</span></div>'
-          + '<table class="sheet-table"><tr><th>کتاب</th><th>کل نمبر</th><th>حاصل کردہ نمبر</th></tr>' + rows
-          + '<tr><td>مجموعہ</td><td>' + mx + '</td><td>' + (held ? "موقوف" : r.total) + '</td></tr></table>'
-          + '<table class="sheet-summary"><tr><td>فیصد: ' + (held ? "---" : pct.toFixed(1) + "%") + '</td><td>تقدیر: ' + (held ? "موقوف" : gradeOf(pct)) + '</td></tr></table>'
-          + (held && r.note ? '<div class="sheet-note">' + escHtml(r.name) + ' کا نتیجہ موقوف ہے — ' + escHtml(r.note) + '</div>' : "")
-          + '<div class="sheet-sign"><div>ناظم امتحانات</div><div>مہتمم صاحب</div></div></div>';
+        return individualCardHTML(r);
       }
       function individualSheetDoc(r) {
         var title = "انفرادی نتیجہ — " + r.name + "، رول نمبر " + r.roll;
         var doc = "<!DOCTYPE html><html lang=\"ur\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>" + escHtml(title) + "</title>"
           + '<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">'
-          + "<style>" + SHEET_CSS + "</style></head><body>"
+          + "<style>" + SHEET_CSS + "\n" + CARD_CSS + "</style></head><body>"
           + '<div class="toolbar"><button type="button" onclick="window.print()">🖨️ پرنٹ</button><button type="button" id="dl-btn" onclick="downloadPDF()">⬇️ ڈاؤن لوڈ</button></div>'
           + buildIndividualSheetHTML(r)
           + '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>'
           + '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>'
-          + "<script>function downloadPDF(){var b=document.getElementById('dl-btn');if(b)b.textContent='تیار ہو رہا ہے…';if(typeof html2canvas==='undefined'||typeof jspdf==='undefined'){window.print();return;}html2canvas(document.querySelector('.sheet'),{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(function(cv){var pdf=new jspdf.jsPDF('p','mm','a4');var w=210,h=cv.height*210/cv.width;if(h>297)h=297;pdf.addImage(cv.toDataURL('image/png'),'PNG',0,0,w,h);pdf.save(document.title+'.pdf');if(b)b.textContent='⬇️ ڈاؤن لوڈ';}).catch(function(){window.print();});}<\/script>"
+          + '<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'
+          + "<script>window.addEventListener('load',function(){var el=document.querySelector('[data-qr]');if(el&&typeof QRCode!=='undefined'){try{new QRCode(el,{text:el.getAttribute('data-qr'),width:96,height:96,colorDark:'#14532d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){}}});<\/script>"
+          + "<script>function downloadPDF(){var b=document.getElementById('dl-btn');if(b)b.textContent='تیار ہو رہا ہے…';if(typeof html2canvas==='undefined'||typeof jspdf==='undefined'){window.print();return;}html2canvas(document.querySelector('.rcard'),{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(function(cv){var pdf=new jspdf.jsPDF('p','mm','a4');var w=210,h=cv.height*210/cv.width;if(h>297)h=297;pdf.addImage(cv.toDataURL('image/png'),'PNG',0,0,w,h);pdf.save(document.title+'.pdf');if(b)b.textContent='⬇️ ڈاؤن لوڈ';}).catch(function(){window.print();});}<\/script>"
           + "</body></html>";
         return doc;
       }
@@ -757,6 +946,9 @@
         var st = document.createElement("style");
         st.textContent = css;
         document.head.appendChild(st);
+        var st2 = document.createElement("style");
+        st2.textContent = CARD_CSS;
+        document.head.appendChild(st2);
         sheetCssInjected = true;
       }
       function ensurePdfLibs(cb) {
@@ -777,7 +969,7 @@
         if (b) b.textContent = "تیار ہو رہا ہے…";
         ensurePdfLibs(function () {
           if (typeof html2canvas === "undefined" || typeof jspdf === "undefined") { window.print(); return; }
-          html2canvas(document.querySelector("#qr-wrap .sheet"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function (cv) {
+          html2canvas(document.querySelector("#qr-wrap .rcard"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function (cv) {
             var pdf = new jspdf.jsPDF("p", "mm", "a4");
             var w = 210, h = cv.height * 210 / cv.width;
             if (h > 297) h = 297;
@@ -791,6 +983,7 @@
         injectSheetCssInline();
         var wrap = document.getElementById("qr-wrap");
         wrap.innerHTML = '<div class="qr-toolbar"><button type="button" onclick="window.print()">🖨️ پرنٹ</button><button type="button" id="dl-btn-inline" onclick="downloadInlineSheet()">⬇️ ڈاؤن لوڈ</button></div>' + buildIndividualSheetHTML(r);
+        renderQRCodes(wrap);
         wrap.style.display = "";
         document.body.classList.add("qr-mode");
         document.querySelectorAll(".circle-btn").forEach(function (b) { b.classList.remove("active"); });
@@ -805,7 +998,7 @@
       }
       function handleQrParams() {
         var q = new URLSearchParams(window.location.search);
-        var roll = q.get("r") || q.get("roll") || "";
+        var roll = normDigits(q.get("r") || q.get("roll") || "");
         if (!roll) return;
         var darja = paramDarja(q.get("d") || q.get("darja") || "");
         var exam = paramExam(q.get("e") || q.get("exam") || "");
@@ -858,7 +1051,7 @@
       });
       document.getElementById("form-individual").addEventListener("submit", function (e) {
         e.preventDefault();
-        var roll = document.getElementById("roll").value.trim();
+        var roll = normDigits(document.getElementById("roll").value.trim());
         var darja = document.getElementById("darja").value;
         var exam = document.getElementById("exam").value;
         var year = document.getElementById("year").value;
@@ -871,7 +1064,7 @@
             if (r.roll === roll && r.darja === darja && r.exam === exam && r.year === year) found = r;
           });
           if (found) {
-            msg.innerHTML = resultTable([found], "انفرادی نتیجہ — " + year);
+            showIndividualResult(found);
           } else {
             msg.textContent = "رول نمبر " + roll + "، درجہ " + darja + "، " + exam + " امتحان، سال " + year + " کا نتیجہ ابھی ویب سائٹ پر شامل نہیں کیا گیا۔";
           }
