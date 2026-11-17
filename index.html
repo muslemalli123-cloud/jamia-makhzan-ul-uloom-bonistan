@@ -619,25 +619,6 @@
         });
       }
 
-      /* ---------- TEMP DIAGNOSTIC (?diag=1): PWA install check ---------- */
-      if (new URLSearchParams(location.search).get("diag") === "1") {
-        var diagBox = document.createElement("div");
-        diagBox.id = "pwa-diag";
-        diagBox.style.cssText = "position:fixed;top:0;left:0;right:0;background:#fff;color:#000;z-index:99999;padding:12px;font-size:16px;direction:ltr;text-align:left";
-        diagBox.textContent = "DIAG: checking…";
-        document.body.appendChild(diagBox);
-        var diagOut = [];
-        function diagShow() { diagBox.textContent = "DIAG: " + diagOut.join(" | "); }
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.getRegistration().then(function (r) {
-            diagOut.push("sw=" + (r ? (r.active ? "active" : "registered-not-active") : "none"));
-            diagShow();
-          });
-        } else { diagOut.push("sw=unsupported"); diagShow(); }
-        window.addEventListener("beforeinstallprompt", function () { diagOut.push("bip=yes"); diagShow(); });
-        setTimeout(function () { if (diagOut.indexOf("bip=yes") === -1) diagOut.push("bip=no"); diagShow(); }, 8000);
-      }
-
       var coverSlides = document.querySelectorAll("#cover .cover-slide");
       var coverDots = document.getElementById("cover-dots").querySelectorAll("span");
       var coverIdx = 0;
