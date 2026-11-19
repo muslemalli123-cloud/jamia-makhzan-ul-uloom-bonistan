@@ -818,6 +818,8 @@
       ];
       // ہر درجے کا خفیہ کوڈ — اولیٰ 11037، ثانیہ 11038، ثالثہ 11039 طیب نے بھیجے؛ باقی درجوں کے کوڈ اسی ترتیب سے بنائے گئے (اعدادیہ اول 11036 سے عالمیہ سال دوئم 11053 تک)۔
       var CODES = { "اعدادیہ اول": "11036", "اولیٰ": "11037", "ثانیہ": "11038", "ثالثہ": "11039", "رابعہ": "11040", "خامسہ": "11041", "سادسہ": "11042", "سابعہ": "11043", "دورۂ حدیث": "11044", "شعبۂ تجوید اول": "11045", "شعبۂ تجوید دوئم": "11046", "تمہیدیہ": "11047", "خاصہ سال": "11048", "خاصہ سال دوئم": "11049", "عالیہ سال اول": "11050", "عالیہ سال دوئم": "11051", "عالمیہ سال اول": "11052", "عالمیہ سال دوئم": "11053" };
+      // ہر درجے کا اپنا رنگ — مجموعی نتائج کی شیٹ کی سرخی والی قطار اور خلاصہ پٹی اسی رنگ میں
+      var DARJA_COLORS = { "اعدادیہ اول": "#F69797", "اولیٰ": "#F6B797", "ثانیہ": "#F6D697", "ثالثہ": "#F6F697", "رابعہ": "#D6F697", "خامسہ": "#B7F697", "سادسہ": "#97F697", "سابعہ": "#97F6B7", "دورۂ حدیث": "#97F6D6", "شعبۂ تجوید اول": "#97F6F6", "شعبۂ تجوید دوئم": "#97D6F6", "تمہیدیہ": "#97B7F6", "خاصہ سال": "#9797F6", "خاصہ سال دوئم": "#B797F6", "عالیہ سال اول": "#D697F6", "عالیہ سال دوئم": "#F697F6", "عالمیہ سال اول": "#F697D6", "عالمیہ سال دوئم": "#F697B7" };
       var lastIndividual = null;
       function openLastIndividual() { if (lastIndividual) openIndividualSheet(lastIndividual); }
 
@@ -860,6 +862,7 @@
         ".sheet-table tr.failrow td.failblue{background:#e8f0fa;}",
         ".sheet-summary{width:100%;border-collapse:collapse;margin-top:14px;}",
         ".sheet-summary td{border:2.5px solid #000;padding:5px 8px;text-align:center;font-weight:700;font-size:16px;line-height:2;}",
+        ".sheet-table tr,.sheet-summary,.sheet-summary td{print-color-adjust:exact;-webkit-print-color-adjust:exact;}",
         ".sheet-sign{display:flex;justify-content:space-between;margin-top:48px;padding:0 44px;}",
         ".sheet-sign div{font-family:'Amiri',serif;border-top:1.5px solid #000;padding-top:4px;font-weight:700;font-size:17px;line-height:2;min-width:150px;text-align:center;}",
         ".sheet-note{margin-top:12px;font-size:15px;font-weight:700;text-align:center;}",
@@ -915,13 +918,14 @@
         var now = new Date();
         var dateStr = now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
         var schoolYear = meta.year === "1449ھ" ? "2027-2028" : "2026-2027";
+        var dc = (typeof DARJA_COLORS !== "undefined" && DARJA_COLORS[meta.darja]) || "#f5c542";
         return '<div class="sheet">'
           + '<div class="sheet-head"><img class="sheet-logo" src="https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/monogram.jpg" alt="جامعہ کا مونوگرام" />'
           + '<div class="sheet-title">جامعہ مخزن العلوم</div><div class="sheet-sub">نقشہ مجموعی نمبرات (رزلٹ شیٹ)</div></div>'
           + '<div class="sheet-rule"></div>'
           + '<div class="sheet-meta"><span>درجہ: ' + escHtml(meta.darja) + '</span><span>امتحان: ' + escHtml(meta.exam) + '</span><span>تعلیمی سال: ' + schoolYear + '</span><span>تاریخ: ' + dateStr + '</span></div>'
-          + '<table class="sheet-table"><tr>' + headCells + "</tr>" + body + failRow + "</table>"
-          + '<table class="sheet-summary"><tr><td>کل طلباء: ' + sorted.length + '</td><td>کامیاب: ' + passCount + '</td><td>ناکام: ' + failCount + '</td>' + (heldCount ? '<td>موقوف: ' + heldCount + '</td>' : '') + (absentCount ? '<td>غیر حاضر: ' + absentCount + '</td>' : '') + '<td>مجموعی فیصد: ' + avg.toFixed(1) + '%</td></tr></table>'
+          + '<table class="sheet-table"><tr style="background:' + dc + '">' + headCells + "</tr>" + body + failRow + "</table>"
+          + '<table class="sheet-summary" style="background:' + dc + '"><tr><td>کل طلباء: ' + sorted.length + '</td><td>کامیاب: ' + passCount + '</td><td>ناکام: ' + failCount + '</td>' + (heldCount ? '<td>موقوف: ' + heldCount + '</td>' : '') + (absentCount ? '<td>غیر حاضر: ' + absentCount + '</td>' : '') + '<td>مجموعی فیصد: ' + avg.toFixed(1) + '%</td></tr></table>'
           + (function () { var n = ""; sorted.forEach(function (r) { if (r._held && r.note) n += '<div class="sheet-note">' + escHtml(r.name) + ' کا نتیجہ موقوف ہے — ' + escHtml(r.note) + '</div>'; }); return n; })()
           + '<div class="sheet-sign"><div>ناظم امتحانات</div><div>مہتمم صاحب</div></div></div>';
       }
