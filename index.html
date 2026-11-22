@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="جامعہ مخزن العلوم بونستان پنجگور — ہوم پیج: تعارف، درسِ نظامی، نتائج اور ویڈیو۔" />
+    <meta name="description" content="جامعہ مخزن العلوم بونستان پنجگور — ہوم پیج: تعارف، درسِ نظامی، نتائج، اعلانات اور ویڈیو۔" />
     <link rel="icon" href="assets/icons/icon-192.png" />
     <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
     <link rel="manifest" href="manifest.json" />
@@ -159,6 +159,10 @@
       }
       .tstat b{display:block;font-size:30px;font-weight:700;color:var(--gold);line-height:1.6;}
       .tstat span{font-size:17px;color:var(--muted);line-height:1.8;}
+      .ilan{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px;margin-bottom:10px;text-align:center;}
+      .ilan .ar{font-family:'Amiri',serif;font-size:22px;line-height:2;color:var(--gold);}
+      .ilan p{margin:6px 0 0;font-size:18px;line-height:1.9;color:var(--ink);}
+      .ilan .ref{font-size:16px;color:var(--muted);}
       .result-doc{
         margin-top:16px;border:2px solid var(--blue);border-radius:16px;
         padding:18px 14px;text-align:center;background:#fff;overflow-x:auto;
@@ -432,6 +436,7 @@
           <button class="circle-btn" data-target="sec-taaruf"><span class="ci">📖</span><span class="cn">تعارف</span></button>
           <button class="circle-btn" data-target="sec-dars"><span class="ci">🎓</span><span class="cn">درسِ نظامی</span></button>
           <button class="circle-btn" data-target="sec-natayij"><span class="ci">🏅</span><span class="cn">نتائج</span></button>
+          <button class="circle-btn" data-target="sec-ilanat"><span class="ci">📢</span><span class="cn">اعلانات</span></button>
           <button class="circle-btn" data-target="sec-video"><span class="ci">🎬</span><span class="cn">ویڈیو</span></button>
         </div>
 
@@ -452,7 +457,7 @@
               <p class="tpara">جامعہ میں سات سو سے زائد طلبہ زیرِ تعلیم ہیں، اور تقریباً پچیس اساتذہ و معلمات تدریسی خدمات انجام دے رہے ہیں۔</p>
             </div>
             <div class="tpane" id="tp-bani">
-              <p class="tpara">جامعہ کے بانی مولانا عبدالقادر صاحب رحمہ اللہ ہیں۔ ان کی محنت اور قربانی سے یہ ادارہ قائم ہوا، اور آج یہ علاقے کے طلبہ کے لیے دینی تعلیم کا ایک اہم مرکز ہے۔</p>
+              <p class="tpara">جامعہ کے بانی حضرت مولانا عبدالقادر رحمہ اللہ ہیں۔ ان کی محنت اور قربانی سے یہ ادارہ قائم ہوا، اور آج یہ علاقے کے طلبہ کے لیے دینی تعلیم کا ایک اہم مرکز ہے۔</p>
             </div>
             <div class="tpane" id="tp-talaba">
               <p class="tpara">جامعہ میں سات سو سے زائد طلبہ زیرِ تعلیم ہیں، جن میں بنین اور بنات دونوں شامل ہیں۔ درسِ نظامی کے اٹھارہ درجات ہیں — بنین کے گیارہ اور بنات کے سات۔</p>
@@ -623,10 +628,23 @@
 
           
 
+          <section class="panel-sec" id="sec-ilanat">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9.5 9.5 0 0 1 0 13"/></svg></span>
+              <h2>اعلانات</h2><span class="num">۴</span>
+            </div>
+            <div class="ilan">
+              <div class="ar">خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ</div>
+              <p>تم میں سے بہتر وہ ہے جو قرآن سیکھے اور سکھائے۔</p>
+              <p class="ref">صحیح بخاری</p>
+            </div>
+            <p class="tpara" style="text-align:center;color:var(--muted);">نئے اعلانات یہاں شائع کیے جائیں گے۔</p>
+          </section>
+
           <section class="panel-sec" id="sec-video">
             <div class="box-head">
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span>
-              <h2>ویڈیو</h2><span class="num">۶</span>
+              <h2>ویڈیو</h2><span class="num">۵</span>
             </div>
             <div class="video">
               <iframe src="https://www.youtube-nocookie.com/embed/CUK6odlrDmM" title="جامعہ مخزن العلوم بونستان پنجگور — ویڈیو ۱" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -687,10 +705,14 @@
         } catch (e) { if (g) g.style.display = "none"; }
         try {
           if (h) {
+            var HIJRI_MONTHS = ["محرم", "صفر", "ربیع الاول", "ربیع الثانی", "جمادی الاول", "جمادی الثانی", "رجب", "شعبان", "رمضان", "شوال", "ذوالقعدہ", "ذوالحجہ"];
             var hp = new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).formatToParts(now);
             var hm = {};
             hp.forEach(function (p) { hm[p.type] = (hm[p.type] || "") + p.value; });
-            h.textContent = hm.weekday + "، " + hm.day + " " + hm.month + "، " + hm.year + " ہجری";
+            var hMonthNum = 1;
+            new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { month: "numeric" }).formatToParts(now).forEach(function (p) { if (p.type === "month") hMonthNum = parseInt(p.value, 10) || 1; });
+            var hMonth = HIJRI_MONTHS[hMonthNum - 1] || "";
+            h.textContent = hm.weekday + "، " + hm.day + " " + hMonth + "، " + hm.year + " ہجری";
           }
         } catch (e) { if (h) h.style.display = "none"; }
       })();
