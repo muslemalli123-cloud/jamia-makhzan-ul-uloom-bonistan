@@ -206,6 +206,17 @@
       .adm-msg .track{direction:ltr;display:inline-block;background:#fff;border:1px dashed #2e7d32;border-radius:8px;padding:2px 14px;font-size:20px;margin-top:6px;}
       .adm-admin-link{margin-top:18px;text-align:center;}
       .adm-admin-link button{font-family:inherit;font-size:15px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;}
+      .adm-status{margin-top:22px;border-top:2px dashed #d9b64a;padding-top:16px;text-align:center;}
+      .adm-status h3{margin:0 0 6px;font-size:19px;color:#0a2c60;}
+      .adm-status-hint{margin:0 0 12px;font-size:15px;color:var(--muted);line-height:1.9;}
+      .adm-status-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+      .adm-status-row input{direction:ltr;text-align:center;font-size:18px;font-weight:700;padding:10px 14px;border:2px solid #0a2c60;border-radius:12px;min-width:230px;font-family:inherit;}
+      .adm-status-res{margin-top:14px;font-size:18px;font-weight:700;line-height:2;}
+      .adm-status-res .st{display:inline-block;padding:2px 18px;border-radius:20px;color:#fff;}
+      .adm-status-res .st.ok{background:#2e7d32;}
+      .adm-status-res .st.no{background:#b3261e;}
+      .adm-status-res .st.wait{background:#e65100;}
+      .adm-status-res .err{color:#7a1f1a;}
       .adm-admin{display:none;margin-top:8px;}
       .adm-admin.on{display:block;}
       .adm-admin-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0;}
@@ -783,6 +794,15 @@
               <p class="adm-note">ستارہ (*) والے خانے بھرنا ضروری ہیں۔ آپ کی معلومات صرف جامعہ کے داخلہ ریکارڈ کے لیے استعمال ہوں گی۔</p>
               <div class="adm-msg" id="adm-msg"></div>
               <div class="adm-admin-link"><button type="button" id="adm-admin-open">انتظامیہ — درخواستیں دیکھیں</button></div>
+              <div class="adm-status">
+                <h3>اپنی درخواست کی حیثیت معلوم کریں</h3>
+                <p class="adm-status-hint">فارم جمع کرنے کے بعد ملا ہوا ٹریکنگ نمبر یہاں لکھیں — آپ کو پتہ چل جائے گا کہ آپ کا داخلہ کنفرم ہوا، مسترد ہوا یا ابھی زیرِ غور ہے۔</p>
+                <div class="adm-status-row">
+                  <input type="text" id="adm-track" dir="ltr" autocomplete="off" placeholder="ADM-261122-XXXX" />
+                  <button type="button" class="pdf-btn" id="adm-track-btn">حیثیت دیکھیں</button>
+                </div>
+                <div class="adm-status-res" id="adm-status-res"></div>
+              </div>
             </div>
 
             <div class="adm-admin" id="adm-admin">
@@ -1096,6 +1116,33 @@
           body: JSON.stringify(payload)
         }).then(function (r) { return r.json(); });
       }
+      // طالب علم: ٹریکنگ نمبر سے اپنی درخواست کی حیثیت دیکھنا
+      function admCheckStatus() {
+        var res = document.getElementById("adm-status-res");
+        var tr = document.getElementById("adm-track").value.trim().toUpperCase();
+        if (!tr) { res.innerHTML = "<span class=\"err\">براہ کرم اپنا ٹریکنگ نمبر لکھیں۔</span>"; return; }
+        if (!ADM_ENDPOINT) { res.innerHTML = "<span class=\"err\">حیثیت دیکھنے کی سہولت ابھی فعال نہیں ہوئی ہے۔</span>"; return; }
+        res.textContent = "تلاش ہو رہی ہے…";
+        fetch(ADM_ENDPOINT + "?action=status&tracking=" + encodeURIComponent(tr))
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (!d || !d.ok) {
+              res.innerHTML = "<span class=\"err\">اس ٹریکنگ نمبر کی کوئی درخواست نہیں ملی — نمبر دوبارہ چیک کریں۔</span>";
+              return;
+            }
+            var badge = d.status === "قبول"
+              ? "<span class=\"st ok\">داخلہ کنفرم ہو گیا ہے</span>"
+              : d.status === "مسترد"
+              ? "<span class=\"st no\">داخلہ مسترد ہو گیا ہے</span>"
+              : "<span class=\"st wait\">درخواست زیرِ غور ہے</span>";
+            res.innerHTML = admEsc(d.name) + " — " + admEsc(d.darja) + "<br>" + badge;
+          })
+          .catch(function () {
+            res.innerHTML = "<span class=\"err\">انٹرنیٹ کا مسئلہ ہے — اپنا انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔</span>";
+          });
+      }
+      document.getElementById("adm-track-btn").addEventListener("click", admCheckStatus);
+      document.getElementById("adm-track").addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); admCheckStatus(); } });
       document.getElementById("adm-dob").addEventListener("change", admCalcAge);
       admFillDarja();
       document.getElementById("adm-form").addEventListener("submit", function (ev) {
@@ -1132,7 +1179,7 @@
           btn.disabled = false; btn.textContent = "فارم جمع کروائیں";
           if (res && res.ok) {
             f.reset();
-            admShowMsg("ok", "الحمدللہ! آپ کی درخواست موصول ہو گئی ہے۔<br>آپ کا ٹریکنگ نمبر:<br><span class=\"track\">" + res.tracking + "</span><br>اس نمبر کو محفوظ رکھیں — جامعہ کی طرف سے واٹس ایپ پر رابطہ کیا جائے گا۔");
+            admShowMsg("ok", "الحمدللہ! آپ کی درخواست موصول ہو گئی ہے۔<br>آپ کا ٹریکنگ نمبر:<br><span class=\"track\">" + res.tracking + "</span><br>اس نمبر کو محفوظ رکھیں — جامعہ کی طرف سے واٹس ایپ پر رابطہ کیا جائے گا۔<br>اپنی درخواست کی حیثیت اسی صفحے پر نیچے ٹریکنگ نمبر سے دیکھ سکتے ہیں۔");
           } else {
             admShowMsg("err", "فارم جمع نہیں ہو سکا — براہ کرم دوبارہ کوشش کریں۔");
           }
