@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="جامعہ مخزن العلوم بونستان پنجگور — ہوم پیج: تعارف، درسِ نظامی، نتائج، اعلانات اور ویڈیو۔" />
+    <meta name="description" content="جامعہ مخزن العلوم بونستان پنجگور — ہوم پیج: تعارف، درسِ نظامی، نتائج، اعلانات، داخلہ فارم اور ویڈیو۔" />
     <link rel="icon" href="assets/icons/icon-192.png" />
     <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
     <link rel="manifest" href="manifest.json" />
@@ -21,6 +21,7 @@
     <style>
       @font-face{font-family:'Amiri';src:url('https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/fonts/Amiri-400.ttf') format('truetype');font-weight:400;}
       @font-face{font-family:'Amiri';src:url('https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/fonts/Amiri-700.ttf') format('truetype');font-weight:700;}
+      @font-face{font-family:'UL Sajid Heading';src:url('assets/fonts/UL-Sajid-Heading-400.ttf') format('truetype');font-weight:400;}
       :root{
         color-scheme: light;
         --bg:#eef2f9;
@@ -107,7 +108,7 @@
       /* ---------- Circles row + panel ---------- */
       .circles{
         display:flex;flex-direction:row;gap:6px;justify-content:center;
-        margin-top:22px;flex-wrap:nowrap;padding:6px 2px 10px;
+        margin-top:22px;flex-wrap:wrap;padding:6px 2px 10px;
       }
       .circle-btn{
         flex:1 1 0;min-width:0;max-width:120px;height:56px;border-radius:12px;
@@ -125,7 +126,7 @@
         color:#0a2c60;box-shadow:0 0 0 4px rgba(217,182,74,.35), var(--shadow-lg);
         transform:scale(1.06);
       }
-      @media (max-width:600px){ .circles{gap:5px;} .circle-btn{height:50px;border-radius:10px;} .circle-btn .cn{font-size:11.5px;} .circle-btn .ci{font-size:16px;} }
+      @media (max-width:600px){ .circles{gap:5px;} .circle-btn{height:50px;border-radius:10px;flex:1 1 30%;max-width:none;} .circle-btn .cn{font-size:11.5px;} .circle-btn .ci{font-size:16px;} }
       .panel{
         background:var(--surface);border:1px solid var(--line);
         border-radius:var(--r-lg);box-shadow:var(--shadow-md);
@@ -176,6 +177,54 @@
       #qr-wrap{margin-top:22px;}
       .qr-toolbar{position:sticky;top:0;z-index:10;background:#0a2c60;padding:10px;display:flex;gap:12px;justify-content:center;border-radius:12px;margin-bottom:12px;}
       .qr-toolbar button{font-family:inherit;font-size:18px;font-weight:700;line-height:2;color:#0a2c60;background:linear-gradient(160deg,#d9b64a,#bd9416);border:1px solid #d9b64a;border-radius:12px;padding:4px 28px;cursor:pointer;}
+
+      /* ---------- Admission form ---------- */
+      .adm-hero{position:relative;border-radius:var(--r-md);overflow:hidden;margin-bottom:18px;border:2px solid var(--gold-2);box-shadow:var(--shadow-md);}
+      .adm-hero img{width:100%;height:230px;object-fit:cover;display:block;}
+      .adm-hero .adm-hero-text{position:absolute;inset-inline:0;bottom:0;padding:26px 16px 12px;text-align:center;background:linear-gradient(180deg,transparent,rgba(10,44,96,.92) 55%);}
+      .adm-hero .adm-name{font-family:'UL Sajid Heading','Jameel Noori Nastaleeq',serif;font-size:clamp(26px,5.4vw,40px);line-height:1.9;color:#f7ecc8;text-shadow:0 2px 10px rgba(0,0,0,.6);}
+      .adm-hero .adm-sub{font-size:clamp(17px,3vw,21px);font-weight:700;color:#fff;line-height:1.9;}
+      @media (max-width:600px){ .adm-hero img{height:170px;} }
+      .adm-form{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;}
+      @media (max-width:640px){ .adm-form{grid-template-columns:1fr;} }
+      .adm-field{display:flex;flex-direction:column;gap:2px;}
+      .adm-field.full{grid-column:1 / -1;}
+      .adm-field label{font-size:17px;font-weight:700;color:var(--blue);line-height:1.9;}
+      .adm-field label .req{color:#b3261e;}
+      .adm-field input,.adm-field select,.adm-field textarea{
+        font-family:inherit;font-size:18px;line-height:1.9;color:var(--ink);
+        background:var(--surface);border:2px solid var(--line);border-radius:12px;
+        padding:6px 12px;width:100%;outline:none;
+      }
+      .adm-field input:focus,.adm-field select:focus,.adm-field textarea:focus{border-color:var(--gold-2);box-shadow:0 0 0 3px rgba(217,182,74,.3);}
+      .adm-field input[dir="ltr"]{text-align:left;}
+      .adm-submit{grid-column:1 / -1;text-align:center;margin-top:6px;}
+      .adm-note{font-size:16px;color:var(--muted);line-height:1.9;text-align:center;margin-top:10px;}
+      .adm-msg{display:none;margin-top:16px;border-radius:14px;padding:14px 16px;text-align:center;font-size:18px;font-weight:700;line-height:2;}
+      .adm-msg.ok{display:block;background:#e7f6e9;border:2px solid #2e7d32;color:#1b5e20;}
+      .adm-msg.err{display:block;background:#fdecea;border:2px solid #b3261e;color:#7a1f1a;}
+      .adm-msg .track{direction:ltr;display:inline-block;background:#fff;border:1px dashed #2e7d32;border-radius:8px;padding:2px 14px;font-size:20px;margin-top:6px;}
+      .adm-admin-link{margin-top:18px;text-align:center;}
+      .adm-admin-link button{font-family:inherit;font-size:15px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;}
+      .adm-admin{display:none;margin-top:8px;}
+      .adm-admin.on{display:block;}
+      .adm-admin-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0;}
+      .adm-chip{font-family:inherit;font-size:16px;font-weight:700;line-height:2;color:var(--blue);background:var(--surface);border:2px solid var(--gold-2);border-radius:20px;padding:0 14px;cursor:pointer;}
+      .adm-chip.active{background:linear-gradient(160deg,#d9b64a,#bd9416);color:#0a2c60;}
+      .adm-table-wrap{overflow-x:auto;border:2px solid var(--blue);border-radius:14px;}
+      .adm-table{width:100%;border-collapse:collapse;font-family:'Amiri',serif;font-size:16px;line-height:1.8;min-width:720px;}
+      .adm-table th{background:var(--blue);color:#fff;font-weight:700;padding:6px 8px;text-align:right;white-space:nowrap;}
+      .adm-table td{border-top:1px solid var(--line);padding:6px 8px;text-align:right;vertical-align:top;}
+      .adm-table tr.detail-row td{background:var(--surface-2);}
+      .adm-badge{display:inline-block;border-radius:20px;padding:0 12px;font-weight:700;font-size:15px;white-space:nowrap;}
+      .adm-badge.pending{background:#fff3cd;color:#7a5b00;}
+      .adm-badge.accepted{background:#d9f2dd;color:#1b5e20;}
+      .adm-badge.rejected{background:#fbd9d3;color:#7a1f1a;}
+      .adm-act{font-family:inherit;font-size:14.5px;font-weight:700;line-height:1.8;border-radius:8px;padding:2px 10px;cursor:pointer;border:1px solid;margin:1px 2px;white-space:nowrap;}
+      .adm-act.ok{background:#2e7d32;color:#fff;border-color:#2e7d32;}
+      .adm-act.no{background:#b3261e;color:#fff;border-color:#b3261e;}
+      .adm-act.del{background:#fff;color:#b3261e;border-color:#b3261e;}
+      .adm-act.view{background:#fff;color:var(--blue);border-color:var(--blue);}
       @media print{ body.qr-mode header.site, body.qr-mode .ticker, body.qr-mode .band, body.qr-mode .cover, body.qr-mode .cover-dots, body.qr-mode .circles, body.qr-mode .panel, body.qr-mode footer.site, body.qr-mode .qr-toolbar{display:none !important;} }
       .result-table{width:100%;border-collapse:collapse;min-width:640px;margin:0 auto;}
       .result-table th,.result-table td{
@@ -431,13 +480,14 @@
           <span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
 
-        <!-- Five circles in one line -->
+        <!-- Six circles in one line -->
         <div class="circles">
           <button class="circle-btn" data-target="sec-taaruf"><span class="ci">📖</span><span class="cn">تعارف</span></button>
           <button class="circle-btn" data-target="sec-dars"><span class="ci">🎓</span><span class="cn">درسِ نظامی</span></button>
           <button class="circle-btn" data-target="sec-natayij"><span class="ci">🏅</span><span class="cn">نتائج</span></button>
           <button class="circle-btn" data-target="sec-ilanat"><span class="ci">📢</span><span class="cn">اعلانات</span></button>
           <button class="circle-btn" data-target="sec-video"><span class="ci">🎬</span><span class="cn">ویڈیو</span></button>
+          <button class="circle-btn" data-target="sec-dakhla"><span class="ci">📝</span><span class="cn">داخلہ فارم</span></button>
         </div>
 
         <div class="panel">
@@ -651,6 +701,116 @@
             </div>
             <div class="video">
               <iframe src="https://www.youtube-nocookie.com/embed/iHBWjCIE07Y" title="جامعہ مخزن العلوم بونستان پنجگور — ویڈیو ۲" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </section>
+
+          <section class="panel-sec" id="sec-dakhla">
+            <div class="box-head">
+              <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
+              <h2>آن لائن داخلہ فارم</h2><span class="num">۶</span>
+            </div>
+
+            <div id="adm-form-view">
+              <div class="adm-hero">
+                <img src="assets/gallery-1.jpg" alt="جامعہ مخزن العلوم بونستان پنجگور — مسجد اور صحن" />
+                <div class="adm-hero-text">
+                  <div class="adm-name">جامعہ مخزن العلوم بونستان پنجگور</div>
+                  <div class="adm-sub">آن لائن داخلہ فارم — تعلیمی سال 1448ھ / 2026-2027</div>
+                </div>
+              </div>
+              <p class="tpara" style="text-align:center;">داخلے کے لیے نیچے دیا گیا فارم پُر کریں۔ فارم جمع ہونے کے بعد آپ کو ایک ٹریکنگ نمبر ملے گا — اسے محفوظ رکھیں۔ جامعہ کی طرف سے واٹس ایپ پر رابطہ کیا جائے گا۔</p>
+              <form class="adm-form" id="adm-form" novalidate>
+                <div class="adm-field">
+                  <label>طالب علم کا نام <span class="req">*</span></label>
+                  <input type="text" id="adm-name" required autocomplete="off" placeholder="مثلاً: محمد احمد" />
+                </div>
+                <div class="adm-field">
+                  <label>والد کا نام <span class="req">*</span></label>
+                  <input type="text" id="adm-father" required autocomplete="off" placeholder="مثلاً: عبداللہ" />
+                </div>
+                <div class="adm-field">
+                  <label>تاریخ پیدائش <span class="req">*</span></label>
+                  <input type="date" id="adm-dob" required />
+                </div>
+                <div class="adm-field">
+                  <label>عمر</label>
+                  <input type="number" id="adm-age" readonly placeholder="عمر خود لکھ جائے گی" />
+                </div>
+                <div class="adm-field full">
+                  <label>پتہ <span class="req">*</span></label>
+                  <input type="text" id="adm-address" required autocomplete="off" placeholder="گاؤں / محلہ، بونستان، پنجگور" />
+                </div>
+                <div class="adm-field">
+                  <label>تحصیل / ضلع</label>
+                  <input type="text" id="adm-district" autocomplete="off" placeholder="مثلاً: پنجگور" />
+                </div>
+                <div class="adm-field">
+                  <label>موبائل نمبر (والد / سرپرست) <span class="req">*</span></label>
+                  <input type="tel" id="adm-mobile" dir="ltr" required autocomplete="off" placeholder="03XX-XXXXXXX" />
+                </div>
+                <div class="adm-field">
+                  <label>واٹس ایپ نمبر</label>
+                  <input type="tel" id="adm-whatsapp" dir="ltr" autocomplete="off" placeholder="03XX-XXXXXXX" />
+                </div>
+                <div class="adm-field">
+                  <label>سابقہ تعلیم</label>
+                  <input type="text" id="adm-prev" autocomplete="off" placeholder="مثلاً: درجہ اولیٰ — مدرسہ ..." />
+                </div>
+                <div class="adm-field">
+                  <label>مطلوبہ درجہ <span class="req">*</span></label>
+                  <select id="adm-darja" required></select>
+                </div>
+                <div class="adm-field">
+                  <label>حافظ قرآن</label>
+                  <select id="adm-hafiz">
+                    <option value="">— چنیں —</option>
+                    <option value="جی">جی</option>
+                    <option value="نہیں">نہیں</option>
+                  </select>
+                </div>
+                <div class="adm-field">
+                  <label>ہاسٹل (رہائش) چاہیے؟</label>
+                  <select id="adm-hostel">
+                    <option value="">— چنیں —</option>
+                    <option value="جی">جی</option>
+                    <option value="نہیں">نہیں</option>
+                  </select>
+                </div>
+                <div class="adm-submit">
+                  <button type="submit" class="pdf-btn" id="adm-submit-btn">فارم جمع کروائیں</button>
+                </div>
+              </form>
+              <p class="adm-note">ستارہ (*) والے خانے بھرنا ضروری ہیں۔ آپ کی معلومات صرف جامعہ کے داخلہ ریکارڈ کے لیے استعمال ہوں گی۔</p>
+              <div class="adm-msg" id="adm-msg"></div>
+              <div class="adm-admin-link"><button type="button" id="adm-admin-open">انتظامیہ — درخواستیں دیکھیں</button></div>
+            </div>
+
+            <div class="adm-admin" id="adm-admin">
+              <div class="box-head">
+                <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                <h2>درخواستیں — انتظامیہ</h2>
+              </div>
+              <div id="adm-login">
+                <div class="adm-field" style="max-width:320px;margin-inline:auto;">
+                  <label>خفیہ کوڈ</label>
+                  <input type="password" id="adm-code" inputmode="numeric" autocomplete="off" placeholder="کوڈ لکھیں" />
+                </div>
+                <div class="adm-submit"><button type="button" class="pdf-btn" id="adm-login-btn">دیکھیں</button></div>
+                <p class="adm-note" id="adm-login-err" style="color:#b3261e;display:none;">غلط کوڈ — دوبارہ کوشش کریں۔</p>
+              </div>
+              <div id="adm-list" style="display:none;">
+                <div class="adm-admin-bar">
+                  <button type="button" class="adm-chip active" data-filter="all">سب</button>
+                  <button type="button" class="adm-chip" data-filter="زیر غور">زیر غور</button>
+                  <button type="button" class="adm-chip" data-filter="قبول">قبول</button>
+                  <button type="button" class="adm-chip" data-filter="مسترد">مسترد</button>
+                  <button type="button" class="adm-chip" id="adm-refresh">↻ تازہ کریں</button>
+                  <a class="adm-chip" id="adm-sheet-link" href="#" target="_blank" rel="noopener" style="display:none;text-decoration:none;">گوگل شیٹ کھولیں</a>
+                  <button type="button" class="adm-chip" id="adm-back">← واپس فارم پر</button>
+                </div>
+                <p class="adm-note" id="adm-count"></p>
+                <div class="adm-table-wrap"><table class="adm-table" id="adm-table"></table></div>
+              </div>
             </div>
           </section>
 
@@ -887,6 +1047,194 @@
       var CODES = { "اعدادیہ اول": "11036", "اولیٰ": "11037", "ثانیہ": "11038", "ثالثہ": "11039", "رابعہ": "11040", "خامسہ": "11041", "سادسہ": "11042", "سابعہ": "11043", "دورۂ حدیث": "11044", "شعبۂ تجوید اول": "11045", "شعبۂ تجوید دوئم": "11046", "تمہیدیہ": "11047", "خاصہ سال": "11048", "خاصہ سال دوئم": "11049", "عالیہ سال اول": "11050", "عالیہ سال دوئم": "11051", "عالمیہ سال اول": "11052", "عالمیہ سال دوئم": "11053" };
       // ہر درجے کا اپنا رنگ — مجموعی نتائج کی شیٹ کی سرخی والی قطار اور خلاصہ پٹی اسی رنگ میں
       var DARJA_COLORS = { "اعدادیہ اول": "#F69797", "اولیٰ": "#F6B797", "ثانیہ": "#F6D697", "ثالثہ": "#F6F697", "رابعہ": "#D6F697", "خامسہ": "#B7F697", "سادسہ": "#97F697", "سابعہ": "#97F6B7", "دورۂ حدیث": "#97F6D6", "شعبۂ تجوید اول": "#97F6F6", "شعبۂ تجوید دوئم": "#97D6F6", "تمہیدیہ": "#97B7F6", "خاصہ سال": "#9797F6", "خاصہ سال دوئم": "#B797F6", "عالیہ سال اول": "#D697F6", "عالیہ سال دوئم": "#F697F6", "عالمیہ سال اول": "#F697D6", "عالمیہ سال دوئم": "#F697B7" };
+
+      // ---------- آن لائن داخلہ فارم (گوگل شیٹ سے منسلک) ----------
+      var ADM_ENDPOINT = "https://script.google.com/macros/s/AKfycbyByskHfCUFIZzkXswTL-_6-XHmJz68KvSeFQjhar_eKuwW0_LM_kF1Ktqwg00ZiNX_/exec"; // Apps Script Web app URL
+      var ADM_TOKEN = "jamia-admin-2026"; // admission-apps-script.js کے TOKEN سے ملنا چاہیے
+      var ADM_CODE = "24680"; // انتظامیہ (درخواستیں دیکھنے) کا خفیہ کوڈ
+      var ADM_SHEET_URL = "https://docs.google.com/spreadsheets/d/1Tiu5O6J4PlJzLaQIBwh6VtT0yf2kpzwTN6R1iUim47g/edit"; // گوگل شیٹ کا لنک
+      var ADM_DARJAT = { "بنین": ["اعدادیہ اول", "اولیٰ", "ثانیہ", "ثالثہ", "رابعہ", "خامسہ", "سادسہ", "سابعہ", "دورۂ حدیث", "شعبۂ تجوید اول", "شعبۂ تجوید دوئم"], "بنات": ["تمہیدیہ", "خاصہ سال", "خاصہ سال دوئم", "عالیہ سال اول", "عالیہ سال دوئم", "عالمیہ سال اول", "عالمیہ سال دوئم"] };
+      var admRows = [];
+      var admFilter = "all";
+
+      function admEsc(s) {
+        return String(s === undefined || s === null ? "" : s)
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+      function admFillDarja() {
+        var sel = document.getElementById("adm-darja");
+        if (!sel) return;
+        sel.innerHTML = '<option value="">— درجہ چنیں —</option>';
+        Object.keys(ADM_DARJAT).forEach(function (g) {
+          var og = document.createElement("optgroup"); og.label = g;
+          ADM_DARJAT[g].forEach(function (d) {
+            var o = document.createElement("option"); o.value = d; o.textContent = d; og.appendChild(o);
+          });
+          sel.appendChild(og);
+        });
+      }
+      function admCalcAge() {
+        var dob = document.getElementById("adm-dob").value;
+        var ageEl = document.getElementById("adm-age");
+        if (!dob) { ageEl.value = ""; return; }
+        var b = new Date(dob), n = new Date();
+        var age = n.getFullYear() - b.getFullYear();
+        var m = n.getMonth() - b.getMonth();
+        if (m < 0 || (m === 0 && n.getDate() < b.getDate())) age--;
+        ageEl.value = age >= 0 ? age : "";
+      }
+      function admShowMsg(kind, html) {
+        var m = document.getElementById("adm-msg");
+        m.className = "adm-msg " + kind;
+        m.innerHTML = html;
+        m.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      function admPost(payload) {
+        return fetch(ADM_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        }).then(function (r) { return r.json(); });
+      }
+      document.getElementById("adm-dob").addEventListener("change", admCalcAge);
+      admFillDarja();
+      document.getElementById("adm-form").addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var f = ev.target;
+        if (!f.checkValidity()) { f.reportValidity(); return; }
+        if (!ADM_ENDPOINT) {
+          admShowMsg("err", "فارم ابھی فعال نہیں ہوا ہے — براہ کرم کچھ دیر بعد دوبارہ کوشش کریں۔");
+          return;
+        }
+        var btn = document.getElementById("adm-submit-btn");
+        btn.disabled = true; btn.textContent = "جمع ہو رہا ہے…";
+        var now = new Date();
+        var dt = now.toLocaleString("en-GB", { timeZone: "Asia/Karachi", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+        var tracking = "ADM-" + String(now.getFullYear()).slice(2) + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0") + "-" + String(Math.floor(1000 + Math.random() * 9000));
+        var payload = {
+          token: ADM_TOKEN, action: "submit", tracking: tracking, datetime: dt,
+          name: document.getElementById("adm-name").value.trim(),
+          father: document.getElementById("adm-father").value.trim(),
+          dob: document.getElementById("adm-dob").value,
+          age: document.getElementById("adm-age").value,
+          address: document.getElementById("adm-address").value.trim(),
+          district: document.getElementById("adm-district").value.trim(),
+          mobile: document.getElementById("adm-mobile").value.trim(),
+          whatsapp: document.getElementById("adm-whatsapp").value.trim(),
+          prevEdu: document.getElementById("adm-prev").value.trim(),
+          darja: document.getElementById("adm-darja").value,
+          hafiz: document.getElementById("adm-hafiz").value,
+          hostel: document.getElementById("adm-hostel").value
+        };
+        var to = setTimeout(function () { btn.disabled = false; btn.textContent = "فارم جمع کروائیں"; admShowMsg("err", "جواب میں دیر ہو رہی ہے — اپنا انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔"); }, 25000);
+        admPost(payload).then(function (res) {
+          clearTimeout(to);
+          btn.disabled = false; btn.textContent = "فارم جمع کروائیں";
+          if (res && res.ok) {
+            f.reset();
+            admShowMsg("ok", "الحمدللہ! آپ کی درخواست موصول ہو گئی ہے۔<br>آپ کا ٹریکنگ نمبر:<br><span class=\"track\">" + res.tracking + "</span><br>اس نمبر کو محفوظ رکھیں — جامعہ کی طرف سے واٹس ایپ پر رابطہ کیا جائے گا۔");
+          } else {
+            admShowMsg("err", "فارم جمع نہیں ہو سکا — براہ کرم دوبارہ کوشش کریں۔");
+          }
+        }).catch(function () {
+          clearTimeout(to);
+          btn.disabled = false; btn.textContent = "فارم جمع کروائیں";
+          admShowMsg("err", "انٹرنیٹ کا مسئلہ ہے — اپنا انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔");
+        });
+      });
+      // --- انتظامیہ: خفیہ کوڈ سے درخواستیں دیکھنا، قبول / مسترد / حذف کرنا ---
+      document.getElementById("adm-admin-open").addEventListener("click", function () {
+        document.getElementById("adm-form-view").style.display = "none";
+        document.getElementById("adm-admin").classList.add("on");
+      });
+      document.getElementById("adm-back").addEventListener("click", function () {
+        document.getElementById("adm-admin").classList.remove("on");
+        document.getElementById("adm-form-view").style.display = "";
+      });
+      document.getElementById("adm-login-btn").addEventListener("click", function () {
+        var code = document.getElementById("adm-code").value.trim();
+        if (code === ADM_CODE) {
+          document.getElementById("adm-login-err").style.display = "none";
+          document.getElementById("adm-login").style.display = "none";
+          document.getElementById("adm-list").style.display = "";
+          if (ADM_SHEET_URL) { var l = document.getElementById("adm-sheet-link"); l.href = ADM_SHEET_URL; l.style.display = ""; }
+          admLoad();
+        } else {
+          document.getElementById("adm-login-err").style.display = "";
+        }
+      });
+      document.getElementById("adm-refresh").addEventListener("click", admLoad);
+      document.querySelectorAll("#adm-admin .adm-chip[data-filter]").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          document.querySelectorAll("#adm-admin .adm-chip[data-filter]").forEach(function (c) { c.classList.remove("active"); });
+          chip.classList.add("active");
+          admFilter = chip.getAttribute("data-filter");
+          admRender();
+        });
+      });
+      function admLoad() {
+        var tbl = document.getElementById("adm-table");
+        tbl.innerHTML = '<tr><td>درخواستیں لائی جا رہی ہیں…</td></tr>';
+        fetch(ADM_ENDPOINT + "?action=list&token=" + encodeURIComponent(ADM_TOKEN))
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && res.ok) { admRows = res.rows || []; admRender(); }
+            else { tbl.innerHTML = '<tr><td>درخواستیں نہیں لائی جا سکیں — دوبارہ کوشش کریں۔</td></tr>'; }
+          })
+          .catch(function () { tbl.innerHTML = '<tr><td>انٹرنیٹ کا مسئلہ ہے — دوبارہ کوشش کریں۔</td></tr>'; });
+      }
+      function admBadge(s) {
+        if (s === "قبول") return '<span class="adm-badge accepted">قبول</span>';
+        if (s === "مسترد") return '<span class="adm-badge rejected">مسترد</span>';
+        return '<span class="adm-badge pending">زیر غور</span>';
+      }
+      function admRender() {
+        var rows = admRows.filter(function (r) { return admFilter === "all" || r.status === admFilter; });
+        var counts = { all: admRows.length, "زیر غور": 0, "قبول": 0, "مسترد": 0 };
+        admRows.forEach(function (r) { if (counts[r.status] !== undefined) counts[r.status]++; });
+        document.getElementById("adm-count").textContent = "کل درخواستیں: " + counts.all + " — زیر غور: " + counts["زیر غور"] + " — قبول: " + counts["قبول"] + " — مسترد: " + counts["مسترد"];
+        var h = '<tr><th>ٹریکنگ</th><th>نام</th><th>والد</th><th>مطلوبہ درجہ</th><th>موبائل</th><th>تاریخ</th><th>حیثیت</th><th>عمل</th></tr>';
+        if (!rows.length) h += '<tr><td colspan="8" style="text-align:center;">کوئی درخواست نہیں ملی۔</td></tr>';
+        rows.forEach(function (r, i) {
+          h += '<tr>'
+            + '<td style="direction:ltr;text-align:left;">' + admEsc(r.tracking) + '</td>'
+            + '<td>' + admEsc(r.name) + '</td>'
+            + '<td>' + admEsc(r.father) + '</td>'
+            + '<td>' + admEsc(r.darja) + '</td>'
+            + '<td style="direction:ltr;text-align:left;">' + admEsc(r.mobile) + '</td>'
+            + '<td>' + admEsc(r.datetime) + '</td>'
+            + '<td>' + admBadge(r.status) + '</td>'
+            + '<td><button type="button" class="adm-act view" data-act="view" data-i="' + i + '">تفصیل</button>'
+            + (r.status !== "قبول" ? '<button type="button" class="adm-act ok" data-act="accept" data-i="' + i + '">قبول کریں</button>' : '')
+            + (r.status !== "مسترد" ? '<button type="button" class="adm-act no" data-act="reject" data-i="' + i + '">مسترد کریں</button>' : '')
+            + '<button type="button" class="adm-act del" data-act="delete" data-i="' + i + '">حذف</button></td></tr>'
+            + '<tr class="detail-row" id="adm-detail-' + i + '" style="display:none;"><td colspan="8">'
+            + '<b>تاریخ پیدائش:</b> ' + admEsc(r.dob) + ' &nbsp; <b>عمر:</b> ' + admEsc(r.age) + ' سال<br>'
+            + '<b>پتہ:</b> ' + admEsc(r.address) + ' &nbsp; <b>تحصیل / ضلع:</b> ' + admEsc(r.district) + '<br>'
+            + '<b>واٹس ایپ:</b> <span style="direction:ltr;">' + admEsc(r.whatsapp) + '</span> &nbsp; <b>سابقہ تعلیم:</b> ' + admEsc(r.prevEdu) + '<br>'
+            + '<b>حافظ قرآن:</b> ' + admEsc(r.hafiz) + ' &nbsp; <b>ہاسٹل:</b> ' + admEsc(r.hostel) + '</td></tr>';
+        });
+        document.getElementById("adm-table").innerHTML = h;
+        document.querySelectorAll("#adm-table .adm-act").forEach(function (b) {
+          b.addEventListener("click", function () { admDo(b.getAttribute("data-act"), parseInt(b.getAttribute("data-i"), 10)); });
+        });
+      }
+      function admDo(act, i) {
+        var rows = admRows.filter(function (r) { return admFilter === "all" || r.status === admFilter; });
+        var r = rows[i];
+        if (!r) return;
+        if (act === "view") {
+          var d = document.getElementById("adm-detail-" + i);
+          d.style.display = d.style.display === "none" ? "" : "none";
+          return;
+        }
+        if (act === "delete" && !confirm("یہ درخواست حذف کر دی جائے؟")) return;
+        var payload = { token: ADM_TOKEN, tracking: r.tracking };
+        if (act === "accept") { payload.action = "status"; payload.status = "قبول"; }
+        else if (act === "reject") { payload.action = "status"; payload.status = "مسترد"; }
+        else if (act === "delete") { payload.action = "delete"; }
+        admPost(payload).then(function (res) { if (res && res.ok) admLoad(); }).catch(function () {});
+      }
       var lastIndividual = null;
       function openLastIndividual() { if (lastIndividual) openIndividualSheet(lastIndividual); }
 
