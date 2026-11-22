@@ -1216,10 +1216,10 @@
         });
         document.getElementById("adm-table").innerHTML = h;
         document.querySelectorAll("#adm-table .adm-act").forEach(function (b) {
-          b.addEventListener("click", function () { admDo(b.getAttribute("data-act"), parseInt(b.getAttribute("data-i"), 10)); });
+          b.addEventListener("click", function () { admDo(b.getAttribute("data-act"), parseInt(b.getAttribute("data-i"), 10), b); });
         });
       }
-      function admDo(act, i) {
+      function admDo(act, i, btn) {
         var rows = admRows.filter(function (r) { return admFilter === "all" || r.status === admFilter; });
         var r = rows[i];
         if (!r) return;
@@ -1228,7 +1228,17 @@
           d.style.display = d.style.display === "none" ? "" : "none";
           return;
         }
-        if (act === "delete" && !confirm("یہ درخواست حذف کر دی جائے؟")) return;
+        if (act === "delete") {
+          // پہلی بار دبانے پر تصدیق مانگیں (بٹن کا متن بدل کر)، دوسری بار حذف کریں
+          if (!btn || !btn.classList.contains("confirming")) {
+            if (btn) {
+              btn.classList.add("confirming");
+              btn.textContent = "پکا حذف کریں؟";
+              setTimeout(function () { btn.classList.remove("confirming"); btn.textContent = "حذف"; }, 5000);
+            }
+            return;
+          }
+        }
         var payload = { token: ADM_TOKEN, tracking: r.tracking };
         if (act === "accept") { payload.action = "status"; payload.status = "قبول"; }
         else if (act === "reject") { payload.action = "status"; payload.status = "مسترد"; }
