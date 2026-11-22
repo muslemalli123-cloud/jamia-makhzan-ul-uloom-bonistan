@@ -142,6 +142,23 @@
         background:var(--surface);border:2px solid var(--gold-2);border-radius:12px;
       }
       .subtab.active{background:linear-gradient(160deg,#d9b64a,#bd9416);color:#0a2c60;}
+      .ttabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+      .ttab{
+        flex:1;min-width:90px;font-family:inherit;cursor:pointer;
+        font-size:17px;font-weight:700;line-height:2;color:var(--blue);
+        background:var(--surface);border:2px solid var(--gold-2);border-radius:12px;padding:2px 6px;
+      }
+      .ttab.active{background:linear-gradient(160deg,#d9b64a,#bd9416);color:#0a2c60;}
+      .tpane{display:none;}
+      .tpane.on{display:block;}
+      .tpara{margin:0 0 10px;font-size:19px;line-height:2;text-align:right;color:var(--ink);}
+      .tstats{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+      .tstat{
+        flex:1;min-width:100px;background:var(--surface-2);border:1px solid var(--line);
+        border-radius:var(--r-sm);padding:12px 6px;text-align:center;
+      }
+      .tstat b{display:block;font-size:30px;font-weight:700;color:var(--gold);line-height:1.6;}
+      .tstat span{font-size:17px;color:var(--muted);line-height:1.8;}
       .result-doc{
         margin-top:16px;border:2px solid var(--blue);border-radius:16px;
         padding:18px 14px;text-align:center;background:#fff;overflow-x:auto;
@@ -424,9 +441,37 @@
               <span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9b64a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span>
               <h2>تعارف</h2><span class="num">۱</span>
             </div>
-            <div class="empty">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4d5d7a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
-              <p>ابھی خالی ہے</p>
+            <div class="ttabs">
+              <button type="button" class="ttab active" data-pane="tp-taaruf">تعارف</button>
+              <button type="button" class="ttab" data-pane="tp-bani">بانی</button>
+              <button type="button" class="ttab" data-pane="tp-talaba">طلبہ</button>
+              <button type="button" class="ttab" data-pane="tp-asatiza">اساتذہ</button>
+            </div>
+            <div class="tpane on" id="tp-taaruf">
+              <p class="tpara">جامعہ مخزن العلوم بونستان پنجگور، بلوچستان میں واقع ایک دینی تعلیمی ادارہ ہے۔ یہاں درسِ نظامی، حفظ، ناظرہ اور تجوید کی تعلیم کے ساتھ ساتھ عصری مضامین بھی پڑھائے جاتے ہیں۔</p>
+              <p class="tpara">جامعہ میں سات سو سے زائد طلبہ زیرِ تعلیم ہیں، اور تقریباً پچیس اساتذہ و معلمات تدریسی خدمات انجام دے رہے ہیں۔</p>
+            </div>
+            <div class="tpane" id="tp-bani">
+              <p class="tpara">جامعہ کے بانی مولانا عبدالقادر صاحب رحمہ اللہ ہیں۔ ان کی محنت اور قربانی سے یہ ادارہ قائم ہوا، اور آج یہ علاقے کے طلبہ کے لیے دینی تعلیم کا ایک اہم مرکز ہے۔</p>
+            </div>
+            <div class="tpane" id="tp-talaba">
+              <p class="tpara">جامعہ میں سات سو سے زائد طلبہ زیرِ تعلیم ہیں، جن میں بنین اور بنات دونوں شامل ہیں۔ درسِ نظامی کے اٹھارہ درجات ہیں — بنین کے گیارہ اور بنات کے سات۔</p>
+              <div class="tstats">
+                <div class="tstat"><b>۷۰۰+</b><span>طلبہ</span></div>
+                <div class="tstat"><b>۱۸</b><span>درجات</span></div>
+                <div class="tstat"><b>۵</b><span>شعبہ جات</span></div>
+              </div>
+            </div>
+            <div class="tpane" id="tp-asatiza">
+              <p class="tpara">جامعہ میں تقریباً پچیس اساتذہ و معلمات تدریسی خدمات انجام دے رہے ہیں۔</p>
+              <div class="tstats">
+                <div class="tstat"><b>۲۵</b><span>اساتذہ و معلمات</span></div>
+              </div>
+              <div class="list" style="margin-top:14px;">
+                <div class="row">مفتی حفیظ الرحمن — ناظمِ تعلیمات</div>
+                <div class="row">مولانا عبدالحلیم — مہتمم</div>
+                <div class="row">قاری رشید احمد — نائب مدیر</div>
+              </div>
             </div>
           </section>
 
@@ -1156,6 +1201,14 @@
           tab.classList.add("active");
           document.getElementById("form-individual").style.display = tab.getAttribute("data-form") === "form-individual" ? "" : "none";
           document.getElementById("form-collective").style.display = tab.getAttribute("data-form") === "form-collective" ? "" : "none";
+        });
+      });
+      document.querySelectorAll(".ttab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          document.querySelectorAll(".ttab").forEach(function (t) { t.classList.remove("active"); });
+          tab.classList.add("active");
+          document.querySelectorAll(".tpane").forEach(function (p) { p.classList.remove("on"); });
+          document.getElementById(tab.getAttribute("data-pane")).classList.add("on");
         });
       });
       document.getElementById("form-individual").addEventListener("submit", function (e) {
