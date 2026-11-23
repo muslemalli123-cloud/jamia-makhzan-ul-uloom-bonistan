@@ -236,6 +236,11 @@
       .adm-act.no{background:#b3261e;color:#fff;border-color:#b3261e;}
       .adm-act.del{background:#fff;color:#b3261e;border-color:#b3261e;}
       .adm-act.view{background:#fff;color:var(--blue);border-color:var(--blue);}
+      .adm-act.form{background:#0a2c60;color:#fff;border-color:#0a2c60;}
+      .adm-reason{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+      .adm-reason input{font-family:inherit;font-size:15px;padding:6px 10px;border:1px solid #999;border-radius:8px;min-width:260px;flex:1;}
+      .adm-reason-chips{margin-top:8px;font-size:14px;}
+      .adm-chip2{font-family:inherit;font-size:13.5px;font-weight:700;background:#f3ead0;border:1px solid #d9b64a;border-radius:20px;padding:2px 12px;margin:2px;cursor:pointer;}
       @media print{ body.qr-mode header.site, body.qr-mode .ticker, body.qr-mode .band, body.qr-mode .cover, body.qr-mode .cover-dots, body.qr-mode .circles, body.qr-mode .panel, body.qr-mode footer.site, body.qr-mode .qr-toolbar{display:none !important;} }
       .result-table{width:100%;border-collapse:collapse;min-width:640px;margin:0 auto;}
       .result-table th,.result-table td{
@@ -764,6 +769,10 @@
                   <input type="tel" id="adm-whatsapp" dir="ltr" autocomplete="off" placeholder="03XX-XXXXXXX" />
                 </div>
                 <div class="adm-field">
+                  <label>ای میل (اختیاری)</label>
+                  <input type="email" id="adm-email" dir="ltr" autocomplete="off" placeholder="example@gmail.com" />
+                </div>
+                <div class="adm-field">
                   <label>سابقہ تعلیم</label>
                   <input type="text" id="adm-prev" autocomplete="off" placeholder="مثلاً: درجہ اولیٰ — مدرسہ ..." />
                 </div>
@@ -791,7 +800,7 @@
                   <button type="submit" class="pdf-btn" id="adm-submit-btn">فارم جمع کروائیں</button>
                 </div>
               </form>
-              <p class="adm-note">ستارہ (*) والے خانے بھرنا ضروری ہیں۔ آپ کی معلومات صرف جامعہ کے داخلہ ریکارڈ کے لیے استعمال ہوں گی۔</p>
+              <p class="adm-note">ستارہ (*) والے خانے بھرنا ضروری ہیں۔ آپ کی معلومات صرف جامعہ کے داخلہ ریکارڈ کے لیے استعمال ہوں گی۔ ای میل لکھیں تو داخلے کی حیثیت (قبول/مسترد) کی اطلاع ای میل پر بھی بھیجی جائے گی۔</p>
               <div class="adm-msg" id="adm-msg"></div>
               <div class="adm-admin-link"><button type="button" id="adm-admin-open">انتظامیہ — درخواستیں دیکھیں</button></div>
               <div class="adm-status">
@@ -1135,7 +1144,8 @@
               : d.status === "مسترد"
               ? "<span class=\"st no\">داخلہ مسترد ہو گیا ہے</span>"
               : "<span class=\"st wait\">درخواست زیرِ غور ہے</span>";
-            res.innerHTML = admEsc(d.name) + " — " + admEsc(d.darja) + "<br>" + badge;
+            var reason = (d.status === "مسترد" && d.note) ? "<br><span style=\"color:#7a1f1a;\">وجہ: " + admEsc(d.note) + "</span>" : "";
+            res.innerHTML = admEsc(d.name) + " — " + admEsc(d.darja) + "<br>" + badge + reason;
           })
           .catch(function () {
             res.innerHTML = "<span class=\"err\">انٹرنیٹ کا مسئلہ ہے — اپنا انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔</span>";
@@ -1168,6 +1178,7 @@
           district: document.getElementById("adm-district").value.trim(),
           mobile: document.getElementById("adm-mobile").value.trim(),
           whatsapp: document.getElementById("adm-whatsapp").value.trim(),
+          email: document.getElementById("adm-email").value.trim(),
           prevEdu: document.getElementById("adm-prev").value.trim(),
           darja: document.getElementById("adm-darja").value,
           hafiz: document.getElementById("adm-hafiz").value,
@@ -1252,18 +1263,37 @@
             + '<td>' + admEsc(r.datetime) + '</td>'
             + '<td>' + admBadge(r.status) + '</td>'
             + '<td><button type="button" class="adm-act view" data-act="view" data-i="' + i + '">تفصیل</button>'
+            + '<button type="button" class="adm-act form" data-act="form" data-i="' + i + '">فارم (PDF)</button>'
             + (r.status !== "قبول" ? '<button type="button" class="adm-act ok" data-act="accept" data-i="' + i + '">قبول کریں</button>' : '')
             + (r.status !== "مسترد" ? '<button type="button" class="adm-act no" data-act="reject" data-i="' + i + '">مسترد کریں</button>' : '')
             + '<button type="button" class="adm-act del" data-act="delete" data-i="' + i + '">حذف</button></td></tr>'
             + '<tr class="detail-row" id="adm-detail-' + i + '" style="display:none;"><td colspan="8">'
             + '<b>تاریخ پیدائش:</b> ' + admEsc(r.dob) + ' &nbsp; <b>عمر:</b> ' + admEsc(r.age) + ' سال<br>'
             + '<b>پتہ:</b> ' + admEsc(r.address) + ' &nbsp; <b>تحصیل / ضلع:</b> ' + admEsc(r.district) + '<br>'
-            + '<b>واٹس ایپ:</b> <span style="direction:ltr;">' + admEsc(r.whatsapp) + '</span> &nbsp; <b>سابقہ تعلیم:</b> ' + admEsc(r.prevEdu) + '<br>'
-            + '<b>حافظ قرآن:</b> ' + admEsc(r.hafiz) + ' &nbsp; <b>ہاسٹل:</b> ' + admEsc(r.hostel) + '</td></tr>';
+            + '<b>واٹس ایپ:</b> <span style="direction:ltr;">' + admEsc(r.whatsapp) + '</span> &nbsp; <b>ای میل:</b> <span style="direction:ltr;">' + admEsc(r.email || "") + '</span><br>'
+            + '<b>سابقہ تعلیم:</b> ' + admEsc(r.prevEdu) + ' &nbsp; <b>حافظ قرآن:</b> ' + admEsc(r.hafiz) + ' &nbsp; <b>ہاسٹل:</b> ' + admEsc(r.hostel) + '<br>'
+            + (r.note ? '<b>نوٹ / مسترد کی وجہ:</b> ' + admEsc(r.note) + '<br>' : '')
+            + '</td></tr>'
+            + '<tr class="reject-row" id="adm-reject-' + i + '" style="display:none;"><td colspan="8">'
+            + '<div class="adm-reason"><b>مسترد کی وجہ:</b><input type="text" id="adm-reason-' + i + '" autocomplete="off" placeholder="وجہ لکھیں" />'
+            + '<button type="button" class="adm-act no" data-act="reject-go" data-i="' + i + '">مسترد کریں</button>'
+            + '<button type="button" class="adm-act view" data-act="reject-cancel" data-i="' + i + '">منسوخ</button></div>'
+            + '<div class="adm-reason-chips"><span>تجاویز:</span>'
+            + '<button type="button" class="adm-chip2" data-reason="داخلہ پروسیس مکمل نہیں ہے">داخلہ پروسیس مکمل نہیں ہے</button>'
+            + '<button type="button" class="adm-chip2" data-reason="ضروری دستاویزات نامکمل ہیں">ضروری دستاویزات نامکمل ہیں</button>'
+            + '<button type="button" class="adm-chip2" data-reason="عمر کی شرط پوری نہیں ہوئی">عمر کی شرط پوری نہیں ہوئی</button>'
+            + '</div></td></tr>';
         });
         document.getElementById("adm-table").innerHTML = h;
         document.querySelectorAll("#adm-table .adm-act").forEach(function (b) {
           b.addEventListener("click", function () { admDo(b.getAttribute("data-act"), parseInt(b.getAttribute("data-i"), 10), b); });
+        });
+        document.querySelectorAll("#adm-table .adm-chip2").forEach(function (c) {
+          c.addEventListener("click", function () {
+            var row = c.closest("tr");
+            var inp = row ? row.querySelector("input") : null;
+            if (inp) { inp.value = c.getAttribute("data-reason"); inp.focus(); }
+          });
         });
       }
       function admDo(act, i, btn) {
@@ -1273,6 +1303,29 @@
         if (act === "view") {
           var d = document.getElementById("adm-detail-" + i);
           d.style.display = d.style.display === "none" ? "" : "none";
+          return;
+        }
+        if (act === "form") { openAdmForm(r); return; }
+        if (act === "reject") {
+          var rr = document.getElementById("adm-reject-" + i);
+          if (rr) {
+            var show = rr.style.display === "none";
+            rr.style.display = show ? "" : "none";
+            if (show) { var inp = document.getElementById("adm-reason-" + i); if (inp) inp.focus(); }
+          }
+          return;
+        }
+        if (act === "reject-cancel") {
+          var rr2 = document.getElementById("adm-reject-" + i);
+          if (rr2) rr2.style.display = "none";
+          return;
+        }
+        if (act === "reject-go") {
+          var inp2 = document.getElementById("adm-reason-" + i);
+          var note = inp2 ? inp2.value.trim() : "";
+          if (!note) { if (inp2) { inp2.focus(); inp2.placeholder = "وجہ لکھنا ضروری ہے"; } return; }
+          admPost({ token: ADM_TOKEN, action: "status", status: "مسترد", note: note, tracking: r.tracking })
+            .then(function (res) { if (res && res.ok) admLoad(); }).catch(function () {});
           return;
         }
         if (act === "delete") {
@@ -1288,7 +1341,6 @@
         }
         var payload = { token: ADM_TOKEN, tracking: r.tracking };
         if (act === "accept") { payload.action = "status"; payload.status = "قبول"; }
-        else if (act === "reject") { payload.action = "status"; payload.status = "مسترد"; }
         else if (act === "delete") { payload.action = "delete"; }
         admPost(payload).then(function (res) { if (res && res.ok) admLoad(); }).catch(function () {});
       }
@@ -1618,6 +1670,79 @@
           + "</body></html>";
         var win = window.open("", "_blank");
         if (!win) return false;
+        win.document.write(doc);
+        win.document.close();
+        return true;
+      }
+
+      // ---- داخلہ فارم: پروفیشنل A4 فارم (پرنٹ / ڈاؤن لوڈ) ----
+      var ADM_FORM_CSS = [
+        ".adm-sheet{width:210mm;max-width:100%;margin:0 auto;padding:8mm 10mm 10mm;box-sizing:border-box;background:#fff;border:4px double #0a2c60;}",
+        ".adm-sheet-head{position:relative;text-align:center;min-height:124px;}",
+        ".adm-sheet-logo{position:absolute;top:0;right:0;width:110px;height:110px;border-radius:50%;object-fit:cover;}",
+        ".adm-photo{position:absolute;top:0;left:0;width:35mm;height:45mm;border:2px dashed #0a2c60;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;font-weight:700;color:#0a2c60;padding:4px;box-sizing:border-box;line-height:1.8;}",
+        ".adm-sheet-title{font-family:'UL Sajid Heading','Amiri',serif;font-size:32px;font-weight:400;line-height:2;color:#0a2c60;}",
+        ".adm-sheet-sub{font-family:'Amiri',serif;font-size:21px;font-weight:700;line-height:2;color:#0a2c60;}",
+        ".adm-sheet-meta{font-size:15px;font-weight:700;line-height:2;}",
+        ".adm-sheet-rule{border-top:2px solid #0a2c60;border-bottom:2px solid #0a2c60;height:4px;margin:8px 0 10px;}",
+        ".adm-form-table{width:100%;border-collapse:collapse;}",
+        ".adm-form-table td{border:1.5px solid #0a2c60;padding:5px 10px;font-size:16px;font-weight:700;line-height:2;}",
+        ".adm-form-table td.lbl{width:28%;background:#e8f0fa;color:#0a2c60;}",
+        ".adm-form-table td .ltr{direction:ltr;display:inline-block;}",
+        ".adm-sheet-decl{margin-top:16px;font-size:15px;font-weight:700;line-height:2;}",
+        ".adm-sheet-sign{display:flex;justify-content:space-between;margin-top:44px;padding:0 20px;}",
+        ".adm-sheet-sign div{border-top:1.5px solid #000;padding-top:4px;font-weight:700;font-size:16px;line-height:2;min-width:150px;text-align:center;}",
+        ".adm-sheet-foot{margin-top:14px;font-size:13px;font-weight:700;text-align:center;color:#555;}",
+        ".adm-sheet tr,.adm-sheet td{print-color-adjust:exact;-webkit-print-color-adjust:exact;}",
+        "@media print{ .adm-sheet{width:100%;padding:0;border-width:2px;} }"
+      ].join("\n");
+      function admFormHTML(r) {
+        function frow(l, v) { return "<tr><td class=\"lbl\">" + l + "</td><td>" + (v ? admEsc(v) : "—") + "</td></tr>"; }
+        function frowLtr(l, v) { return "<tr><td class=\"lbl\">" + l + "</td><td><span class=\"ltr\">" + (v ? admEsc(v) : "—") + "</span></td></tr>"; }
+        var statusTxt = r.status === "قبول" ? "قبول" : r.status === "مسترد" ? "مسترد" : "زیر غور";
+        return '<div class="adm-sheet">'
+          + '<div class="adm-sheet-head">'
+          + '<img class="adm-sheet-logo" src="https://muslemalli123-cloud.github.io/jamia-makhzan-ul-uloom-bonistan/assets/monogram.jpg" alt="جامعہ کا لوگو" />'
+          + '<div class="adm-photo">پاسپورٹ سائز تصویر<br>یہاں لگائیں</div>'
+          + '<div class="adm-sheet-title">جامعہ مخزن العلوم بونستان پنجگور</div>'
+          + '<div class="adm-sheet-sub">داخلہ فارم</div>'
+          + '<div class="adm-sheet-meta">ٹریکنگ نمبر: <span style="direction:ltr;display:inline-block;">' + admEsc(r.tracking) + '</span> &nbsp;|&nbsp; تاریخ: ' + admEsc(r.datetime) + ' &nbsp;|&nbsp; تعلیمی سال: 1448ھ / 2026-2027</div>'
+          + '</div>'
+          + '<div class="adm-sheet-rule"></div>'
+          + '<table class="adm-form-table">'
+          + frow("طالب علم کا نام", r.name)
+          + frow("والد کا نام", r.father)
+          + frow("تاریخ پیدائش", r.dob) + frow("عمر", r.age ? r.age + " سال" : "")
+          + frow("پتہ", r.address) + frow("تحصیل / ضلع", r.district)
+          + frowLtr("موبائل نمبر", r.mobile) + frowLtr("واٹس ایپ نمبر", r.whatsapp)
+          + frowLtr("ای میل", r.email || "")
+          + frow("سابقہ تعلیم", r.prevEdu) + frow("مطلوبہ درجہ", r.darja)
+          + frow("حافظ قرآن", r.hafiz) + frow("ہاسٹل (رہائش)", r.hostel)
+          + frow("حیثیت", statusTxt)
+          + (r.note ? frow("نوٹ / مسترد کی وجہ", r.note) : "")
+          + '</table>'
+          + '<div class="adm-sheet-decl">میں تصدیق کرتا ہوں کہ اوپر دی گئی معلومات درست ہیں۔</div>'
+          + '<div class="adm-sheet-sign"><div>طالب علم / سرپرست کے دستخط</div><div>مہتمم صاحب</div></div>'
+          + '<div class="adm-sheet-foot">یہ فارم جامعہ مخزن العلوم بونستان پنجگور کی ویب سائٹ سے تیار کیا گیا ہے۔</div>'
+          + '</div>';
+      }
+      function openAdmForm(r) {
+        var title = "داخلہ فارم — " + r.name + " (" + r.tracking + ")";
+        var doc = "<!DOCTYPE html><html lang=\"ur\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>" + escHtml(title) + "</title>"
+          + '<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">'
+          + "<style>" + SHEET_CSS + "\n" + ADM_FORM_CSS + "</style></head><body>"
+          + '<div class="toolbar"><button type="button" onclick="window.print()">🖨️ پرنٹ</button><button type="button" id="dl-btn" onclick="downloadPDF()">⬇️ ڈاؤن لوڈ</button></div>'
+          + admFormHTML(r)
+          + '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>'
+          + '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>'
+          + "<script>function downloadPDF(){var b=document.getElementById('dl-btn');if(b)b.textContent='تیار ہو رہا ہے…';if(typeof html2canvas==='undefined'||typeof jspdf==='undefined'){window.print();return;}html2canvas(document.querySelector('.adm-sheet'),{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(function(cv){var pdf=new jspdf.jsPDF('p','mm','a4');var w=210,h=cv.height*210/cv.width;if(h>297)h=297;pdf.addImage(cv.toDataURL('image/png'),'PNG',0,0,w,h);pdf.save(document.title+'.pdf');if(b)b.textContent='⬇️ ڈاؤن لوڈ';}).catch(function(){window.print();});}<\/script>"
+          + "</body></html>";
+        var win = window.open("", "_blank");
+        if (!win) {
+          var n = document.getElementById("adm-count");
+          if (n) n.textContent = "پاپ اپ بند ہے — براؤزر کی پاپ اپ اجازت دیں اور دوبارہ کوشش کریں۔";
+          return false;
+        }
         win.document.write(doc);
         win.document.close();
         return true;
