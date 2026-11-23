@@ -1390,7 +1390,7 @@
         ".sheet-sign{display:flex;justify-content:space-between;margin-top:48px;padding:0 44px;}",
         ".sheet-sign div{font-family:'Amiri',serif;border-top:1.5px solid #000;padding-top:4px;font-weight:700;font-size:17px;line-height:2;min-width:150px;text-align:center;}",
         ".sheet-note{margin-top:12px;font-size:15px;font-weight:700;text-align:center;}",
-        "@media print{ .toolbar{display:none !important;} body{background:#fff;} .sheet{width:100%;padding:0;} @page{size:A4;margin:10mm;} }"
+        "@media print{ .toolbar{display:none !important;} body{background:#fff;} .sheet{width:100%;max-width:100%;padding:0;} .sheet-table th,.sheet-table td{font-size:13px;padding:3px 3px;} @page{margin:8mm;} }"
       ].join("\n");
       function buildSheetHTML(rows, meta) {
         var sorted = rows.slice().map(function (r) {
