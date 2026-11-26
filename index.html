@@ -894,13 +894,21 @@
         try {
           if (h) {
             var HIJRI_MONTHS = ["محرم", "صفر", "ربیع الاول", "ربیع الثانی", "جمادی الاول", "جمادی الثانی", "رجب", "شعبان", "رمضان", "شوال", "ذوالقعدہ", "ذوالحجہ"];
-            var hp = new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).formatToParts(now);
+            // ہجری تاریخ مقامی چاند کے مطابق: براؤزر کا شہری کیلنڈر 2 دن آگے ہے
+            // (26 نومبر 2026 کو 17 جمادی الثانی دکھاتا ہے جبکہ درست تاریخ 15 ہے)۔
+            // دوپہر 12 بجے کی تاریخ سے حساب تاکہ ہجری تاریخ بھی انگریزی تاریخ
+            // کی طرح رات 12 بجے بدلے، غروبِ آفتاب پر نہیں۔
+            var HIJRI_OFFSET_DAYS = -2;
+            var hijriDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0);
+            hijriDay = new Date(hijriDay.getTime() + HIJRI_OFFSET_DAYS * 86400000);
+            var hWeekday = new Intl.DateTimeFormat("ur-PK", { weekday: "long", numberingSystem: "arab" }).format(now);
+            var hp = new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { weekday: "long", day: "numeric", month: "long", year: "numeric", numberingSystem: "arab" }).formatToParts(hijriDay);
             var hm = {};
             hp.forEach(function (p) { hm[p.type] = (hm[p.type] || "") + p.value; });
             var hMonthNum = 1;
-            new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { month: "numeric" }).formatToParts(now).forEach(function (p) { if (p.type === "month") hMonthNum = parseInt(p.value, 10) || 1; });
+            new Intl.DateTimeFormat("ur-PK-u-ca-islamic", { month: "numeric" }).formatToParts(hijriDay).forEach(function (p) { if (p.type === "month") hMonthNum = parseInt(p.value, 10) || 1; });
             var hMonth = HIJRI_MONTHS[hMonthNum - 1] || "";
-            h.textContent = hm.weekday + "، " + hm.day + " " + hMonth + "، " + hm.year + " ہجری";
+            h.textContent = hWeekday + "، " + hm.day + " " + hMonth + "، " + hm.year + " ہجری";
           }
         } catch (e) { if (h) h.style.display = "none"; }
       })();
